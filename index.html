@@ -1,0 +1,699 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="数据分析师与 AI Agent 开发者 - 专注于风险策略分析、数据可视化与自动化报告生成">
+  <title>Portfolio - Data Analyst & AI Agent Developer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
+  <style>
+    :root {
+      --bg: #FAFAFA;
+      --ink: #09090B;
+      --muted: #3F3F46;
+      --accent: #EC4899;
+      --accent-hover: #DB2777;
+      --rule: #E4E4E7;
+      --card-bg: #fff;
+      --card-border: #E4E4E7;
+      --trans: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+    
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+    
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(250, 250, 250, 0.95);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--rule);
+      z-index: 1000;
+      padding: 1rem 0;
+    }
+    
+    nav .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    nav .logo {
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: var(--ink);
+      text-decoration: none;
+    }
+    
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+    
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color var(--trans);
+    }
+    
+    nav a:hover, nav a.active {
+      color: var(--accent);
+    }
+    
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      background: linear-gradient(135deg, #FAFAFA 0%, #F4F4F5 100%);
+    }
+    
+    .hero-content {
+      max-width: 800px;
+    }
+    
+    .hero h1 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: clamp(2.5rem, 8vw, 4rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease-out 0.2s forwards;
+    }
+    
+    .hero .tagline {
+      font-size: clamp(1.125rem, 3vw, 1.5rem);
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease-out 0.4s forwards;
+    }
+    
+    .hero .differentiator {
+      font-size: clamp(1rem, 2.5vw, 1.25rem);
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeInUp 0.8s ease-out 0.6s forwards;
+    }
+    
+    .hero .cta {
+      display: inline-flex;
+      gap: 0.5rem;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: background var(--trans), transform var(--trans);
+      opacity: 0;
+      animation: fadeInUp 0.8s ease-out 0.8s forwards;
+    }
+    
+    .hero .cta:hover {
+      background: var(--accent-hover);
+      transform: translateY(-2px);
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    /* Section */
+    .section {
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    
+    .section-header {
+      text-align: center;
+      margin-bottom: 4rem;
+    }
+    
+    .section-label {
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    
+    .section-title {
+      font-family: 'Libre Baskerville', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+    
+    .section-desc {
+      font-size: 1.125rem;
+      color: var(--muted);
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    
+    /* Project Grid */
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+    
+    .project-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 2rem;
+      transition: transform var(--trans), box-shadow var(--trans), border-color var(--trans);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--accent);
+      transform: scaleX(0);
+      transition: transform var(--trans);
+    }
+    
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+      border-color: var(--accent);
+    }
+    
+    .project-card:hover::before {
+      transform: scaleX(1);
+    }
+    
+    .project-category {
+      display: inline-block;
+      font-size: 0.75rem;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: rgba(236, 72, 153, 0.1);
+      padding: 0.25rem 0.75rem;
+      border-radius: 4px;
+      margin-bottom: 1rem;
+    }
+    
+    .project-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: var(--ink);
+    }
+    
+    .project-desc {
+      color: var(--muted);
+      margin-bottom: 1.5rem;
+      line-height: 1.6;
+    }
+    
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    
+    .tech-tag {
+      font-size: 0.8rem;
+      padding: 0.25rem 0.75rem;
+      background: var(--rule);
+      border-radius: 4px;
+      color: var(--muted);
+    }
+    
+    .project-impact {
+      font-size: 0.9rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-top: 1rem;
+    }
+    
+    /* About Section */
+    .about-content {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .about-text {
+      font-size: 1.125rem;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 2rem;
+    }
+    
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    
+    .skill-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      padding: 1.5rem;
+      text-align: center;
+    }
+    
+    .skill-icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    .skill-name {
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+    
+    .skill-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+    
+    /* Contact Section */
+    .contact-content {
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .contact-links {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    
+    .contact-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 8px;
+      color: var(--ink);
+      text-decoration: none;
+      transition: all var(--trans);
+    }
+    
+    .contact-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+    
+    /* Footer */
+    footer {
+      background: var(--ink);
+      color: var(--bg);
+      text-align: center;
+      padding: 3rem 2rem;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav ul {
+        gap: 1rem;
+        font-size: 0.85rem;
+      }
+      
+      .project-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .contact-links {
+        flex-direction: column;
+        align-items: stretch;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <div class="container">
+      <a href="#home" class="logo">Portfolio</a>
+      <ul>
+        <li><a href="#home" class="active">首页</a></li>
+        <li><a href="#projects">项目</a></li>
+        <li><a href="#about">关于</a></li>
+        <li><a href="#contact">联系</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section id="home" class="hero">
+    <div class="hero-content">
+      <h1>数据分析师 & AI Agent 开发者</h1>
+      <p class="tagline">专注于风险策略分析、数据可视化与自动化报告生成</p>
+      <p class="differentiator">用数据驱动决策，用 AI 提升效率</p>
+      <a href="#projects" class="cta">
+        <span>查看作品</span>
+        <span class="iconify" data-icon="mdi:arrow-down"></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects" class="section">
+    <div class="section-header">
+      <div class="section-label">作品展示</div>
+      <h2 class="section-title">精选项目</h2>
+      <p class="section-desc">涵盖数据分析、风险策略、报告自动化与 AI Agent 开发</p>
+    </div>
+
+    <div class="project-grid">
+      <!-- Data Agent Projects -->
+      <div class="project-card">
+        <span class="project-category">数据分析</span>
+        <h3 class="project-title">老客周报自动化系统</h3>
+        <p class="project-desc">自动化生成菲律宾老客业务周报，包含 KPI 卡片、核心指标追踪、趋势图表、风险分析等模块，支持在线/离线双版本。</p>
+        <div class="project-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">HTML/CSS</span>
+          <span class="tech-tag">Plotly</span>
+          <span class="tech-tag">Jinja2</span>
+        </div>
+        <div class="project-impact">📊 每周节省 8+ 小时报告制作时间</div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-category">风险策略</span>
+        <h3 class="project-title">CL 老客抽贷策略分析</h3>
+        <p class="project-desc">多维度分析借新还旧行为，评估抽贷策略效果，包含交叉特征分析、策略影响评估、风险边界识别。</p>
+        <div class="project-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">Pandas</span>
+          <span class="tech-tag">SQL</span>
+          <span class="tech-tag">Excel</span>
+        </div>
+        <div class="project-impact">📈 策略优化提升 ROI 15%</div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-category">风险策略</span>
+        <h3 class="project-title">提前结清策略分析</h3>
+        <p class="project-desc">分析提前结清客户特征，识别风险模式，统一分箱规则，支持交叉特征分析与风险特征提取。</p>
+        <div class="project-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">数据分析</span>
+          <span class="tech-tag">特征工程</span>
+        </div>
+        <div class="project-impact">🎯 识别高风险客户准确率提升 20%</div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-category">报告生成</span>
+        <h3 class="project-title">2025 年终汇报系统</h3>
+        <p class="project-desc">HTML Slide 风格的年终汇报，包含业务概览、策略能力、人才发展、风险管理、经验反思与 2026 规划等模块。</p>
+        <div class="project-tech">
+          <span class="tech-tag">HTML/CSS</span>
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">数据可视化</span>
+        </div>
+        <div class="project-impact">✨ 专业级汇报展示，提升沟通效率</div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-category">风险系统</span>
+        <h3 class="project-title">RM 风险预测系统</h3>
+        <p class="project-desc">风险模型开发与监控系统，包含 Vintage 分析、Roll Rate 监控、模型性能评估与风险预警。</p>
+        <div class="project-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">机器学习</span>
+          <span class="tech-tag">SQL</span>
+          <span class="tech-tag">监控系统</span>
+        </div>
+        <div class="project-impact">🚨 风险预警提前 30 天</div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-category">AI Agent</span>
+        <h3 class="project-title">多 Agent 工作区</h3>
+        <p class="project-desc">Data Agent、Art Agent、Learning Agent 三大 Agent 系统，共享知识库与 Skills，支持数据分析、艺术创作、学习管理。</p>
+        <div class="project-tech">
+          <span class="tech-tag">AI Agent</span>
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">知识管理</span>
+          <span class="tech-tag">Skills</span>
+        </div>
+        <div class="project-impact">🤖 35+ Skills，覆盖全工作流</div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-category">数据分析</span>
+        <h3 class="project-title">App 安装分析系统</h3>
+        <p class="project-desc">App 分类分析、月度对比报告、累计表现报告，支持功能分类与竞品覆盖分析。</p>
+        <div class="project-tech">
+          <span class="tech-tag">Python</span>
+          <span class="tech-tag">数据分析</span>
+          <span class="tech-tag">Excel</span>
+        </div>
+        <div class="project-impact">📱 支持 1000+ App 分类分析</div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-category">数据平台</span>
+        <h3 class="project-title">风险数据策略集市</h3>
+        <p class="project-desc">风险数据字典、数据标准文档，统一风险数据定义与使用规范，提升数据质量与一致性。</p>
+        <div class="project-tech">
+          <span class="tech-tag">数据治理</span>
+          <span class="tech-tag">文档化</span>
+          <span class="tech-tag">标准制定</span>
+        </div>
+        <div class="project-impact">📚 统一数据标准，减少 40% 沟通成本</div>
+      </div>
+
+      <div class="project-card">
+        <span class="project-category">可视化</span>
+        <h3 class="project-title">前端效果 Playground</h3>
+        <p class="project-desc">18 种风格示例、文字效果、图表库、卡片布局、3D 效果、导航组件等，纯前端学习与选型参考。</p>
+        <div class="project-tech">
+          <span class="tech-tag">HTML/CSS</span>
+          <span class="tech-tag">JavaScript</span>
+          <span class="tech-tag">Tailwind</span>
+          <span class="tech-tag">Chart.js</span>
+        </div>
+        <div class="project-impact">🎨 18 种风格，快速选型参考</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="section" style="background: #F9FAFB;">
+    <div class="section-header">
+      <div class="section-label">关于我</div>
+      <h2 class="section-title">专业能力</h2>
+      <p class="section-desc">专注于数据驱动的业务决策与自动化工具开发</p>
+    </div>
+
+    <div class="about-content">
+      <p class="about-text">
+        我是一名数据分析师与 AI Agent 开发者，专注于风险策略分析、数据可视化与自动化报告生成。
+        通过构建多 Agent 工作区，我整合了数据分析、艺术创作与学习管理能力，用 AI 提升工作效率。
+      </p>
+
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="skill-icon">
+            <span class="iconify" data-icon="mdi:chart-line"></span>
+          </div>
+          <div class="skill-name">数据分析</div>
+          <div class="skill-desc">Python, SQL, Excel, 统计分析</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon">
+            <span class="iconify" data-icon="mdi:robot"></span>
+          </div>
+          <div class="skill-name">AI Agent</div>
+          <div class="skill-desc">Agent 开发, Skills 集成, 知识管理</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon">
+            <span class="iconify" data-icon="mdi:chart-box"></span>
+          </div>
+          <div class="skill-name">数据可视化</div>
+          <div class="skill-desc">Plotly, Chart.js, HTML/CSS</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon">
+            <span class="iconify" data-icon="mdi:file-document-edit"></span>
+          </div>
+          <div class="skill-name">报告自动化</div>
+          <div class="skill-desc">Excel, PowerPoint, HTML 报告生成</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon">
+            <span class="iconify" data-icon="mdi:shield-alert"></span>
+          </div>
+          <div class="skill-name">风险策略</div>
+          <div class="skill-desc">风险建模, 策略分析, 监控系统</div>
+        </div>
+
+        <div class="skill-card">
+          <div class="skill-icon">
+            <span class="iconify" data-icon="mdi:code-tags"></span>
+          </div>
+          <div class="skill-name">全栈开发</div>
+          <div class="skill-desc">Python, JavaScript, 前端开发</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="section">
+    <div class="section-header">
+      <div class="section-label">联系方式</div>
+      <h2 class="section-title">保持联系</h2>
+      <p class="section-desc">欢迎交流数据分析、AI Agent 开发与自动化工具相关话题</p>
+    </div>
+
+    <div class="contact-content">
+      <div class="contact-links">
+        <a href="mailto:your.email@example.com" class="contact-link">
+          <span class="iconify" data-icon="mdi:email"></span>
+          <span>Email</span>
+        </a>
+        <a href="https://github.com/yourusername" class="contact-link" target="_blank">
+          <span class="iconify" data-icon="mdi:github"></span>
+          <span>GitHub</span>
+        </a>
+        <a href="https://linkedin.com/in/yourprofile" class="contact-link" target="_blank">
+          <span class="iconify" data-icon="mdi:linkedin"></span>
+          <span>LinkedIn</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2026 Portfolio. Built with passion for data and AI.</p>
+  </footer>
+
+  <script>
+    // Smooth scroll and active nav
+    document.querySelectorAll('nav a').forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = link.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+        if (targetSection) {
+          targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          
+          // Update active state
+          document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+          link.classList.add('active');
+        }
+      });
+    });
+
+    // Update active nav on scroll
+    const sections = document.querySelectorAll('.section, .hero');
+    const navLinks = document.querySelectorAll('nav a');
+
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.clientHeight;
+        if (window.pageYOffset >= sectionTop - 100) {
+          current = section.getAttribute('id');
+        }
+      });
+
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === `#${current}`) {
+          link.classList.add('active');
+        }
+      });
+    });
+
+    // Intersection Observer for fade-in animations
+    const observerOptions = {
+      threshold: 0.1,
+      rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.style.opacity = '1';
+          entry.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.project-card').forEach(card => {
+      card.style.opacity = '0';
+      card.style.transform = 'translateY(20px)';
+      card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
+      observer.observe(card);
+    });
+  </script>
+</body>
+</html>
