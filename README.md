@@ -172,3 +172,21 @@ MIT License - 可自由使用和修改
 - ✨ 9 个精选项目展示
 - ✨ 响应式设计
 - ✨ 平滑滚动与动画效果
+
+## 本地命令
+
+- 构建（生成 demos/index.html 与项目卡片，刷新首页截图）：
+  ```bash
+  npm run build
+  ```
+- 校验（检查 projects.json 的链接与配图是否存在、分类是否合法）：
+  ```bash
+  npm run validate
+  ```
+- 本地预览：直接双击 `index.html` 即可。
+
+## 数据驱动
+
+- 项目清单：`assets/data/projects.json`
+- 封面图片：`assets/images/projects/`
+- Demo 目录：`demos/<项目目录>/`（支持 `README.md` 或 `demo.html`，构建时生成 `index.html`）
