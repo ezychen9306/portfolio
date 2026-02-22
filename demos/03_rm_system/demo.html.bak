@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RM 风险管理系统</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Microsoft YaHei',sans-serif;background:#f7f4ef;padding:2rem}
+.container{max-width:1400px;margin:0 auto;background:#fff;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+h1{color:#2d2d2d;margin-bottom:.5rem;font-size:1.8rem}
+.subtitle{color:#6b8e9f;font-size:.9rem;margin-bottom:2rem}
+.summary{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-bottom:2rem}
+.summary-card{background:#f9f9f9;padding:1.5rem;border-radius:6px;border-top:3px solid #6b8e9f}
+.summary-card.highlight{border-top-color:#c9a227}
+.summary-label{font-size:.85rem;color:#666;margin-bottom:.5rem}
+.summary-value{font-size:2rem;font-weight:700;color:#2d2d2d}
+.summary-sub{font-size:.8rem;color:#999;margin-top:.3rem}
+.section{margin-top:2rem}
+.section-title{font-size:1.2rem;color:#2d2d2d;margin-bottom:1rem;border-left:4px solid #c9a227;padding-left:1rem}
+table{width:100%;border-collapse:collapse}
+th,td{padding:.75rem;text-align:left;border-bottom:1px solid #e0e0e0}
+th{background:#6b8e9f;color:#fff;font-weight:600;font-size:.85rem}
+td{font-size:.85rem;color:#2d2d2d}
+.status-dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:.5rem}
+.status-dot.green{background:#28a745}
+.status-dot.yellow{background:#ffc107}
+.status-dot.red{background:#dc3545}
+.chart-area{background:#f9f9f9;padding:1.5rem;border-radius:6px;margin-top:1rem;text-align:center;color:#999}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>RM 风险管理系统</h1>
+  <p class="subtitle">全业务风险预估 · 财报支撑 · 审计合规</p>
+
+  <div class="summary">
+    <div class="summary-card highlight">
+      <div class="summary-label">总在贷余额</div>
+      <div class="summary-value">500 亿</div>
+      <div class="summary-sub">7 条业务线</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">加权终损率</div>
+      <div class="summary-value">5.8%</div>
+      <div class="summary-sub">vs 上月 -0.2pp</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">拨备计提</div>
+      <div class="summary-value">29.3 亿</div>
+      <div class="summary-sub">拨备覆盖率 120%</div>
+    </div>
+    <div class="summary-card">
+      <div class="summary-label">预警业务线</div>
+      <div class="summary-value">1</div>
+      <div class="summary-sub">小微贷款观察中</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">业务线风险概览</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>业务线</th>
+          <th>在贷余额（亿）</th>
+          <th>客户数（万）</th>
+          <th>预估终损率</th>
+          <th>拨备计提（亿）</th>
+          <th>MoM 变化</th>
+          <th>状态</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>菲律宾现金贷</strong></td>
+          <td>85</td>
+          <td>42.5</td>
+          <td>8.5%</td>
+          <td>7.2</td>
+          <td style="color:#28a745">-0.3pp</td>
+          <td><span class="status-dot green"></span>正常</td>
+        </tr>
+        <tr>
+          <td><strong>国内消费贷</strong></td>
+          <td>180</td>
+          <td>125.8</td>
+          <td>4.2%</td>
+          <td>7.6</td>
+          <td style="color:#28a745">-0.1pp</td>
+          <td><span class="status-dot green"></span>正常</td>
+        </tr>
+        <tr>
+          <td><strong>小微贷款</strong></td>
+          <td>120</td>
+          <td>18.3</td>
+          <td>6.8%</td>
+          <td>8.2</td>
+          <td style="color:#dc3545">+0.5pp</td>
+          <td><span class="status-dot yellow"></span>观察</td>
+        </tr>
+        <tr>
+          <td><strong>信用卡分期</strong></td>
+          <td>65</td>
+          <td>85.2</td>
+          <td>3.5%</td>
+          <td>2.3</td>
+          <td style="color:#999">持平</td>
+          <td><span class="status-dot green"></span>正常</td>
+        </tr>
+        <tr>
+          <td><strong>汽车金融</strong></td>
+          <td>30</td>
+          <td>5.6</td>
+          <td>2.8%</td>
+          <td>0.8</td>
+          <td style="color:#28a745">-0.2pp</td>
+          <td><span class="status-dot green"></span>正常</td>
+        </tr>
+        <tr>
+          <td><strong>教育分期</strong></td>
+          <td>12</td>
+          <td>8.9</td>
+          <td>4.5%</td>
+          <td>0.5</td>
+          <td style="color:#999">持平</td>
+          <td><span class="status-dot green"></span>正常</td>
+        </tr>
+        <tr>
+          <td><strong>其他业务</strong></td>
+          <td>8</td>
+          <td>3.2</td>
+          <td>5.2%</td>
+          <td>0.4</td>
+          <td style="color:#28a745">-0.1pp</td>
+          <td><span class="status-dot green"></span>正常</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">Vintage 曲线（菲律宾现金贷）</h2>
+    <div class="chart-area">
+      [Vintage 曲线图表]<br>
+      展示各月份 Cohort 的逾期率演化趋势<br>
+      预估 M12 终损率: 8.5%
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">拨备计提趋势</h2>
+    <div class="chart-area">
+      [拨备计提趋势图]<br>
+      2024 Q1-Q4 及 2025 Q1 拨备计提金额与覆盖率<br>
+      当前拨备覆盖率: 120%（监管要求 ≥100%）
+    </div>
+  </div>
+
+  <p style="margin-top:2rem;color:#999;font-size:.8rem;text-align:center">
+    * 所有数据已脱敏处理，仅用于展示 | 更新时间: 2025-02-16
+  </p>
+</div>
+</body>
+</html>
