@@ -1,4 +1,4 @@
-﻿# coding: utf-8
+# coding: utf-8
 import os, re, json
 from pathlib import Path
 from string import Template
@@ -123,7 +123,7 @@ def card_html(p):
     cover = p['cover']
     title = p['name']
     desc = p['desc']
-    return f'''<div class="image" onclick="window.open('{url}','_blank')" style="cursor:pointer;">
+    return f"""<a class="image" href="{url}" target="_blank" rel="noopener">
   <div class="portfolio-card__media">
     <img src="{cover}" alt="{title}" loading="lazy" width="480" height="300" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
     <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">{title}</span></div>
@@ -132,8 +132,7 @@ def card_html(p):
     <h4>{title}</h4>
     <p>{desc}</p>
   </div>
-</div>'''
-
+</a>"""
 all_html = '\n'.join(card_html(p) for p in projects)
 map_cat_to_tab = {'risk':'webdevelop','data':'webdesign','ai':'appdevelop'}
 cat_html = {k: [] for k in map_cat_to_tab.values()}

@@ -1,7 +1,7 @@
 {
     "name":  "portfolio",
     "private":  true,
-    "scripts": {"build": "python scripts/build_demos_and_projects.py && node screenshot.js", 
+    "scripts": {"validate": "python scripts/validate_links.py", "build": "python scripts/build_demos_and_projects.py && node screenshot.js", 
                     "screenshot":  "node screenshot.js"
                 },
     "devDependencies":  {
