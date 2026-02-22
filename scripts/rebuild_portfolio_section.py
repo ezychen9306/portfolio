@@ -8,7 +8,7 @@ DATA = ROOT/'assets/data/projects.json'
 
 def card_html(p):
     url=p['href']; cover=p['cover']; title=p['name']; desc=p['desc']
-    return f"""<a class=\"image\" href=\"{url}\" target=\"_blank\" rel=\"noopener\">\n  <div class=\"portfolio-card__media\">\n    <img src=\"{cover}\" alt=\"{title}\" loading=\"lazy\" width=\"480\" height=\"300\" onerror=\"this.style.display='none';this.nextElementSibling.classList.add('is-fallback');\">\n    <div class=\"portfolio-card__placeholder\"><span class=\"portfolio-card__placeholder-title\">{title}</span></div>\n  </div>\n  <div class=\"portfolio-card__caption\">\n    <h4>{title}</h4>\n    <p>{desc}</p>\n  </div>\n</a>"""
+    return f"""<a class=\"image\" href=\"{url}\">\n  <div class=\"portfolio-card__media\">\n    <img src=\"{cover}\" alt=\"{title}\" loading=\"lazy\" width=\"480\" height=\"300\" onerror=\"this.style.display='none';this.nextElementSibling.classList.add('is-fallback');\">\n    <div class=\"portfolio-card__placeholder\"><span class=\"portfolio-card__placeholder-title\">{title}</span></div>\n  </div>\n  <div class=\"portfolio-card__caption\">\n    <h4>{title}</h4>\n    <p>{desc}</p>\n  </div>\n</a>"""
 
 projects = json.loads(DATA.read_text(encoding='utf-8-sig'))
 all_html='\n'.join(card_html(p) for p in projects)
@@ -54,3 +54,4 @@ new_section = head + container_html + '</section>'
 new_html = html[:sec_start] + new_section + html[sec_end:]
 INDEX.write_text(new_html, encoding='utf-8')
 print('portfolio section rebuilt (container + purge trailing leftovers)')
+

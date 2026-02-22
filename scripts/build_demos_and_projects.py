@@ -1,4 +1,4 @@
-# coding: utf-8
+﻿# coding: utf-8
 import os, re, json
 from pathlib import Path
 from string import Template
@@ -56,6 +56,16 @@ HEADER_TPL = Template('''<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>${title} · 演示</title>
+<meta name="description" content="${desc}">
+<link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16x16.png">
+<link rel="manifest" href="../../assets/icons/site.webmanifest">
+<meta property="og:title" content="${title} · 演示" />
+<meta property="og:description" content="${desc}" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="../../screenshot.png" />
+<meta property="og:url" content="https://ezychen9306.github.io/portfolio/" />
 <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
 <style>
 :root{--primary:#6b8e9f;--accent:#c9a227;--text:#2d2d2d;--muted:#666}
@@ -83,7 +93,7 @@ FOOTER = '''</div>
 
 # Ensure index.html exists for each demo, generating from README.md or copying demo.html
 
-def ensure_demo_index(demo_dir: Path, title: str):
+def ensure_demo_index(demo_dir: Path, title: str, desc: str):
     demo_dir.mkdir(parents=True, exist_ok=True)
     idx = demo_dir / 'index.html'
     if idx.exists():
@@ -95,7 +105,7 @@ def ensure_demo_index(demo_dir: Path, title: str):
     md = demo_dir / 'README.md'
     if md.exists():
         md_html = md_to_html(md.read_text(encoding='utf-8', errors='ignore'))
-        content = HEADER_TPL.substitute(title=title) + f'<article>\n{md_html}\n</article>' + FOOTER
+        content = HEADER_TPL.substitute(title=title, desc=desc or title) + f'<article>\n{md_html}\n</article>' + FOOTER
         idx.write_text(content, encoding='utf-8')
         return True
     return False
@@ -110,7 +120,7 @@ for p in projects:
         continue
     demo_rel = Path(href).parent
     demo_dir = ROOT / demo_rel
-    if ensure_demo_index(demo_dir, p.get('name','Demo')):
+    if ensure_demo_index(demo_dir, p.get('name','Demo'), p.get('desc','')):
         created.append(str(demo_rel))
 print('created/updated index.html for demos:', len(created))
 
@@ -123,7 +133,7 @@ def card_html(p):
     cover = p['cover']
     title = p['name']
     desc = p['desc']
-    return f"""<a class="image" href="{url}" target="_blank" rel="noopener">
+    return f"""<a class="image" href="{url}">
   <div class="portfolio-card__media">
     <img src="{cover}" alt="{title}" loading="lazy" width="480" height="300" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
     <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">{title}</span></div>
@@ -133,6 +143,7 @@ def card_html(p):
     <p>{desc}</p>
   </div>
 </a>"""
+
 all_html = '\n'.join(card_html(p) for p in projects)
 map_cat_to_tab = {'risk':'webdevelop','data':'webdesign','ai':'appdevelop'}
 cat_html = {k: [] for k in map_cat_to_tab.values()}
@@ -142,11 +153,9 @@ for p in projects:
 for k in cat_html:
     cat_html[k] = '\n'.join(cat_html[k])
 
-import re
-
-def replace_tab(html, tab_id, new_inner):
+def replace_tab(html_text, tab_id, new_inner):
     pattern = re.compile(r'(\<div class="tab-content[^\"]*" id="'+re.escape(tab_id)+r'"[^>]*\>)([\s\S]*?)(\</div\>)', re.M)
-    return pattern.sub(r"\1\n"+new_inner+"\n\3", html, count=1)
+    return pattern.sub(r"\1\n"+new_inner+"\n\3", html_text, count=1)
 
 html = replace_tab(html, 'all', all_html)
 html = replace_tab(html, 'webdevelop', cat_html['webdevelop'])
@@ -155,3 +164,4 @@ html = replace_tab(html, 'appdevelop', cat_html['appdevelop'])
 
 index_path.write_text(html, encoding='utf-8')
 print('index.html grids refreshed from assets/data/projects.json')
+
