@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>客群分层策略 · 演示</title>
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+:root{--primary:#6b8e9f;--accent:#c9a227;--text:#2d2d2d;--muted:#666}
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Microsoft Yahei",sans-serif;margin:0;background:#fafafa;color:var(--text)}
+.topbar{display:flex;gap:.75rem;align-items:center;justify-content:space-between;padding:.6rem .9rem;border-bottom:1px solid #eee;background:#fff;position:sticky;top:0}
+.topbar a{color:var(--primary);text-decoration:none;font-weight:600}
+.topbar a.btn{display:inline-flex;align-items:center;gap:.35rem;background:var(--primary);color:#fff;padding:.35rem .6rem;border-radius:6px}
+.container{max-width:1040px;margin:0 auto;padding:1rem}
+footer{padding:2rem 1rem;color:#888;text-align:center}
+article{background:#fff;border:1px solid #eee;border-radius:10px;padding:1.2rem}
+article h1,article h2{border-bottom:1px solid #eee;padding-bottom:.25rem}
+article img{max-width:100%;height:auto}
+</style>
+</head><body>
+<div class="topbar">
+  <div><a href="../../index.html"><i class="ri-arrow-left-line"></i> 返回作品集</a></div>
+  <div style="color:#999;font-size:.9rem">客群分层策略</div>
+  <div><a class="btn" href="#" onclick="history.back();return false;"><i class="ri-history-line"></i> 返回</a></div>
+</div>
+<div class="container">
+<article>
+<h1>客群分层策略体系</h1>
+<h2>项目概述</h2>
+<p>乐信普惠贷中风险策略，通过客群分层实现差异化策略匹配与版本化管理。</p>
+<h2>核心功能</h2>
+<h3>1. 客群分层模型</h3>
+<ul>
+<li>基于信用评分、行为特征、资产状况</li>
+<li>5 层客群划分（优质/标准/成长/观察/风险）</li>
+<li>动态调整机制</li>
+</ul>
+<h3>2. 差异化策略</h3>
+<ul>
+<li>额度策略：不同客群不同额度</li>
+<li>定价策略：风险定价差异化</li>
+<li>审批策略：审批通过率差异化</li>
+</ul>
+<h3>3. 版本化管理</h3>
+<ul>
+<li>策略版本控制</li>
+<li>A/B 测试验证</li>
+<li>灰度发布机制</li>
+</ul>
+<h3>4. 小微线下策略</h3>
+<ul>
+<li>白名单机制</li>
+<li>线下场景差异化</li>
+<li>风险与规模平衡</li>
+</ul>
+<h2>业务成果</h2>
+<ul>
+<li>年化风险压降 **11.6%**</li>
+<li>放款规模 **+15.3%**</li>
+<li>盈利性 **+128.8%**</li>
+<li>小微白名单上线次月：风险降 **23%**，规模 **+16%**</li>
+</ul>
+<h2>技术栈</h2>
+<ul>
+<li>Python（建模）</li>
+<li>SQL（客群标签）</li>
+<li>策略引擎</li>
+<li>监控看板</li>
+</ul>
+<h2>示例分层（脱敏）</h2>
+<p>| 客群 | 占比 | 信用分 | 额度 | 利率 | 通过率 | 逾期率 |</p>
+<p>|------|------|--------|------|------|--------|--------|</p>
+<p>| 优质 | 18% | 750+ | 50k | 8% | 85% | 2.1% |</p>
+<p>| 标准 | 42% | 650-750 | 30k | 12% | 65% | 5.8% |</p>
+<p>| 成长 | 25% | 550-650 | 20k | 18% | 45% | 9.2% |</p>
+<p>| 观察 | 10% | 450-550 | 10k | 24% | 25% | 15.5% |</p>
+<p>| 风险 | 5% | <450 | 拒绝 | - | 0% | - |</p>
+</article></div>
+<footer>© 2026 Portfolio Demos</footer>
+</body></html>

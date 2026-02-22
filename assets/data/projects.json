@@ -1,0 +1,114 @@
+[
+    {
+        "id":  "disaster-management",
+        "name":  "灾难管控策略",
+        "cover":  "assets/images/projects/disaster-management.png",
+        "href":  "demos/01_disaster_management/index.html",
+        "category":  "risk",
+        "desc":  "T+1 快速响应 · 风险降幅 10%+"
+    },
+    {
+        "id":  "quota-strategy-v5",
+        "name":  "额度策略 V5",
+        "cover":  "assets/images/projects/quota-strategy-v5.png",
+        "href":  "demos/02_quota_strategy_v5/index.html",
+        "category":  "risk",
+        "desc":  "规模 2 倍+ · 风险持平"
+    },
+    {
+        "id":  "rm-system",
+        "name":  "RM 风险管理系统",
+        "cover":  "assets/images/projects/rm-system.png",
+        "href":  "demos/03_rm_system/index.html",
+        "category":  "risk",
+        "desc":  "500 亿在贷余额管理"
+    },
+    {
+        "id":  "ai-deep-strategy",
+        "name":  "AI 深度策略",
+        "cover":  "assets/images/projects/ai-deep-strategy.png",
+        "href":  "demos/04_ai_deep_strategy/index.html",
+        "category":  "risk",
+        "desc":  "借新还旧 · 提前结清 · 额度曲线"
+    },
+    {
+        "id":  "kyc-platform",
+        "name":  "KYC 经营策略中台",
+        "cover":  "assets/images/projects/kyc-platform.png",
+        "href":  "demos/05_kyc_platform/index.html",
+        "category":  "risk",
+        "desc":  "转化率 +15.6% · 月增 2.7 亿"
+    },
+    {
+        "id":  "telesales-system",
+        "name":  "电销策略推荐系统",
+        "cover":  "assets/images/projects/telesales-system.png",
+        "href":  "demos/06_telesales_system/index.html",
+        "category":  "risk",
+        "desc":  "转化率 +9.8% · 月增 1.1 亿"
+    },
+    {
+        "id":  "customer-segmentation",
+        "name":  "客群分层策略",
+        "cover":  "assets/images/projects/customer-segmentation.png",
+        "href":  "demos/11_customer_segmentation/index.html",
+        "category":  "risk",
+        "desc":  "风险降 11.6% · 规模 +15.3%"
+    },
+    {
+        "id":  "year-end-report",
+        "name":  "年终总结报告",
+        "cover":  "assets/images/projects/year-end-report.png",
+        "href":  "demos/07_year_end_report/index.html",
+        "category":  "data",
+        "desc":  "策略体系 · 时间线 · 核心成果"
+    },
+    {
+        "id":  "weekly-monitoring",
+        "name":  "周报监控",
+        "cover":  "assets/images/projects/weekly-monitoring.png",
+        "href":  "demos/08_weekly_monitoring/index.html",
+        "category":  "data",
+        "desc":  "自动化周度风险监控"
+    },
+    {
+        "id":  "data-quality",
+        "name":  "数据质量校验",
+        "cover":  "assets/images/projects/data-quality.png",
+        "href":  "demos/12_data_quality_check/index.html",
+        "category":  "data",
+        "desc":  "自动化校验 · 效率提升 80%+"
+    },
+    {
+        "id":  "knowledge-base-agent",
+        "name":  "知识库 Agent",
+        "cover":  "assets/images/projects/knowledge-base-agent.png",
+        "href":  "demos/13_knowledge_base_agent/index.html",
+        "category":  "ai",
+        "desc":  "RAG 检索 · 准确率 92.5%"
+    },
+    {
+        "id":  "skills-dev",
+        "name":  "Skills 技能开发",
+        "cover":  "assets/images/projects/skills-dev.png",
+        "href":  "demos/14_skills_development/index.html",
+        "category":  "ai",
+        "desc":  "效率提升 50%+ · 规范遵守 95%+"
+    },
+    {
+        "id":  "ai-sharing",
+        "name":  "AI 内部分享",
+        "cover":  "assets/images/projects/ai-sharing.png",
+        "href":  "demos/09_ai_sharing/index.html",
+        "category":  "ai",
+        "desc":  "团队 AI 赋能 · 效率提升 30%+"
+    },
+    {
+        "id":  "fof-system",
+        "name":  "智能投顾系统（FOF）",
+        "cover":  "assets/images/projects/fof-system.png",
+        "href":  "demos/10_fof_system/index.html",
+        "category":  "ai",
+        "desc":  "8 亿+ 资产管理 · 年化 12.5%"
+    }
+]
