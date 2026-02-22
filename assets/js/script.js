@@ -1,5 +1,7 @@
 // ============== MENU NAVBAR ================
 const navlist = document.querySelector(".navlist");
+// Respect user motion preference
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const menuBtn = document.querySelector(".ri-menu-line");
 
 menuBtn.onclick = function () {
@@ -64,6 +66,7 @@ if (multipleTextEl) {
 
 // ============== SCROLL REVEAL ANIMATION ================
 // 初始半透明 + 提前触发，避免滚动时出现大片空白
+if(!reduceMotion){
 const sr = ScrollReveal({
   distance: "60px",
   duration: 1000,
@@ -94,6 +97,7 @@ sr.reveal(".testimonial .testimonial-container", { origin: "left" });
 sr.reveal(".contact .title", { origin: "top" });
 sr.reveal(".contact .row .box", { origin: "right" });
 sr.reveal(".contact .row .contact-form", { origin: "left" });
+}
 
 // ============== 首页粒子网络动画（增强版）================
 (function () {
