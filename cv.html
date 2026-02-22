@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="陈恩昭 · 简历 | 致力于 AI 风险策略落地 · 贷中策略 · AI 中台">
+<title>AI风控策略_陈恩昭</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#f7f4ef;
+  --page:#fffefb;
+  --text:#2d2d2d;
+  --text2:#444;
+  --muted:#666;
+  --primary:#6b8e9f;
+  --accent:#c9a227;
+  --border:#d5d0c8;
+  --border-light:#e8e4dc;
+}
+html{font-size:16px;height:100%}
+body{
+  font-family:'Rubik','Microsoft YaHei',sans-serif;
+  background:var(--bg);color:var(--text);
+  min-height:100vh;
+  display:flex;flex-direction:column;
+  align-items:center;
+  overflow-y:auto;
+  overflow-x:hidden;
+}
+
+/* ── 顶部返回条 ── */
+.topbar{
+  width:100%;flex-shrink:0;
+  background:var(--bg);
+  border-bottom:1px solid var(--border-light);
+  padding:.4rem 2rem;
+  display:flex;justify-content:space-between;align-items:center;
+}
+.topbar-inner{
+  width:100%;max-width:180mm;margin:0 auto;
+  display:flex;justify-content:space-between;align-items:center;gap:1rem;
+}
+.topbar a{font-size:.8rem;font-weight:500;color:var(--primary);transition:color .2s}
+.topbar a:hover{color:var(--accent)}
+.topbar .btn-pdf{color:#fff}
+.topbar .btn-pdf:hover{color:#fff}
+.topbar-logo{font-weight:700;font-size:.95rem;color:var(--text);letter-spacing:.02em}
+.topbar-logo span{color:var(--primary)}
+.topbar-actions{display:flex;align-items:center;gap:.75rem}
+.btn-pdf{
+  display:inline-flex;align-items:center;gap:.35rem;
+  padding:.35rem .7rem;
+  font-size:.75rem;font-weight:600;
+  color:#fff !important;background:var(--primary);
+  border:1px solid var(--primary);border-radius:6px;
+  cursor:pointer;
+  transition:transform .15s ease, box-shadow .2s ease, background .2s ease;
+  font-family:inherit;
+}
+.btn-pdf .btn-pdf-text,.btn-pdf i{color:inherit}
+.btn-pdf:hover{background:var(--accent);border-color:var(--accent);color:#fff !important;transform:translateY(-1px);box-shadow:0 4px 12px rgba(201,162,39,.25)}
+.btn-pdf:active{transform:translateY(0);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.btn-pdf.done{background:var(--accent);border-color:var(--accent);color:#fff !important;pointer-events:none}
+.btn-pdf i{font-size:.9em}
+
+/* ── 纸张容器：等比例放大、可滚动，避免截断 ── */
+.paper-wrap{
+  flex:0 0 auto;
+  display:flex;
+  align-items:flex-start;
+  justify-content:center;
+  overflow:visible;
+  padding:1.5cm 1rem 2rem;
+  zoom:1.15;
+}
+.paper{
+  width:100%;max-width:180mm;
+  margin:0 auto;
+  background:var(--page);
+  box-shadow:0 0 20px rgba(0,0,0,.06);
+  padding:1.25rem 2rem 1.25rem;
+  display:flex;flex-direction:column;
+  overflow:visible;
+}
+
+/* ── 姓名区 ── */
+.name-block{
+  text-align:center;
+  padding-bottom:.5rem;
+  border-bottom:2px solid var(--primary);
+  margin-bottom:.5rem;
+  flex-shrink:0;
+}
+.name-block h1{
+  font-size:1.45rem;font-weight:700;
+  letter-spacing:.1em;
+  color:var(--text);
+}
+.name-block .contact{
+  margin-top:.3rem;
+  font-size:.72rem;color:var(--text2);
+  display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.5rem 1rem;
+}
+.name-block .contact i{color:var(--primary);margin-right:.15rem}
+.name-block .contact a{color:var(--text2);text-decoration:none}
+.name-block .contact a:hover{color:var(--primary)}
+
+/* ── 个人简介 ── */
+.summary{
+  flex-shrink:0;
+  margin-bottom:.5rem;
+  padding:.5rem 0;
+  border-bottom:1px solid var(--border-light);
+}
+.summary-headline-row{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:center;
+  gap:.4rem .5rem;
+  margin-bottom:.25rem;
+}
+.summary-headline{
+  font-size:.72rem;line-height:1.5;color:var(--text2);
+  text-align:center;margin:0;
+  font-weight:500;
+}
+.summary-headline-row .summary-traits{
+  display:inline-flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  gap:.35rem .5rem;
+  margin:0;
+}
+.summary-tagline{
+  font-size:.78rem;font-weight:600;color:var(--text);
+  text-align:center;letter-spacing:.03em;
+  margin-bottom:.25rem;
+}
+.summary-tagline span{color:var(--primary)}
+.summary-data{
+  font-size:.75rem;line-height:1.55;color:var(--text2);
+  text-align:center;margin-bottom:.3rem;
+}
+.summary-data b{color:var(--text);font-weight:600}
+.summary-data .hi{color:var(--accent);font-weight:600}
+.summary-data span{color:var(--primary);font-weight:600}
+.summary-traits{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:.35rem .5rem;
+}
+.summary-traits span{
+  font-size:.72rem;font-weight:500;
+  padding:.14rem .5rem;
+  background:linear-gradient(135deg, rgba(107,142,159,.1) 0%, rgba(201,162,39,.08) 100%);
+  border:1px solid var(--border);
+  border-radius:4px;
+  color:var(--text);
+}
+.summary-traits span strong{color:var(--primary);font-weight:600}
+
+/* ── 通用板块 ── */
+.section{flex-shrink:0;margin-bottom:.55rem}
+.section-title{
+  font-size:.78rem;font-weight:600;
+  color:var(--primary);
+  border-bottom:1.5px solid var(--border);
+  padding-bottom:.15rem;
+  margin-bottom:.4rem;
+  letter-spacing:.04em;
+}
+
+/* ── 工作经历 ── */
+.work-section{flex:1;margin-bottom:.5rem;overflow:visible}
+.job{margin-bottom:.5rem}
+.job:last-child{margin-bottom:0}
+.job-header{
+  display:flex;justify-content:space-between;align-items:baseline;
+  margin-bottom:.25rem;
+}
+.job-left{font-size:.78rem;font-weight:600;color:var(--text)}
+.job-left span{font-weight:400;color:var(--text2);font-size:.72rem;margin-left:.3rem}
+.job-right{font-size:.7rem;color:var(--muted);white-space:nowrap}
+.job ul{list-style:none}
+.job li{
+  position:relative;
+  padding-left:.7rem;
+  font-size:.73rem;line-height:1.5;
+  margin-bottom:.2rem;
+  color:var(--text2);
+}
+.job li:last-child{margin-bottom:0}
+.job li::before{
+  content:'•';position:absolute;left:0;top:0;
+  color:var(--accent);font-weight:700;font-size:.75rem;
+}
+.job li strong{color:var(--text);font-weight:600}
+.job li .hi{color:var(--accent);font-weight:600}
+
+/* ── 研究与获奖 ── */
+.award-list{list-style:none;font-size:.72rem;line-height:1.5;color:var(--text2)}
+.award-list li{padding-left:.7rem;position:relative;margin-bottom:.18rem}
+.award-list li::before{content:'•';position:absolute;left:0;top:0;color:var(--accent);font-weight:700;font-size:.72rem}
+.award-list strong{color:var(--text);font-weight:600}
+
+/* ── 教育经历 ── */
+.edu-row{display:flex;justify-content:space-between;align-items:baseline;font-size:.73rem;margin-bottom:.3rem}
+.edu-row:last-child{margin-bottom:0}
+.edu-row .school{font-weight:600;color:var(--text)}
+.edu-row .detail{color:var(--text2)}
+.edu-row .time{font-size:.68rem;color:var(--muted);white-space:nowrap}
+
+/* ── 技能 ── */
+.skills{font-size:.73rem;color:var(--text2);line-height:1.55;margin-bottom:.2rem}
+.skills:last-child{margin-bottom:0}
+.skills b{color:var(--text);font-weight:600}
+
+/* ── 打印（与屏幕同尺寸，保证 PDF 与 HTML 行对齐） ── */
+@media print{
+  @page{
+    size:A4;
+    margin:1.5cm;
+  }
+  html{
+    font-size:16px;
+    height:auto !important;
+    overflow:visible !important;
+  }
+  body{
+    height:auto !important;min-height:auto !important;
+    overflow:visible !important;
+    background:#fff;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    min-height:297mm;
+    padding:1.2cm 0;
+    box-sizing:border-box;
+  }
+  .topbar{display:none !important}
+  .paper-wrap{padding:0;display:block;flex:none}
+  .paper{
+    box-shadow:none;
+    width:100%;
+    max-width:180mm;
+    margin:0 auto;
+    padding:.9rem 1.5rem;
+    flex:none;
+    transform:scale(0.92);
+    transform-origin:top center;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .name-block{padding-bottom:.35rem;margin-bottom:.35rem}
+  .summary{margin-bottom:.35rem;padding:.35rem 0}
+  .summary-data{margin-bottom:.2rem}
+  .section{margin-bottom:.4rem}
+  .section-title{margin-bottom:.3rem}
+  .job{margin-bottom:.35rem}
+  .job li{margin-bottom:.12rem}
+  .award-list li{margin-bottom:.12rem}
+  .edu-row{margin-bottom:.2rem}
+  .summary-traits span,
+  .job li::before,
+  .job li .hi,
+  .award-list li::before,
+  .name-block,.summary,.section,.job,.job ul,.job li,
+  .award-list,.award-list li,.edu-row,.skills{
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
+  }
+  .section-title{border-bottom-color:#6b8e9f}
+  .job li .hi{color:#b8921f}
+}
+/* ── 小屏 ── */
+@media(max-width:768px){
+  body{height:auto;overflow:auto}
+  .paper-wrap{padding:.75rem 0;zoom:1}
+  .paper{overflow:visible;padding:1rem}
+  .work-section{overflow:visible}
+}
+</style>
+</head>
+<body>
+
+<!-- 顶部条 -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <span class="topbar-logo">Ezy<span>CV</span></span>
+    <div class="topbar-actions">
+      <button type="button" class="btn-pdf" id="btn-pdf" title="与当前页面一致，使用浏览器打印并选择「另存为 PDF」"><i class="ri-file-download-line"></i><span class="btn-pdf-text">另存为 PDF</span></button>
+      <a href="index.html"><i class="ri-arrow-left-s-line"></i>返回作品集</a>
+    </div>
+  </div>
+</div>
+
+<!-- 纸张（居中） -->
+<div class="paper-wrap">
+<div class="paper">
+
+  <!-- 姓名 + 联系方式 -->
+  <div class="name-block">
+    <h1>陈 恩 昭</h1>
+    <div class="contact">
+      <span><i class="ri-phone-line"></i>15618109306</span>
+      <span><i class="ri-mail-line"></i>enzhaochen@foxmail.com</span>
+      <span><i class="ri-mail-line"></i>ezychen9306@gmail.com</span>
+      <span><i class="ri-github-line"></i><a href="https://github.com/ezychen9306" target="_blank">github.com/ezychen9306</a></span>
+    </div>
+  </div>
+
+  <!-- 个人简介 -->
+  <div class="summary">
+    <div class="summary-headline-row">
+      <p class="summary-headline">致力于 <b>AI 风险策略</b> 落地与业务赋能。</p>
+      <div class="summary-traits">
+        <span><strong>好奇心驱动</strong></span>
+        <span><strong>强目标导向</strong></span>
+      </div>
+    </div>
+    <p class="summary-data">7 年金融风控 · <span>4 年团队管理</span>；国内到海外，<b>8%–180%</b> 定价信贷产品，在贷余额超 <b class="hi">500 亿</b>，多项 0-1 落地，持续交付可量化的业务价值。</p>
+  </div>
+
+  <!-- 工作经验 -->
+  <div class="section work-section">
+    <h2 class="section-title">工作经验</h2>
+
+    <div class="job">
+      <div class="job-header">
+        <div class="job-left">信也科技<span>· 贷中风险策略负责人 · 菲律宾事业部</span></div>
+        <div class="job-right">2024.11 – 至今 · 上海</div>
+      </div>
+      <ul>
+        <li><strong>业务结果：</strong>推动 2025 年菲律宾现金贷业务实现<span class="hi">历史首次盈利</span>，全年利润 <span class="hi">500 万+ USD</span>；成功应对洪水、地震及监管政策调整等突发事件并保障业务连续性。</li>
+        <li><strong>策略体系：</strong>客群识别体系—分客群差异化定制后长短期<span class="hi">风险下降 14.37%</span>；额度体系—固额/临额/限额多版本组合，25 年成交与在贷规模为 24 年<span class="hi">两倍+</span>、年化风险持平；定价/期限体系—以 Cohort/LTV 为目标，结合弹性曲线与产运协同应对突发监管；准入/审批体系—基于内外部多头、竞品抽贷、灾害地区等实现 <span class="hi">T+1 快速响应</span>，全年多事件测试组风险降幅均超 10%。</li>
+        <li><strong>AI 深度策略：</strong>对客户的借新还旧、提前结清、长短期限选择偏好、额度曲线形态等进行深入刻画分析，在多种类型策略上效果显著且可复现。</li>
+        <li><strong>AI 中台产品：</strong>0-1 基于 AI 能力将个人业务经验产品化，详见个人项目；以 RM（全业务风险管理）为例，对 7 条差异显著业务线做终损预估，支撑部门经营、公司财报及外部审计等多方需求与合规要求。</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div class="job-left">深圳乐信<span>· 普惠贷中风险策略 Leader · 风险部</span></div>
+        <div class="job-right">2023.04 – 2024.11 · 深圳</div>
+      </div>
+      <ul>
+        <li><strong>经营达成：</strong>管理 6 人团队，年化<span class="hi">风险压降 11.6%</span>、放款<span class="hi">+15.3%</span>、盈利性<span class="hi">+128.8%</span></li>
+        <li><strong>风险与经营：</strong>客群分层与策略匹配、版本化管理；小微线下差异化策略，白名单上线次月<span class="hi">风险降 23%</span>、<span class="hi">规模+16%</span>。</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div class="job-left">平安普惠<span>· 模型策略 · 存量客户部</span></div>
+        <div class="job-right">2019.11 – 2023.03 · 上海</div>
+      </div>
+      <ul>
+        <li><strong>KYC 经营策略中台：</strong>0-1 从设计到落地，数据与算法驱动策略中台、指导电销名单分配与利润最大化；三年内转化率月均 <span class="hi">+15.6%</span>，月新增放款约 <span class="hi">2.7 亿</span>、fpd7 <span class="hi">降 18.3%</span>。</li>
+        <li><strong>电销策略推荐系统：</strong>带领 4 人从零开发，算法为 BD/电销座席动态推荐策略及话术；月均转化率 <span class="hi">+9.8%</span>，月新增放款 <span class="hi">1.1 亿</span>，系统覆盖率 <span class="hi">100%</span>。</li>
+      </ul>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div class="job-left">随手科技<span>· 风险策略</span></div>
+        <div class="job-right">2019.04 – 2019.10 · 深圳</div>
+      </div>
+    </div>
+
+    <div class="job">
+      <div class="job-header">
+        <div class="job-left">星辰资本<span>· 量化投资策略</span></div>
+        <div class="job-right">2015.04 – 2017.01 · 深圳</div>
+      </div>
+      <ul>
+        <li>智能投顾（FOF）用户风险偏好画像与产品推荐；二级市场多因子量化模型（宏观/财报/量价/舆情）研究与实践。</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 研究项目 & 获奖经历 -->
+  <div class="section">
+    <h2 class="section-title">研究项目与获奖经历</h2>
+    <ul class="award-list">
+      <li><strong>超高维稀疏数据降维</strong>（优秀毕业论文）· 导师 Prof. Xu Han · Temple University</li>
+      <li><strong>深度学习结合因子模型可行性研究</strong> · 导师冯冠豪教授 · 香港城市大学</li>
+      <li><strong>Kaggle</strong> — 广告点击预测 Top 3% · 手写识别 Top 6% · 销售预测 Top 9%</li>
+      <li><strong>数学建模</strong> — 美赛 O 奖、全国大学生金融建模竞赛第九名、广东省第一。</li>
+      <li><strong>平安普惠</strong> — 2020 总经理室特别晋升，2021 优秀团队/优秀员工，2022 智能项目大赛优胜。</li>
+    </ul>
+  </div>
+
+  <!-- 教育经历 -->
+  <div class="section">
+    <h2 class="section-title">教育经历</h2>
+    <div class="edu-row">
+      <span><span class="school">天普大学 Temple University</span> · <span class="detail">数学与统计学 · 硕士 · Fox School</span></span>
+      <span class="time">2017.05 – 2019.04 · 费城</span>
+    </div>
+    <div class="edu-row">
+      <span><span class="school">暨南大学</span> · <span class="detail">数学与应用数学 · 本科</span></span>
+      <span class="time">2011.05 – 2015.06 · 广州</span>
+    </div>
+  </div>
+
+  <!-- 专业技能 -->
+  <div class="section">
+    <h2 class="section-title">专业技能</h2>
+    <p class="skills">Python · SQL · AI Agent / LLM 应用 · 托福 101 · GRE 320 等。</p>
+  </div>
+
+</div>
+</div>
+
+<script>
+(function(){
+  var btn=document.getElementById('btn-pdf');
+  if(!btn) return;
+  var text=btn.querySelector('.btn-pdf-text');
+  var label='另存为 PDF';
+  btn.addEventListener('click',function(e){
+    e.preventDefault();
+    if(btn.classList.contains('done')) return;
+    btn.classList.add('done');
+    if(text) text.textContent='正在打开打印…';
+    window.print();
+    setTimeout(function(){ btn.classList.remove('done'); if(text) text.textContent=label; },800);
+  });
+})();
+</script>
+</body>
+</html>

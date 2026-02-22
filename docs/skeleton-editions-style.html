@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Portfolio — 数据分析师 & AI Agent 开发者</title>
+  <meta name="description" content="专注于风险策略分析、数据可视化与自动化报告生成 · 用数据驱动决策，用 AI 提升效率">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --ink: #fafafa;
+      --muted: #a1a1aa;
+      --accent: #22d3ee;
+      --accent-hover: #06b6d4;
+      --card-bg: rgba(255,255,255,0.03);
+      --card-border: rgba(255,255,255,0.08);
+      --ease: cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.6;
+      font-size: 16px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1 !important; transform: none !important; }
+    }
+
+    /* ----- 固定导航 ----- */
+    .nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 1rem 2rem;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .nav-logo { font-family: 'Libre Baskerville', serif; font-weight: 700; font-size: 1.25rem; color: var(--ink); text-decoration: none; }
+    .nav-links { display: flex; flex-wrap: wrap; gap: 1.5rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9375rem; font-weight: 500; transition: color 0.2s var(--ease); }
+    .nav-links a:hover { color: var(--accent); }
+
+    /* ----- 主内容区（留出导航高度） ----- */
+    main { padding-top: 60px; }
+
+    /* ----- Hero ----- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem 2rem;
+    }
+    .hero-inner { max-width: 800px; }
+    .hero h1 {
+      font-family: 'Libre Baskerville', serif;
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 1rem;
+    }
+    .hero .subtitle { font-size: clamp(1.125rem, 2.5vw, 1.5rem); color: var(--muted); margin-bottom: 2rem; }
+    .hero .cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.75rem;
+      background: var(--accent);
+      color: var(--bg);
+      text-decoration: none;
+      font-weight: 600;
+      border-radius: 8px;
+      transition: background 0.2s var(--ease), transform 0.2s var(--ease);
+    }
+    .hero .cta:hover { background: var(--accent-hover); transform: translateY(-2px); }
+
+    /* ----- 分区 Section（Editions 风格：大标题 + 卡片网格） ----- */
+    .section {
+      padding: 6rem 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-header { margin-bottom: 3rem; }
+    .section-title {
+      font-family: 'Libre Baskerville', serif;
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      margin-bottom: 0.75rem;
+    }
+    .section-desc { font-size: 1.125rem; color: var(--muted); max-width: 640px; }
+    .section-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+    }
+    .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+    .card-title { font-size: 1.125rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .card-desc { font-size: 0.9375rem; color: var(--muted); line-height: 1.5; }
+    .card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-top: 1rem;
+      font-size: 0.875rem;
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .card-link:hover { color: var(--accent-hover); }
+    .back-to-nav {
+      display: inline-block;
+      margin-top: 3rem;
+      font-size: 0.875rem;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s var(--ease);
+    }
+    .back-to-nav:hover { color: var(--accent); }
+
+    /* ----- 滚动进入动画 ----- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s var(--ease), transform 0.6s var(--ease);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal.delay-1 { transition-delay: 0.1s; }
+    .reveal.delay-2 { transition-delay: 0.2s; }
+    .reveal.delay-3 { transition-delay: 0.3s; }
+    .reveal.delay-4 { transition-delay: 0.15s; }
+    .reveal.delay-5 { transition-delay: 0.25s; }
+    .reveal.delay-6 { transition-delay: 0.35s; }
+    .reveal.delay-7 { transition-delay: 0.1s; }
+    .reveal.delay-8 { transition-delay: 0.2s; }
+    .reveal.delay-9 { transition-delay: 0.3s; }
+
+    /* ----- Footer ----- */
+    footer {
+      padding: 3rem 2rem;
+      text-align: center;
+      border-top: 1px solid var(--card-border);
+      color: var(--muted);
+      font-size: 0.875rem;
+    }
+    @media (max-width: 640px) {
+      .nav { padding: 0.75rem 1rem; }
+      .nav-links { gap: 1rem; }
+      .section { padding: 4rem 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="nav">
+    <a href="#" class="nav-logo">Portfolio</a>
+    <ul class="nav-links">
+      <li><a href="#about">关于</a></li>
+      <li><a href="#projects">项目</a></li>
+      <li><a href="#skills">技能</a></li>
+      <li><a href="#contact">联系</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="hero-inner">
+        <h1>数据分析师 & AI Agent 开发者</h1>
+        <p class="subtitle">专注于风险策略分析、数据可视化与自动化报告生成</p>
+        <p class="subtitle" style="margin-bottom: 1rem;">用数据驱动决策，用 AI 提升效率</p>
+        <a href="#projects" class="cta">查看作品 →</a>
+      </div>
+    </section>
+
+    <section id="about" class="section">
+      <div class="section-header reveal">
+        <h2 class="section-title">关于</h2>
+        <p class="section-desc">我是一名数据分析师与 AI Agent 开发者，专注于数据驱动的业务决策与自动化工具开发。通过多 Agent 工作区整合数据分析、艺术创作与学习管理，用 AI 提升工作效率。</p>
+      </div>
+      <div class="section-grid">
+        <div class="card reveal delay-1">
+          <h3 class="card-title">数据驱动</h3>
+          <p class="card-desc">结论基于数据与验证，避免主观判断，用数据说话。</p>
+        </div>
+        <div class="card reveal delay-2">
+          <h3 class="card-title">第一性原理</h3>
+          <p class="card-desc">从基本原理出发，追求简洁可复现的方案。</p>
+        </div>
+        <div class="card reveal delay-3">
+          <h3 class="card-title">规范与设计感</h3>
+          <p class="card-desc">遵守开发规范，注重输出质量与可读性。</p>
+        </div>
+      </div>
+      <a href="#" class="back-to-nav">↑ Back to navigation</a>
+    </section>
+
+    <section id="projects" class="section">
+      <div class="section-header reveal">
+        <h2 class="section-title">精选项目</h2>
+        <p class="section-desc">涵盖数据分析、风险策略、报告自动化与 AI Agent 开发。</p>
+      </div>
+      <div class="section-grid">
+        <div class="card reveal delay-1">
+          <h3 class="card-title">老客周报自动化系统</h3>
+          <p class="card-desc">自动化生成菲律宾老客业务周报，KPI 卡片、核心指标、趋势图表、风险分析，支持在线/离线双版本。</p>
+          <a href="#" class="card-link">Python · HTML · Plotly · Jinja2 →</a>
+        </div>
+        <div class="card reveal delay-2">
+          <h3 class="card-title">CL 老客抽贷策略分析</h3>
+          <p class="card-desc">多维度分析借新还旧行为，评估抽贷策略效果，交叉特征分析、策略影响评估、风险边界识别。</p>
+          <a href="#" class="card-link">Python · Pandas · SQL · Excel →</a>
+        </div>
+        <div class="card reveal delay-3">
+          <h3 class="card-title">提前结清策略分析</h3>
+          <p class="card-desc">分析提前结清客户特征，识别风险模式，统一分箱规则，支持交叉特征与风险特征提取。</p>
+          <a href="#" class="card-link">Python · 特征工程 →</a>
+        </div>
+        <div class="card reveal delay-4">
+          <h3 class="card-title">2025 年终汇报系统</h3>
+          <p class="card-desc">HTML Slide 风格年终汇报，业务概览、策略能力、人才发展、风险管理、经验反思与 2026 规划。</p>
+          <a href="#" class="card-link">HTML · JavaScript · 数据可视化 →</a>
+        </div>
+        <div class="card reveal delay-5">
+          <h3 class="card-title">RM 风险预测系统</h3>
+          <p class="card-desc">风险模型开发与监控，Vintage 分析、Roll Rate 监控、模型性能评估与风险预警。</p>
+          <a href="#" class="card-link">Python · 机器学习 · SQL →</a>
+        </div>
+        <div class="card reveal delay-6">
+          <h3 class="card-title">多 Agent 工作区</h3>
+          <p class="card-desc">Data / Art / Learning 三大 Agent，共享知识库与 Skills，支持数据分析、艺术创作、学习管理。</p>
+          <a href="#" class="card-link">AI Agent · Skills · 知识管理 →</a>
+        </div>
+        <div class="card reveal delay-7">
+          <h3 class="card-title">App 安装分析系统</h3>
+          <p class="card-desc">App 分类分析、月度对比与累计表现报告，支持功能分类与竞品覆盖分析。</p>
+          <a href="#" class="card-link">Python · Excel →</a>
+        </div>
+        <div class="card reveal delay-8">
+          <h3 class="card-title">风险数据策略集市</h3>
+          <p class="card-desc">风险数据字典与数据标准文档，统一风险数据定义与使用规范。</p>
+          <a href="#" class="card-link">数据治理 · 文档化 →</a>
+        </div>
+        <div class="card reveal delay-9">
+          <h3 class="card-title">前端效果 Playground</h3>
+          <p class="card-desc">18 种风格示例、文字效果、图表库、卡片布局、3D 效果、导航组件，纯前端学习与选型参考。</p>
+          <a href="#" class="card-link">HTML · Tailwind · Chart.js →</a>
+        </div>
+      </div>
+      <a href="#" class="back-to-nav">↑ Back to navigation</a>
+    </section>
+
+    <section id="skills" class="section">
+      <div class="section-header reveal">
+        <h2 class="section-title">技能与工具</h2>
+        <p class="section-desc">数据分析、建模与自动化常用技术栈。</p>
+      </div>
+      <div class="section-grid">
+        <div class="card reveal delay-1"><h3 class="card-title">数据分析</h3><p class="card-desc">Python, SQL, Excel, 统计分析</p></div>
+        <div class="card reveal delay-2"><h3 class="card-title">AI Agent</h3><p class="card-desc">Agent 开发, Skills 集成, 知识管理</p></div>
+        <div class="card reveal delay-3"><h3 class="card-title">数据可视化</h3><p class="card-desc">Plotly, Chart.js, HTML/CSS</p></div>
+        <div class="card reveal delay-4"><h3 class="card-title">报告自动化</h3><p class="card-desc">Excel, PowerPoint, HTML 报告生成</p></div>
+        <div class="card reveal delay-5"><h3 class="card-title">风险策略</h3><p class="card-desc">风险建模, 策略分析, 监控系统</p></div>
+        <div class="card reveal delay-6"><h3 class="card-title">全栈开发</h3><p class="card-desc">Python, JavaScript, 前端开发</p></div>
+      </div>
+      <a href="#" class="back-to-nav">↑ Back to navigation</a>
+    </section>
+
+    <section id="contact" class="section">
+      <div class="section-header reveal">
+        <h2 class="section-title">联系</h2>
+        <p class="section-desc">欢迎交流数据分析、AI Agent 开发与自动化工具相关话题。</p>
+      </div>
+      <div class="section-grid">
+        <div class="card reveal delay-1">
+          <h3 class="card-title">邮箱</h3>
+          <p class="card-desc">your.email@example.com</p>
+          <a href="mailto:your.email@example.com" class="card-link">发送邮件 →</a>
+        </div>
+        <div class="card reveal delay-2">
+          <h3 class="card-title">GitHub</h3>
+          <p class="card-desc">ezychen9306</p>
+          <a href="https://github.com/ezychen9306" class="card-link" target="_blank" rel="noopener">打开主页 →</a>
+        </div>
+        <div class="card reveal delay-3">
+          <h3 class="card-title">LinkedIn</h3>
+          <p class="card-desc">个人主页（请替换为你的链接）</p>
+          <a href="https://linkedin.com/in/yourprofile" class="card-link" target="_blank" rel="noopener">打开主页 →</a>
+        </div>
+      </div>
+      <a href="#" class="back-to-nav">↑ Back to navigation</a>
+    </section>
+  </main>
+
+  <footer>
+    <p>© 2026 Portfolio · Built with passion for data and AI.</p>
+  </footer>
+
+  <script>
+    (function () {
+      var reveals = document.querySelectorAll('.reveal');
+      function onScroll() {
+        var viewH = window.innerHeight;
+        var threshold = 0.12;
+        reveals.forEach(function (el) {
+          var rect = el.getBoundingClientRect();
+          if (rect.top < viewH * (1 - threshold)) el.classList.add('visible');
+        });
+      }
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('load', onScroll);
+      onScroll();
+    })();
+  </script>
+</body>
+</html>

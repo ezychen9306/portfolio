@@ -1,5 +1,7 @@
 # Portfolio - 个人作品集
 
+**归属**：本仓库中为 Report Agent 子项目，路径 `21_Report_Agent/05_portfolio`。
+
 数据分析师 & AI Agent 开发者的个人作品集网站。
 
 ## 功能特点
@@ -45,7 +47,7 @@ python -m SimpleHTTPServer 8000
    git add .
    git commit -m "Initial commit: Portfolio website"
    git branch -M main
-   git remote add origin https://github.com/yourusername/portfolio.git
+   git remote add origin https://github.com/ezychen9306/portfolio.git
    git push -u origin main
    ```
 
@@ -58,7 +60,7 @@ python -m SimpleHTTPServer 8000
 
 3. **访问网站**
    - 几分钟后，你的网站将在以下地址可用：
-   - `https://yourusername.github.io/portfolio/`
+   - `https://ezychen9306.github.io/portfolio/`
 
 ### 方法二：使用 gh-pages 分支
 
@@ -102,7 +104,7 @@ jobs:
 
 ```html
 <a href="mailto:your.email@example.com" class="contact-link">
-<a href="https://github.com/yourusername" class="contact-link">
+<a href="https://github.com/ezychen9306" class="contact-link">
 <a href="https://linkedin.com/in/yourprofile" class="contact-link">
 ```
 

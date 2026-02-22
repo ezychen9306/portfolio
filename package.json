@@ -1,0 +1,10 @@
+{
+  "name": "portfolio",
+  "private": true,
+  "scripts": {
+    "screenshot": "node screenshot.js"
+  },
+  "devDependencies": {
+    "playwright": "^1.40.0"
+  }
+}

@@ -1,0 +1,215 @@
+/* ======================================================
+              CV 页 · 严格单页、无滚动、完全重排
+========================================================*/
+
+.cv-page {
+  background: var(--color-bg);
+  color: var(--color-text);
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Nav - 极简 */
+.cv-nav {
+  flex-shrink: 0;
+  z-index: 100;
+  background: var(--color-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+.cv-nav-inner {
+  max-width: 54rem;
+  margin: 0 auto;
+  padding: 0.25rem 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.cv-nav-logo {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0.15rem 0.5rem;
+  background: var(--color-card);
+}
+.cv-nav-logo span { color: var(--color-primary); }
+.cv-nav-list { display: flex; gap: 0.75rem; list-style: none; margin: 0; padding: 0; }
+.cv-nav-list a { font-size: 0.7rem; font-weight: 500; color: var(--color-text); }
+.cv-nav-list a:hover { color: var(--color-primary); }
+
+/* Main - 占满剩余高度，禁止滚动；矮屏时整体微缩以保一页 */
+.cv-main {
+  flex: 1;
+  min-height: 0;
+  max-width: 54rem;
+  margin: 0 auto;
+  padding: 0.4rem 0.75rem 0.3rem;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transform-origin: top center;
+}
+@media (max-height: 820px) {
+  .cv-main { transform: scale(0.92); }
+}
+@media (max-height: 720px) {
+  .cv-main { transform: scale(0.82); }
+}
+
+/* Header - 一行式：姓名+标题 | 联系 */
+.cv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex-shrink: 0;
+  margin-bottom: 0.35rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.cv-header-left { flex: 1; min-width: 0; }
+.cv-name { font-size: clamp(0.85rem, 2.2vh, 1rem); font-weight: 700; margin: 0 0 0.05rem; }
+.cv-name-en { font-size: 0.65em; font-weight: 500; color: var(--color-primary); margin-left: 0.25rem; }
+.cv-title { font-size: clamp(0.55rem, 1.5vh, 0.7rem); color: var(--color-primary); margin: 0; line-height: 1.25; }
+.cv-summary {
+  font-size: clamp(0.5rem, 1.35vh, 0.6rem);
+  line-height: 1.3;
+  color: var(--color-muted);
+  margin: 0.2rem 0 0;
+}
+.cv-header-right {
+  flex-shrink: 0;
+  text-align: right;
+  font-size: clamp(0.5rem, 1.3vh, 0.6rem);
+  color: var(--color-muted);
+  line-height: 1.35;
+}
+.cv-header-right p { margin: 0.06rem 0; }
+.cv-header-right a { color: var(--color-primary); }
+.cv-header-right i { margin-right: 0.2rem; color: var(--color-primary); font-size: 0.95em; }
+.cv-btn {
+  display: inline-block;
+  margin-top: 0.25rem;
+  padding: 0.15rem 0.45rem;
+  font-size: 0.55rem;
+  background: var(--color-primary);
+  color: #fff;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.cv-btn:hover { background: var(--color-primary-soft); color: #fff; }
+
+/* 双栏 - 固定高度、无滚动 */
+.cv-grid {
+  display: grid;
+  grid-template-columns: 1fr 0.82fr;
+  gap: 0.5rem 0.75rem;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+.cv-col {
+  min-width: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.cv-col-work { padding-right: 0.2rem; }
+
+.cv-section {
+  flex-shrink: 0;
+  margin-bottom: 0.2rem;
+}
+.cv-section-title {
+  font-size: clamp(0.52rem, 1.4vh, 0.6rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  color: var(--color-primary);
+  margin: 0 0 0.2rem;
+  padding-bottom: 0.12rem;
+  border-bottom: 1px solid var(--color-border);
+}
+.cv-section:last-child { margin-bottom: 0; }
+
+/* 工作经历 - 紧凑、无溢出 */
+.cv-job { margin-bottom: 0.22rem; }
+.cv-job-role {
+  font-size: clamp(0.5rem, 1.35vh, 0.58rem);
+  font-weight: 600;
+  color: var(--color-text);
+  margin: 0 0 0.08rem;
+  line-height: 1.2;
+}
+.cv-job-meta { font-weight: 400; color: var(--color-muted); font-size: 0.9em; }
+.cv-job-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.cv-job-list li {
+  position: relative;
+  padding-left: 0.5rem;
+  margin-bottom: 0.06rem;
+  line-height: 1.22;
+  font-size: clamp(0.46rem, 1.25vh, 0.54rem);
+  color: var(--color-text);
+}
+.cv-job-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.35em;
+  width: 2px;
+  height: 2px;
+  border-radius: 50%;
+  background: var(--color-accent);
+}
+.cv-job-list li strong { color: var(--color-primary); font-size: 1em; }
+
+/* 右侧：教育、荣誉、技能 */
+.cv-edu, .cv-skills {
+  font-size: clamp(0.46rem, 1.25vh, 0.54rem);
+  line-height: 1.25;
+  margin: 0 0 0.12rem;
+  color: var(--color-text);
+}
+.cv-edu strong { color: var(--color-primary); }
+
+/* Footer */
+.cv-footer {
+  flex-shrink: 0;
+  max-width: 54rem;
+  margin: 0 auto;
+  padding: 0.2rem 0.75rem;
+  width: 100%;
+  text-align: center;
+  font-size: 0.55rem;
+  color: var(--color-muted);
+  border-top: 1px solid var(--color-border);
+}
+.cv-footer a { color: var(--color-primary); }
+
+/* 打印 */
+@media print {
+  .cv-nav, .cv-btn, .cv-footer { display: none !important; }
+  .cv-page { height: auto; overflow: visible; min-height: 100vh; }
+  .cv-main { overflow: visible; max-height: none; }
+  .cv-grid { overflow: visible; }
+  .cv-col { overflow: visible; }
+  body { background: #fff; }
+}
+
+/* 小屏：单栏、允许滚动（否则字太小） */
+@media (max-width: 768px) {
+  .cv-page { height: auto; min-height: 100vh; overflow: auto; }
+  .cv-main { overflow: visible; }
+  .cv-grid { grid-template-columns: 1fr; overflow: visible; }
+  .cv-col { overflow: visible; }
+  .cv-header { flex-direction: column; }
+  .cv-header-right { text-align: left; }
+}

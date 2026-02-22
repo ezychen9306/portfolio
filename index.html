@@ -1,699 +1,499 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="数据分析师与 AI Agent 开发者 - 专注于风险策略分析、数据可视化与自动化报告生成">
-  <title>Portfolio - Data Analyst & AI Agent Developer</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Libre+Baskerville:wght@400;700&display=swap" rel="stylesheet">
-  <script src="https://code.iconify.design/3/3.1.0/iconify.min.js"></script>
-  <style>
-    :root {
-      --bg: #FAFAFA;
-      --ink: #09090B;
-      --muted: #3F3F46;
-      --accent: #EC4899;
-      --accent-hover: #DB2777;
-      --rule: #E4E4E7;
-      --card-bg: #fff;
-      --card-border: #E4E4E7;
-      --trans: 200ms cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
-    }
-    
-    html { scroll-behavior: smooth; }
-    
-    body {
-      font-family: 'Inter', system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      line-height: 1.6;
-      font-size: 16px;
-    }
-    
-    /* Navigation */
-    nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(250, 250, 250, 0.95);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--rule);
-      z-index: 1000;
-      padding: 1rem 0;
-    }
-    
-    nav .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    
-    nav .logo {
-      font-weight: 700;
-      font-size: 1.25rem;
-      color: var(--ink);
-      text-decoration: none;
-    }
-    
-    nav ul {
-      display: flex;
-      list-style: none;
-      gap: 2rem;
-    }
-    
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 0.9rem;
-      font-weight: 500;
-      transition: color var(--trans);
-    }
-    
-    nav a:hover, nav a.active {
-      color: var(--accent);
-    }
-    
-    /* Hero Section */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 8rem 2rem 4rem;
-      background: linear-gradient(135deg, #FAFAFA 0%, #F4F4F5 100%);
-    }
-    
-    .hero-content {
-      max-width: 800px;
-    }
-    
-    .hero h1 {
-      font-family: 'Libre Baskerville', serif;
-      font-size: clamp(2.5rem, 8vw, 4rem);
-      font-weight: 700;
-      margin-bottom: 1rem;
-      line-height: 1.2;
-      opacity: 0;
-      animation: fadeInUp 0.8s ease-out 0.2s forwards;
-    }
-    
-    .hero .tagline {
-      font-size: clamp(1.125rem, 3vw, 1.5rem);
-      color: var(--muted);
-      margin-bottom: 0.5rem;
-      opacity: 0;
-      animation: fadeInUp 0.8s ease-out 0.4s forwards;
-    }
-    
-    .hero .differentiator {
-      font-size: clamp(1rem, 2.5vw, 1.25rem);
-      color: var(--accent);
-      font-weight: 600;
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeInUp 0.8s ease-out 0.6s forwards;
-    }
-    
-    .hero .cta {
-      display: inline-flex;
-      gap: 0.5rem;
-      align-items: center;
-      padding: 1rem 2rem;
-      background: var(--accent);
-      color: white;
-      text-decoration: none;
-      border-radius: 8px;
-      font-weight: 600;
-      transition: background var(--trans), transform var(--trans);
-      opacity: 0;
-      animation: fadeInUp 0.8s ease-out 0.8s forwards;
-    }
-    
-    .hero .cta:hover {
-      background: var(--accent-hover);
-      transform: translateY(-2px);
-    }
-    
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-    
-    /* Section */
-    .section {
-      padding: 6rem 2rem;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-    
-    .section-header {
-      text-align: center;
-      margin-bottom: 4rem;
-    }
-    
-    .section-label {
-      font-size: 0.75rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--accent);
-      font-weight: 600;
-      margin-bottom: 0.5rem;
-    }
-    
-    .section-title {
-      font-family: 'Libre Baskerville', serif;
-      font-size: clamp(2rem, 5vw, 3rem);
-      font-weight: 700;
-      margin-bottom: 1rem;
-    }
-    
-    .section-desc {
-      font-size: 1.125rem;
-      color: var(--muted);
-      max-width: 600px;
-      margin: 0 auto;
-    }
-    
-    /* Project Grid */
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 2rem;
-      margin-top: 3rem;
-    }
-    
-    .project-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 12px;
-      padding: 2rem;
-      transition: transform var(--trans), box-shadow var(--trans), border-color var(--trans);
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-    
-    .project-card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      height: 4px;
-      background: var(--accent);
-      transform: scaleX(0);
-      transition: transform var(--trans);
-    }
-    
-    .project-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-      border-color: var(--accent);
-    }
-    
-    .project-card:hover::before {
-      transform: scaleX(1);
-    }
-    
-    .project-category {
-      display: inline-block;
-      font-size: 0.75rem;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--accent);
-      background: rgba(236, 72, 153, 0.1);
-      padding: 0.25rem 0.75rem;
-      border-radius: 4px;
-      margin-bottom: 1rem;
-    }
-    
-    .project-title {
-      font-size: 1.5rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
-      color: var(--ink);
-    }
-    
-    .project-desc {
-      color: var(--muted);
-      margin-bottom: 1.5rem;
-      line-height: 1.6;
-    }
-    
-    .project-tech {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-    }
-    
-    .tech-tag {
-      font-size: 0.8rem;
-      padding: 0.25rem 0.75rem;
-      background: var(--rule);
-      border-radius: 4px;
-      color: var(--muted);
-    }
-    
-    .project-impact {
-      font-size: 0.9rem;
-      color: var(--accent);
-      font-weight: 600;
-      margin-top: 1rem;
-    }
-    
-    /* About Section */
-    .about-content {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    
-    .about-text {
-      font-size: 1.125rem;
-      color: var(--muted);
-      line-height: 1.8;
-      margin-bottom: 2rem;
-    }
-    
-    .skills-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1.5rem;
-      margin-top: 3rem;
-    }
-    
-    .skill-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 8px;
-      padding: 1.5rem;
-      text-align: center;
-    }
-    
-    .skill-icon {
-      font-size: 2rem;
-      margin-bottom: 0.5rem;
-    }
-    
-    .skill-name {
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-    
-    .skill-desc {
-      font-size: 0.9rem;
-      color: var(--muted);
-    }
-    
-    /* Contact Section */
-    .contact-content {
-      max-width: 600px;
-      margin: 0 auto;
-      text-align: center;
-    }
-    
-    .contact-links {
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
-      margin-top: 2rem;
-      flex-wrap: wrap;
-    }
-    
-    .contact-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      padding: 1rem 2rem;
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 8px;
-      color: var(--ink);
-      text-decoration: none;
-      transition: all var(--trans);
-    }
-    
-    .contact-link:hover {
-      border-color: var(--accent);
-      color: var(--accent);
-      transform: translateY(-2px);
-    }
-    
-    /* Footer */
-    footer {
-      background: var(--ink);
-      color: var(--bg);
-      text-align: center;
-      padding: 3rem 2rem;
-    }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-      nav ul {
-        gap: 1rem;
-        font-size: 0.85rem;
-      }
-      
-      .project-grid {
-        grid-template-columns: 1fr;
-      }
-      
-      .contact-links {
-        flex-direction: column;
-        align-items: stretch;
-      }
-    }
-  </style>
-</head>
-<body>
-  <!-- Navigation -->
-  <nav>
-    <div class="container">
-      <a href="#home" class="logo">Portfolio</a>
-      <ul>
-        <li><a href="#home" class="active">首页</a></li>
-        <li><a href="#projects">项目</a></li>
-        <li><a href="#about">关于</a></li>
-        <li><a href="#contact">联系</a></li>
-      </ul>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <section id="home" class="hero">
-    <div class="hero-content">
-      <h1>数据分析师 & AI Agent 开发者</h1>
-      <p class="tagline">专注于风险策略分析、数据可视化与自动化报告生成</p>
-      <p class="differentiator">用数据驱动决策，用 AI 提升效率</p>
-      <a href="#projects" class="cta">
-        <span>查看作品</span>
-        <span class="iconify" data-icon="mdi:arrow-down"></span>
-      </a>
-    </div>
-  </section>
-
-  <!-- Projects Section -->
-  <section id="projects" class="section">
-    <div class="section-header">
-      <div class="section-label">作品展示</div>
-      <h2 class="section-title">精选项目</h2>
-      <p class="section-desc">涵盖数据分析、风险策略、报告自动化与 AI Agent 开发</p>
-    </div>
-
-    <div class="project-grid">
-      <!-- Data Agent Projects -->
-      <div class="project-card">
-        <span class="project-category">数据分析</span>
-        <h3 class="project-title">老客周报自动化系统</h3>
-        <p class="project-desc">自动化生成菲律宾老客业务周报，包含 KPI 卡片、核心指标追踪、趋势图表、风险分析等模块，支持在线/离线双版本。</p>
-        <div class="project-tech">
-          <span class="tech-tag">Python</span>
-          <span class="tech-tag">HTML/CSS</span>
-          <span class="tech-tag">Plotly</span>
-          <span class="tech-tag">Jinja2</span>
+<html lang="zh-CN"> 
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="国内外贷中风险策略负责人 · AI策略专家 · AI Agent 开发者" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <title>Portfolio — 贷中风险策略 · AI 策略 · Agent 开发</title>
+  </head>
+  <body>
+    <nav>
+      <div class="container nav-container">
+        <a href="index.html" class="logo">Ezy<span>Portfolio</span></a>
+        <ul class="navlist">
+          <li><a href="#home">首页</a></li>
+          <li><a href="#services">能力</a></li>
+          <li><a href="#portfolio">项目</a></li>
+          <li><a href="cv.html" class="nav-link-resume">简历</a></li>
+          <li><a href="#contact">联系</a></li>
+        </ul>
+        <div class="nav-icons">
+          <div id="theme-btn" class="ri-moon-line"></div>
+          <div id="menu-btn" class="ri-menu-line"></div>
         </div>
-        <div class="project-impact">📊 每周节省 8+ 小时报告制作时间</div>
       </div>
-
-      <div class="project-card">
-        <span class="project-category">风险策略</span>
-        <h3 class="project-title">CL 老客抽贷策略分析</h3>
-        <p class="project-desc">多维度分析借新还旧行为，评估抽贷策略效果，包含交叉特征分析、策略影响评估、风险边界识别。</p>
-        <div class="project-tech">
-          <span class="tech-tag">Python</span>
-          <span class="tech-tag">Pandas</span>
-          <span class="tech-tag">SQL</span>
-          <span class="tech-tag">Excel</span>
-        </div>
-        <div class="project-impact">📈 策略优化提升 ROI 15%</div>
-      </div>
-
-      <div class="project-card">
-        <span class="project-category">风险策略</span>
-        <h3 class="project-title">提前结清策略分析</h3>
-        <p class="project-desc">分析提前结清客户特征，识别风险模式，统一分箱规则，支持交叉特征分析与风险特征提取。</p>
-        <div class="project-tech">
-          <span class="tech-tag">Python</span>
-          <span class="tech-tag">数据分析</span>
-          <span class="tech-tag">特征工程</span>
-        </div>
-        <div class="project-impact">🎯 识别高风险客户准确率提升 20%</div>
-      </div>
-
-      <div class="project-card">
-        <span class="project-category">报告生成</span>
-        <h3 class="project-title">2025 年终汇报系统</h3>
-        <p class="project-desc">HTML Slide 风格的年终汇报，包含业务概览、策略能力、人才发展、风险管理、经验反思与 2026 规划等模块。</p>
-        <div class="project-tech">
-          <span class="tech-tag">HTML/CSS</span>
-          <span class="tech-tag">JavaScript</span>
-          <span class="tech-tag">数据可视化</span>
-        </div>
-        <div class="project-impact">✨ 专业级汇报展示，提升沟通效率</div>
-      </div>
-
-      <div class="project-card">
-        <span class="project-category">风险系统</span>
-        <h3 class="project-title">RM 风险预测系统</h3>
-        <p class="project-desc">风险模型开发与监控系统，包含 Vintage 分析、Roll Rate 监控、模型性能评估与风险预警。</p>
-        <div class="project-tech">
-          <span class="tech-tag">Python</span>
-          <span class="tech-tag">机器学习</span>
-          <span class="tech-tag">SQL</span>
-          <span class="tech-tag">监控系统</span>
-        </div>
-        <div class="project-impact">🚨 风险预警提前 30 天</div>
-      </div>
-
-      <div class="project-card">
-        <span class="project-category">AI Agent</span>
-        <h3 class="project-title">多 Agent 工作区</h3>
-        <p class="project-desc">Data Agent、Art Agent、Learning Agent 三大 Agent 系统，共享知识库与 Skills，支持数据分析、艺术创作、学习管理。</p>
-        <div class="project-tech">
-          <span class="tech-tag">AI Agent</span>
-          <span class="tech-tag">Python</span>
-          <span class="tech-tag">知识管理</span>
-          <span class="tech-tag">Skills</span>
-        </div>
-        <div class="project-impact">🤖 35+ Skills，覆盖全工作流</div>
-      </div>
-
-      <div class="project-card">
-        <span class="project-category">数据分析</span>
-        <h3 class="project-title">App 安装分析系统</h3>
-        <p class="project-desc">App 分类分析、月度对比报告、累计表现报告，支持功能分类与竞品覆盖分析。</p>
-        <div class="project-tech">
-          <span class="tech-tag">Python</span>
-          <span class="tech-tag">数据分析</span>
-          <span class="tech-tag">Excel</span>
-        </div>
-        <div class="project-impact">📱 支持 1000+ App 分类分析</div>
-      </div>
-
-      <div class="project-card">
-        <span class="project-category">数据平台</span>
-        <h3 class="project-title">风险数据策略集市</h3>
-        <p class="project-desc">风险数据字典、数据标准文档，统一风险数据定义与使用规范，提升数据质量与一致性。</p>
-        <div class="project-tech">
-          <span class="tech-tag">数据治理</span>
-          <span class="tech-tag">文档化</span>
-          <span class="tech-tag">标准制定</span>
-        </div>
-        <div class="project-impact">📚 统一数据标准，减少 40% 沟通成本</div>
-      </div>
-
-      <div class="project-card">
-        <span class="project-category">可视化</span>
-        <h3 class="project-title">前端效果 Playground</h3>
-        <p class="project-desc">18 种风格示例、文字效果、图表库、卡片布局、3D 效果、导航组件等，纯前端学习与选型参考。</p>
-        <div class="project-tech">
-          <span class="tech-tag">HTML/CSS</span>
-          <span class="tech-tag">JavaScript</span>
-          <span class="tech-tag">Tailwind</span>
-          <span class="tech-tag">Chart.js</span>
-        </div>
-        <div class="project-impact">🎨 18 种风格，快速选型参考</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- About Section -->
-  <section id="about" class="section" style="background: #F9FAFB;">
-    <div class="section-header">
-      <div class="section-label">关于我</div>
-      <h2 class="section-title">专业能力</h2>
-      <p class="section-desc">专注于数据驱动的业务决策与自动化工具开发</p>
-    </div>
-
-    <div class="about-content">
-      <p class="about-text">
-        我是一名数据分析师与 AI Agent 开发者，专注于风险策略分析、数据可视化与自动化报告生成。
-        通过构建多 Agent 工作区，我整合了数据分析、艺术创作与学习管理能力，用 AI 提升工作效率。
-      </p>
-
-      <div class="skills-grid">
-        <div class="skill-card">
-          <div class="skill-icon">
-            <span class="iconify" data-icon="mdi:chart-line"></span>
+    </nav>
+    <!-- ==================================
+                  HOME SECTION（首页 + 关于合并）
+    ==================================== -->
+    <section class="home" id="home">
+      <div class="section-placeholder" aria-hidden="true"><span class="section-placeholder__num">01</span><span class="section-placeholder__dots">···</span></div>
+      <canvas id="particleCanvas" class="home-particle-bg"></canvas>
+      <div class="container home-container">
+        <div class="left">
+          <h1 class="home-name"><span class="home-name-inner">Ezy Chen</span></h1>
+          <p class="home-typed">我是 <span class="multiple-text"></span></p>
+          <p class="home-intro home-summary">
+            7 年金融风控 · <span class="home-key">4 年团队管理</span>；国内到海外，<b class="home-key">8%–180%</b> 定价信贷产品，在贷余额超 <b class="home-key home-key-accent">500 亿</b>，多项 <span class="home-key">0-1</span> 落地，持续交付可量化的业务价值。
+          </p>
+          <div class="social-icons-container">
+            <div class="social-icons">
+              <div class="social-icon-item">
+                <a href="tel:15618109306" class="social-icon-item__link" title="电话" aria-label="电话"><i class="ri-phone-line"></i></a>
+                <span class="social-icon-label" title="点击选中复制">15618109306</span>
+              </div>
+              <div class="social-icon-item">
+                <a href="javascript:void(0)" class="social-icon-item__link" title="邮箱" aria-label="邮箱"><i class="ri-mail-line"></i></a>
+                <span class="social-icon-label" title="点击选中复制">enzhaochen@foxmail.com</span>
+              </div>
+              <div class="social-icon-item">
+                <a href="https://github.com/ezychen9306" target="_blank" rel="noopener" class="social-icon-item__link" aria-label="GitHub"><i class="ri-github-line"></i></a>
+                <span class="social-icon-label" title="点击选中复制">github.com/ezychen9306</span>
+              </div>
+            </div>
+            <a href="#contact" class="btn overlay" id="btn">
+              <span>联系我</span>
+            </a>
           </div>
-          <div class="skill-name">数据分析</div>
-          <div class="skill-desc">Python, SQL, Excel, 统计分析</div>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <span class="iconify" data-icon="mdi:robot"></span>
-          </div>
-          <div class="skill-name">AI Agent</div>
-          <div class="skill-desc">Agent 开发, Skills 集成, 知识管理</div>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <span class="iconify" data-icon="mdi:chart-box"></span>
-          </div>
-          <div class="skill-name">数据可视化</div>
-          <div class="skill-desc">Plotly, Chart.js, HTML/CSS</div>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <span class="iconify" data-icon="mdi:file-document-edit"></span>
-          </div>
-          <div class="skill-name">报告自动化</div>
-          <div class="skill-desc">Excel, PowerPoint, HTML 报告生成</div>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <span class="iconify" data-icon="mdi:shield-alert"></span>
-          </div>
-          <div class="skill-name">风险策略</div>
-          <div class="skill-desc">风险建模, 策略分析, 监控系统</div>
-        </div>
-
-        <div class="skill-card">
-          <div class="skill-icon">
-            <span class="iconify" data-icon="mdi:code-tags"></span>
-          </div>
-          <div class="skill-name">全栈开发</div>
-          <div class="skill-desc">Python, JavaScript, 前端开发</div>
         </div>
       </div>
+    </section>
+    <!-- ==================================
+                SERVICE SECTION
+    ==================================== -->
+    <section class="services" id="services">
+      <div class="section-placeholder" aria-hidden="true"><span class="section-placeholder__num">02</span><span class="section-placeholder__dots">···</span></div>
+      <div class="title">
+        <h2>核心 <span>能力</span></h2>
+      </div>
+      <div class="container services-container">
+        <div class="box overlay content-1">
+          <div class="content ">
+            <i class="ri-line-chart-line"></i>
+            <h4>贷中风险策略</h4>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">行为评分 · 调额 · 预警</p>
+          </div>
+        </div>
+        <div class="box overlay content-1">
+          <div class="content ">
+            <i class="ri-brain-line"></i>
+            <h4>AI 策略</h4>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">数据驱动 · 模型与监控</p>
+          </div>
+        </div>
+        <div class="box overlay content-1">
+          <div class="content ">
+            <i class="ri-robot-2-line"></i>
+            <h4>AI Agent 开发</h4>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Skills · 知识库 · 自动化</p>
+          </div>
+        </div>
+        <div class="box overlay content-2">
+          <div class="content ">
+            <i class="ri-database-2-line"></i>
+            <h4>数据分析</h4>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Python · SQL · 报表</p>
+          </div>
+        </div>
+        <div class="box overlay content-2">
+          <div class="content ">
+            <i class="ri-file-chart-line"></i>
+            <h4>报告自动化</h4>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">HTML · Excel · 可视化</p>
+          </div>
+        </div>
+        <div class="box overlay content-2">
+          <div class="content ">
+            <i class="ri-code-s-slash-line"></i>
+            <h4>全栈开发</h4>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Python · JavaScript</p>
+          </div>
+        </div>
+      </div>
+    </section>
+     <!-- ==================================
+                PORTFOLIO SECTION
+    ==================================== -->
+    <section class="portfolio" id="portfolio">
+        <div class="section-placeholder" aria-hidden="true"><span class="section-placeholder__num">03</span><span class="section-placeholder__dots">···</span></div>
+        <div class="title">
+            <h2>精选 <span>项目</span></h2>
+        </div>
+        <div class="container portfolio-container">
+            <div class="portfolio-buttons" >
+                <button class="btn portfolio-tab active" onclick="tabOpen('all')">
+                    全部</button>
+                <button class="btn portfolio-tab " onclick="tabOpen('webdevelop')">
+                    风险策略</button>
+                <button class="btn portfolio-tab " onclick="tabOpen('webdesign')">
+                    AI 产品</button>
+                <button class="btn portfolio-tab " onclick="tabOpen('appdevelop')">
+                    AI Agent</button>
+            </div>
+            <div class="tab-content active-content" id="all">
+                <div class="image" onclick="window.open('demos/01_disaster_management/demo.html','_blank')" style="cursor:pointer;">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/disaster-management.png" alt="灾难管控策略" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">灾难管控策略</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>灾难管控策略</h4>
+                    <p>T+1 快速响应 · 风险降幅 10%+</p>
+                  </div>
+                </div>
+                <div class="image" onclick="window.open('demos/02_quota_strategy_v5/demo.html','_blank')" style="cursor:pointer;">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/quota-strategy-v5.png" alt="额度策略 V5" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">额度策略 V5</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>额度策略 V5</h4>
+                    <p>规模 2 倍+ · 风险持平</p>
+                  </div>
+                </div>
+                <div class="image" onclick="window.open('demos/03_rm_system/demo.html','_blank')" style="cursor:pointer;">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/rm-system.png" alt="RM 风险管理系统" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">RM 风险管理系统</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>RM 风险管理系统</h4>
+                    <p>500 亿在贷余额管理</p>
+                  </div>
+                </div>
+                <div class="image" onclick="window.open('demos/04_ai_deep_strategy/README.md','_blank')" style="cursor:pointer;">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/ai-deep-strategy.png" alt="AI 深度策略" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">AI 深度策略</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>AI 深度策略</h4>
+                    <p>借新还旧 · 提前结清 · 额度曲线</p>
+                  </div>
+                </div>
+                <div class="image" onclick="window.open('demos/05_kyc_platform/README.md','_blank')" style="cursor:pointer;">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/kyc-platform.png" alt="KYC 经营策略中台" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">KYC 经营策略中台</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>KYC 经营策略中台</h4>
+                    <p>转化率 +15.6% · 月增 2.7 亿</p>
+                  </div>
+                </div>
+                <div class="image" onclick="window.open('demos/06_telesales_system/README.md','_blank')" style="cursor:pointer;">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/telesales-system.png" alt="电销策略推荐系统" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">电销策略推荐系统</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>电销策略推荐系统</h4>
+                    <p>转化率 +9.8% · 月增 1.1 亿</p>
+                  </div>
+                </div>
+                <div class="image" onclick="window.open('demos/09_customer_segmentation/README.md','_blank')" style="cursor:pointer;">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/customer-segmentation.png" alt="客群分层策略" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">客群分层策略</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>客群分层策略</h4>
+                    <p>风险降 11.6% · 规模 +15.3%</p>
+                  </div>
+                </div>
+                <div class="image" onclick="window.open('demos/07_year_end_report/README.md','_blank')" style="cursor:pointer;">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/year-end-report.png" alt="年终总结报告" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">年终总结报告</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>年终总结报告</h4>
+                    <p>策略体系 · 时间线 · 核心成果</p>
+                  </div>
+                </div>
+                <div class="image" onclick="window.open('demos/08_weekly_monitoring/demo.html','_blank')" style="cursor:pointer;">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/weekly-monitoring.png" alt="周报监控" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">周报监控</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>周报监控</h4>
+                    <p>自动化周度风险监控</p>
+                  </div>
+                </div>
+                <div class="image" onclick="window.open('demos/10_data_quality/README.md','_blank')" style="cursor:pointer;">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/data-quality.png" alt="数据质量校验" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">数据质量校验</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>数据质量校验</h4>
+                    <p>自动化校验 · 效率提升 80%+</p>
+                  </div>
+                </div>
+                <div class="image" onclick="window.open('demos/11_knowledge_base_agent/README.md','_blank')" style="cursor:pointer;">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/knowledge-base-agent.png" alt="知识库 Agent" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">知识库 Agent</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>知识库 Agent</h4>
+                    <p>RAG 检索 · 准确率 92.5%</p>
+                  </div>
+                </div>
+                <div class="image" onclick="window.open('demos/12_skills_development/README.md','_blank')" style="cursor:pointer;">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/skills-dev.png" alt="Skills 技能开发" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">Skills 技能开发</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>Skills 技能开发</h4>
+                    <p>效率提升 50%+ · 规范遵守 95%+</p>
+                  </div>
+                </div>
+                <div class="image" onclick="window.open('demos/13_ai_sharing/README.md','_blank')" style="cursor:pointer;">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/ai-sharing.png" alt="AI 内部分享" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">AI 内部分享</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>AI 内部分享</h4>
+                    <p>团队 AI 赋能 · 效率提升 30%+</p>
+                  </div>
+                </div>
+                <div class="image" onclick="window.open('demos/14_fof_system/README.md','_blank')" style="cursor:pointer;">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/fof-system.png" alt="智能投顾系统（FOF）" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">智能投顾系统（FOF）</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>智能投顾系统（FOF）</h4>
+                    <p>8 亿+ 资产管理 · 年化 12.5%</p>
+                  </div>
+                </div>
+            </div>
+            <div class="tab-content" id="webdevelop">
+<div class="image" onclick="window.open('demos/01_disaster_management/demo.html','_blank')" style="cursor:pointer;">
+  <div class="portfolio-card__media">
+    <img src="assets/images/projects/disaster-management.png" alt="灾难管控策略" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">灾难管控策略</span></div>
+  </div>
+  <div class="portfolio-card__caption">
+    <h4>灾难管控策略</h4>
+    <p>T+1 快速响应 · 风险降幅 10%+</p>
+  </div>
+</div>
+<div class="image" onclick="window.open('demos/02_quota_strategy_v5/demo.html','_blank')" style="cursor:pointer;">
+  <div class="portfolio-card__media">
+    <img src="assets/images/projects/quota-strategy-v5.png" alt="额度策略 V5" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">额度策略 V5</span></div>
+  </div>
+  <div class="portfolio-card__caption">
+    <h4>额度策略 V5</h4>
+    <p>规模 2 倍+ · 风险持平</p>
+  </div>
+</div>
+<div class="image" onclick="window.open('demos/03_rm_system/demo.html','_blank')" style="cursor:pointer;">
+  <div class="portfolio-card__media">
+    <img src="assets/images/projects/rm-system.png" alt="RM 风险管理系统" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">RM 风险管理系统</span></div>
+  </div>
+  <div class="portfolio-card__caption">
+    <h4>RM 风险管理系统</h4>
+    <p>500 亿在贷余额管理</p>
+  </div>
+</div>
+<div class="image" onclick="window.open('demos/04_ai_deep_strategy/README.md','_blank')" style="cursor:pointer;">
+  <div class="portfolio-card__media">
+    <img src="assets/images/projects/ai-deep-strategy.png" alt="AI 深度策略" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">AI 深度策略</span></div>
+  </div>
+  <div class="portfolio-card__caption">
+    <h4>AI 深度策略</h4>
+    <p>借新还旧 · 提前结清 · 额度曲线</p>
+  </div>
+</div>
+<div class="image" onclick="window.open('demos/05_kyc_platform/README.md','_blank')" style="cursor:pointer;">
+  <div class="portfolio-card__media">
+    <img src="assets/images/projects/kyc-platform.png" alt="KYC 经营策略中台" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">KYC 经营策略中台</span></div>
+  </div>
+  <div class="portfolio-card__caption">
+    <h4>KYC 经营策略中台</h4>
+    <p>转化率 +15.6% · 月增 2.7 亿</p>
+  </div>
+</div>
+<div class="image" onclick="window.open('demos/06_telesales_system/README.md','_blank')" style="cursor:pointer;">
+  <div class="portfolio-card__media">
+    <img src="assets/images/projects/telesales-system.png" alt="电销策略推荐系统" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">电销策略推荐系统</span></div>
+  </div>
+  <div class="portfolio-card__caption">
+    <h4>电销策略推荐系统</h4>
+    <p>转化率 +9.8% · 月增 1.1 亿</p>
+  </div>
+</div>
+<div class="image" onclick="window.open('demos/09_customer_segmentation/README.md','_blank')" style="cursor:pointer;">
+  <div class="portfolio-card__media">
+    <img src="assets/images/projects/customer-segmentation.png" alt="客群分层策略" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">客群分层策略</span></div>
+  </div>
+  <div class="portfolio-card__caption">
+    <h4>客群分层策略</h4>
+    <p>风险降 11.6% · 规模 +15.3%</p>
+  </div>
+</div>
+            </div>
+            <div class="tab-content" id="webdesign">
+<div class="image" onclick="window.open('demos/07_year_end_report/README.md','_blank')" style="cursor:pointer;">
+  <div class="portfolio-card__media">
+    <img src="assets/images/projects/year-end-report.png" alt="年终总结报告" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">年终总结报告</span></div>
+  </div>
+  <div class="portfolio-card__caption">
+    <h4>年终总结报告</h4>
+    <p>策略体系 · 时间线 · 核心成果</p>
+  </div>
+</div>
+<div class="image" onclick="window.open('demos/08_weekly_monitoring/demo.html','_blank')" style="cursor:pointer;">
+  <div class="portfolio-card__media">
+    <img src="assets/images/projects/weekly-monitoring.png" alt="周报监控" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">周报监控</span></div>
+  </div>
+  <div class="portfolio-card__caption">
+    <h4>周报监控</h4>
+    <p>自动化周度风险监控</p>
+  </div>
+</div>
+<div class="image" onclick="window.open('demos/10_data_quality/README.md','_blank')" style="cursor:pointer;">
+  <div class="portfolio-card__media">
+    <img src="assets/images/projects/data-quality.png" alt="数据质量校验" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">数据质量校验</span></div>
+  </div>
+  <div class="portfolio-card__caption">
+    <h4>数据质量校验</h4>
+    <p>自动化校验 · 效率提升 80%+</p>
+  </div>
+</div>
+            </div>
+            <div class="tab-content" id="appdevelop">
+<div class="image" onclick="window.open('demos/11_knowledge_base_agent/README.md','_blank')" style="cursor:pointer;">
+  <div class="portfolio-card__media">
+    <img src="assets/images/projects/knowledge-base-agent.png" alt="知识库 Agent" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">知识库 Agent</span></div>
+  </div>
+  <div class="portfolio-card__caption">
+    <h4>知识库 Agent</h4>
+    <p>RAG 检索 · 准确率 92.5%</p>
+  </div>
+</div>
+<div class="image" onclick="window.open('demos/12_skills_development/README.md','_blank')" style="cursor:pointer;">
+  <div class="portfolio-card__media">
+    <img src="assets/images/projects/skills-dev.png" alt="Skills 技能开发" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">Skills 技能开发</span></div>
+  </div>
+  <div class="portfolio-card__caption">
+    <h4>Skills 技能开发</h4>
+    <p>效率提升 50%+ · 规范遵守 95%+</p>
+  </div>
+</div>
+<div class="image" onclick="window.open('demos/13_ai_sharing/README.md','_blank')" style="cursor:pointer;">
+  <div class="portfolio-card__media">
+    <img src="assets/images/projects/ai-sharing.png" alt="AI 内部分享" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">AI 内部分享</span></div>
+  </div>
+  <div class="portfolio-card__caption">
+    <h4>AI 内部分享</h4>
+    <p>团队 AI 赋能 · 效率提升 30%+</p>
+  </div>
+</div>
+<div class="image" onclick="window.open('demos/14_fof_system/README.md','_blank')" style="cursor:pointer;">
+  <div class="portfolio-card__media">
+    <img src="assets/images/projects/fof-system.png" alt="智能投顾系统（FOF）" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">智能投顾系统（FOF）</span></div>
+  </div>
+  <div class="portfolio-card__caption">
+    <h4>智能投顾系统（FOF）</h4>
+    <p>8 亿+ 资产管理 · 年化 12.5%</p>
+  </div>
+</div>
+            </div>
+        </div>
+    </section>
+    <!-- ==================================
+                CONTACT SECTION
+   ==================================== -->
+<section class="contact" id="contact">
+   <div class="section-placeholder" aria-hidden="true"><span class="section-placeholder__num">04</span><span class="section-placeholder__dots">···</span></div>
+    <div class="title">
+        <h2>联系 <span>我</span></h2>
     </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact" class="section">
-    <div class="section-header">
-      <div class="section-label">联系方式</div>
-      <h2 class="section-title">保持联系</h2>
-      <p class="section-desc">欢迎交流数据分析、AI Agent 开发与自动化工具相关话题</p>
-    </div>
-
     <div class="contact-content">
-      <div class="contact-links">
-        <a href="mailto:your.email@example.com" class="contact-link">
-          <span class="iconify" data-icon="mdi:email"></span>
-          <span>Email</span>
-        </a>
-        <a href="https://github.com/yourusername" class="contact-link" target="_blank">
-          <span class="iconify" data-icon="mdi:github"></span>
-          <span>GitHub</span>
-        </a>
-        <a href="https://linkedin.com/in/yourprofile" class="contact-link" target="_blank">
-          <span class="iconify" data-icon="mdi:linkedin"></span>
-          <span>LinkedIn</span>
-        </a>
-      </div>
+        <div class="row">
+          <div class="box">
+              <div class="box-icon">
+                  <i class="ri-mail-line"></i>
+              </div>
+              <div class="box-info contact-copyable">
+                  <h4>邮箱</h4>
+                  <a href="mailto:enzhaochen@foxmail.com">enzhaochen@foxmail.com</a>
+              </div>
+          </div>
+          <div class="box">
+              <div class="box-icon">
+                  <i class="ri-github-line"></i>
+              </div>
+              <div class="box-info contact-copyable">
+                  <h4>GitHub</h4>
+                  <a href="https://github.com/ezychen9306" target="_blank" rel="noopener">https://github.com/ezychen9306</a>
+              </div>
+          </div>
+          <div class="box">
+              <div class="box-icon">
+                  <i class="ri-wechat-fill"></i>
+              </div>
+              <div class="box-info contact-copyable">
+                  <h4>微信/手机号</h4>
+                  <span>15618109306</span>
+              </div>
+          </div>
+        </div>
     </div>
-  </section>
+    <div class="contact-canvas-wrap">
+      <canvas id="waveCanvas"></canvas>
+    </div>
+   </section>
+   <div class="copyright">
+    <p>Copyright &copy; 2026 · 贷中风险策略 · AI 策略 · Agent 开发</p>
+   </div>
 
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2026 Portfolio. Built with passion for data and AI.</p>
-  </footer>
 
-  <script>
-    // Smooth scroll and active nav
-    document.querySelectorAll('nav a').forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const targetId = link.getAttribute('href');
-        const targetSection = document.querySelector(targetId);
-        if (targetSection) {
-          targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          
-          // Update active state
-          document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
-          link.classList.add('active');
-        }
-      });
-    });
-
-    // Update active nav on scroll
-    const sections = document.querySelectorAll('.section, .hero');
-    const navLinks = document.querySelectorAll('nav a');
-
-    window.addEventListener('scroll', () => {
-      let current = '';
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.clientHeight;
-        if (window.pageYOffset >= sectionTop - 100) {
-          current = section.getAttribute('id');
-        }
-      });
-
-      navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-          link.classList.add('active');
-        }
-      });
-    });
-
-    // Intersection Observer for fade-in animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.project-card').forEach(card => {
-      card.style.opacity = '0';
-      card.style.transform = 'translateY(20px)';
-      card.style.transition = 'opacity 0.6s ease-out, transform 0.6s ease-out';
-      observer.observe(card);
-    });
-  </script>
-</body>
+    <!-- ==================================
+                   Scroll Reveal
+    ==================================== -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <!-- ==================================
+                   Typed Js
+    ==================================== -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <!-- ==================================
+                   custom Js
+    ==================================== -->
+    <script src="assets/js/script.js"></script>
+  </body>
 </html>
+
+</html>
+
+
+
+
+
+
+
+
