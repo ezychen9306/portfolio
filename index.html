@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="贷中风控策略负责人 · AI 策略专家 · AI Agent 开发者" />
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='48' fill='%236b8e9f'/%3E%3Ctext x='50' y='64' font-size='56' text-anchor='middle' fill='white' font-family='Arial,sans-serif' font-weight='700'%3EE%3C/text%3E%3C/svg%3E">
     <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="assets/icons/favicon-16x16.png">
@@ -26,6 +27,7 @@
           <li><a href="#home">首页</a></li>
           <li><a href="#services">能力</a></li>
           <li><a href="#portfolio">项目</a></li>
+          <li><a href="#testimonial">成就</a></li>
           <li><a href="cv.html" class="nav-link-resume">简历</a></li>
           <li><a href="#contact">联系</a></li>
         </ul>
@@ -88,6 +90,15 @@
       <div class="title">
         <h2>核心 <span>能力</span></h2>
       </div>
+      <div class="container services-meta">
+        <div class="skills-chart-panel">
+          <div class="skills-chart-copy">
+            <h3>能力雷达（ApexCharts）</h3>
+            <p>按当前项目重心展示三项核心能力：数据分析、风险策略、AI Agent 开发。</p>
+          </div>
+          <div id="skills-chart" aria-label="核心能力径向进度图"></div>
+        </div>
+      </div>
       <div class="container services-container">
         <div class="box overlay content-1">
           <div class="content ">
@@ -146,10 +157,10 @@
       </div>
       <div class="container portfolio-container">
         <div class="portfolio-buttons">
-          <button class="btn portfolio-tab" onclick="tabOpen('all')">全部</button>
-          <button class="btn portfolio-tab active" onclick="tabOpen('webdevelop')">风控/经营</button>
-          <button class="btn portfolio-tab" onclick="tabOpen('webdesign')">数据/报表</button>
-          <button class="btn portfolio-tab" onclick="tabOpen('appdevelop')">AI Agent</button>
+          <button class="btn portfolio-tab" onclick="tabOpen('all', this)">全部</button>
+          <button class="btn portfolio-tab active" onclick="tabOpen('webdevelop', this)">风控/经营</button>
+          <button class="btn portfolio-tab" onclick="tabOpen('webdesign', this)">数据/报表</button>
+          <button class="btn portfolio-tab" onclick="tabOpen('appdevelop', this)">AI Agent</button>
         </div>
 
         <div class="tab-content" id="all">
@@ -407,10 +418,43 @@
       </div>
     </section>
     <!-- ==================================
+                ACHIEVEMENTS SECTION
+   ==================================== -->
+    <section class="testimonial achievements" id="testimonial">
+      <div class="section-placeholder" aria-hidden="true"><span class="section-placeholder__num">04</span><span class="section-placeholder__dots">···</span></div>
+      <div class="title">
+        <h2>经验与<span>成就</span></h2>
+      </div>
+      <div class="main-container">
+        <div class="container achievements-grid">
+          <article class="card achievement-card">
+            <p class="achievement-value">8年+</p>
+            <h3>信贷风险策略经验</h3>
+            <p>覆盖贷中经营、风险策略、策略监控与自动化交付。</p>
+          </article>
+          <article class="card achievement-card">
+            <p class="achievement-value">5+</p>
+            <h3>AI Agent 项目交付</h3>
+            <p>完成知识库、分析与报告自动化等可落地场景。</p>
+          </article>
+          <article class="card achievement-card">
+            <p class="achievement-value">3</p>
+            <h3>跨国市场实践</h3>
+            <p>覆盖国内、东南亚与中东业务场景与协同流程。</p>
+          </article>
+          <article class="card achievement-card">
+            <p class="achievement-value">30%+</p>
+            <h3>典型效率提升</h3>
+            <p>以数据与 Agent 协同方案持续提升团队交付效率。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+    <!-- ==================================
                 CONTACT SECTION
    ==================================== -->
 <section class="contact" id="contact">
-   <div class="section-placeholder" aria-hidden="true"><span class="section-placeholder__num">04</span><span class="section-placeholder__dots">···</span></div>
+   <div class="section-placeholder" aria-hidden="true"><span class="section-placeholder__num">05</span><span class="section-placeholder__dots">···</span></div>
     <div class="title">
         <h2>联系 <span>我</span></h2>
     </div>
@@ -445,6 +489,25 @@
               </div>
           </div>
         </div>
+        <div class="row">
+          <form action="#" class="contact-form" id="contact-form" novalidate>
+            <div class="form-box">
+              <input type="text" name="name" placeholder="您的姓名" required>
+            </div>
+            <div class="form-box">
+              <input type="email" name="email" placeholder="您的邮箱" required>
+            </div>
+            <div class="form-box">
+              <input type="text" name="subject" placeholder="主题" required>
+            </div>
+            <div class="form-box">
+              <textarea name="message" cols="10" rows="8" placeholder="留言内容" required></textarea>
+            </div>
+            <button type="submit" class="btn overlay">
+              <span>发送消息</span>
+            </button>
+          </form>
+        </div>
     </div>
    </section>
    <div class="copyright">
@@ -453,11 +516,12 @@
     <!-- ==================================
                    Scroll Reveal
     ==================================== -->
-    <script src="https://unpkg.com/scrollreveal"></script>
+    <script src="https://cdn.jsdelivr.net/npm/scrollreveal@4/dist/scrollreveal.min.js"></script>
     <!-- ==================================
                    Typed Js
     ==================================== -->
-    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <!-- ==================================
                    custom Js
     ==================================== -->

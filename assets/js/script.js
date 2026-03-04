@@ -14,6 +14,29 @@ window.addEventListener("scroll", () => {
   document.querySelector("nav").classList.toggle("scrolling", scrollY > 50);
 });
 
+function wireScrollSpy() {
+  const navAnchors = [...document.querySelectorAll(".navlist a[href^='#']")];
+  const sectionPairs = navAnchors
+    .map((link) => ({ link, section: document.querySelector(link.getAttribute("href")) }))
+    .filter((pair) => pair.section);
+  if (!sectionPairs.length) return;
+
+  function updateActiveNav() {
+    const marker = window.scrollY + 140;
+    let active = sectionPairs[0];
+    for (const pair of sectionPairs) {
+      if (pair.section.offsetTop <= marker) {
+        active = pair;
+      }
+    }
+    sectionPairs.forEach((pair) => pair.link.classList.remove("active"));
+    active.link.classList.add("active");
+  }
+
+  window.addEventListener("scroll", updateActiveNav, { passive: true });
+  updateActiveNav();
+}
+
 // ============== 社交图标：悬停展开后不收回，点击文案区域才收起 ================
 document.querySelectorAll(".home .social-icon-item").forEach((item) => {
   item.addEventListener("mouseenter", () => item.classList.add("is-expanded"));
@@ -29,28 +52,140 @@ document.querySelectorAll(".home .social-icon-item").forEach((item) => {
 let portfolioTabs = document.getElementsByClassName("portfolio-tab");
 let tabContents = document.getElementsByClassName("tab-content");
 
-function tabOpen(x) {
-  for (portfolioTab of portfolioTabs) {
+const PROJECT_META = {
+  "demos/01_disaster_management/index.html": { category: "risk", tags: ["策略", "应急", "风控"], summary: "T+1 响应机制，灾难场景风险快速收敛。" },
+  "demos/02_quota_strategy_v5/index.html": { category: "risk", tags: ["额度", "模型", "策略"], summary: "弹性曲线与安全边界结合，规模增长与风险平衡。" },
+  "demos/03_rm_system/summary.html": { category: "risk", tags: ["经营", "监控", "报表"], summary: "统一经营与风险视图，支持审计与财报汇总。" },
+  "demos/04_ai_deep_strategy/index.html": { category: "risk", tags: ["AI", "分群", "实验"], summary: "以 AI 策略缩短迭代周期并提升效果可解释性。" },
+  "demos/05_kyc_platform/index.html": { category: "risk", tags: ["KYC", "分配", "转化"], summary: "客群与座席协同分发，提升经营效率与转化率。" },
+  "demos/06_telesales_system/index.html": { category: "risk", tags: ["电销", "推荐", "转化"], summary: "策略驱动的电销推荐，提升触达质量与转化。" },
+  "../02_2025end_report/2025_year_end_report_package/outputs/2025_year_end_report.html": { category: "data", tags: ["复盘", "汇报", "指标"], summary: "年度成果与策略演进全景复盘。" },
+  "../03_ai_internal_sharing/old_customer_weekly_report/202601_W5/outputs/【菲律宾老客】周报_20260130_v1_在线版.html": { category: "data", tags: ["周报", "监控", "自动化"], summary: "目标追踪、异常识别与图表自动生成闭环。" },
+  "demos/13_knowledge_base_agent/index.html": { category: "ai", tags: ["RAG", "检索", "知识库"], summary: "结构化知识检索与回答，支撑高频问答场景。" },
+  "demos/14_skills_development/index.html": { category: "ai", tags: ["Skills", "规范", "效率"], summary: "能力模板化沉淀，提升团队复用效率。" },
+  "../03_ai_internal_sharing/03_analysis_reports/01_overview/ai_internal_sharing_ezy_creative.html": { category: "ai", tags: ["分享", "赋能", "协同"], summary: "AI 能力传播与组织协同实践沉淀。" },
+  "demos/10_fof_system/index.html": { category: "ai", tags: ["投顾", "配置", "资产"], summary: "智能配置策略在投顾场景中的业务落地。" },
+};
+
+function applyCardStagger(tabId) {
+  const active = document.getElementById(tabId);
+  if (!active) return;
+  [...active.querySelectorAll("a.image")].forEach((card, idx) => {
+    card.style.setProperty("--stagger-index", idx);
+  });
+}
+
+function enhancePortfolioCards() {
+  const cards = document.querySelectorAll(".portfolio .tab-content a.image");
+  cards.forEach((card) => {
+    const href = card.getAttribute("href") || "";
+    const meta = PROJECT_META[href];
+    const category = (meta && meta.category) || "risk";
+    const tags = (meta && meta.tags) || ["项目", "策略"];
+    const summary = (meta && meta.summary) || "项目详情可在演示页查看。";
+    const iconMap = { risk: "ri-line-chart-line", data: "ri-database-2-line", ai: "ri-robot-2-line" };
+    const labelMap = { risk: "风控/经营", data: "数据/报表", ai: "AI Agent" };
+
+    card.classList.add("portfolio-card");
+    card.dataset.category = category;
+
+    const media = card.querySelector(".portfolio-card__media");
+    if (media && !media.querySelector(".portfolio-card__overlay")) {
+      const overlay = document.createElement("div");
+      overlay.className = "portfolio-card__overlay";
+      overlay.innerHTML = `<p>${summary}</p>`;
+      media.appendChild(overlay);
+    }
+
+    const caption = card.querySelector(".portfolio-card__caption");
+    if (caption && !caption.querySelector(".portfolio-card__tags")) {
+      const tagsEl = document.createElement("div");
+      tagsEl.className = "portfolio-card__tags";
+      tagsEl.innerHTML = tags.map((tag) => `<span class="portfolio-card__tag">${tag}</span>`).join("");
+      const metaEl = document.createElement("div");
+      metaEl.className = "portfolio-card__meta";
+      metaEl.innerHTML = `<span><i class="${iconMap[category]}"></i> ${labelMap[category]}</span><i class="ri-arrow-right-up-line"></i>`;
+      caption.appendChild(tagsEl);
+      caption.appendChild(metaEl);
+    }
+  });
+}
+
+function showToast(message, tone = "success") {
+  const oldToast = document.querySelector(".toast");
+  if (oldToast) oldToast.remove();
+  const toast = document.createElement("div");
+  toast.className = `toast toast--${tone}`;
+  toast.textContent = message;
+  document.body.appendChild(toast);
+  requestAnimationFrame(() => toast.classList.add("is-visible"));
+  setTimeout(() => {
+    toast.classList.remove("is-visible");
+    setTimeout(() => toast.remove(), 220);
+  }, 3000);
+}
+
+function wireContactForm() {
+  const form = document.getElementById("contact-form");
+  if (!form) return;
+  form.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const required = [...form.querySelectorAll("[required]")];
+    const missing = required.find((el) => !String(el.value || "").trim());
+    if (missing) {
+      showToast("请先填写所有必填项。", "error");
+      missing.focus();
+      return;
+    }
+
+    const emailInput = form.querySelector("input[type='email']");
+    const email = String(emailInput?.value || "").trim();
+    const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!emailOk) {
+      showToast("邮箱格式不正确，请检查后重试。", "error");
+      emailInput?.focus();
+      return;
+    }
+
+    showToast("消息已收到，我会尽快与你联系。", "success");
+    form.reset();
+  });
+}
+
+function tabOpen(x, el) {
+  for (const portfolioTab of portfolioTabs) {
     portfolioTab.classList.remove("active");
   }
-  for (tabContent of tabContents) {
+  for (const tabContent of tabContents) {
     tabContent.classList.remove("active-content");
   }
-  event.currentTarget.classList.add("active");
+  if (el) {
+    el.classList.add("active");
+  }
   document.getElementById(x).classList.add("active-content");
+  applyCardStagger(x);
 }
 
 // ============== DARK THEME================
 let themeBtn = document.querySelector("#theme-btn");
+const THEME_KEY = "portfolio_theme";
 
-themeBtn.onclick = function () {
-  themeBtn.classList.toggle("ri-sun-line");
-  if (themeBtn.classList.contains("ri-sun-line")) {
-    document.body.classList.add("active");
-  } else {
-    document.body.classList.remove("active");
-  }
-};
+function applyTheme(mode) {
+  const dark = mode === "dark";
+  document.body.classList.toggle("active", dark);
+  themeBtn.classList.toggle("ri-sun-line", dark);
+  themeBtn.classList.toggle("ri-moon-line", !dark);
+}
+
+if (themeBtn) {
+  const savedTheme = localStorage.getItem(THEME_KEY) || "light";
+  applyTheme(savedTheme);
+  themeBtn.onclick = function () {
+    const nextMode = document.body.classList.contains("active") ? "light" : "dark";
+    applyTheme(nextMode);
+    localStorage.setItem(THEME_KEY, nextMode);
+  };
+}
 
 // ============== TYPED JS（首页已改为与简历一致，无打字元素时跳过）==============
 const multipleTextEl = document.querySelector(".multiple-text");
@@ -63,6 +198,45 @@ if (multipleTextEl) {
     loop: true,
   });
 }
+
+// ============== Skills chart (ApexCharts) ==============
+document.addEventListener("DOMContentLoaded", () => {
+  const chartEl = document.getElementById("skills-chart");
+  if (!chartEl || typeof ApexCharts === "undefined") return;
+  const options = {
+    chart: {
+      type: "radialBar",
+      height: 250,
+      sparkline: { enabled: true },
+    },
+    series: [90, 95, 85],
+    labels: ["数据分析", "风险策略", "AI Agent"],
+    colors: ["#6b8e9f", "#52b788", "#c9a227"],
+    plotOptions: {
+      radialBar: {
+        hollow: { size: "28%" },
+        track: { margin: 10, background: "rgba(107,142,159,0.12)" },
+        dataLabels: {
+          name: { fontSize: "12px" },
+          value: { fontSize: "14px", formatter: (v) => `${Math.round(v)}%` },
+          total: {
+            show: true,
+            label: "综合",
+            formatter: () => "90%",
+          },
+        },
+      },
+    },
+    legend: {
+      show: true,
+      position: "right",
+      fontSize: "12px",
+      labels: { colors: ["#4a5568"] },
+    },
+  };
+  const chart = new ApexCharts(chartEl, options);
+  chart.render();
+});
 
 // ============== SCROLL REVEAL ANIMATION ================
 // 初始半透明 + 提前触发，避免滚动时出现大片空白
@@ -305,14 +479,17 @@ sr.reveal(".contact .row .contact-form", { origin: "left" });
 // 默认打开“风控/经营”Tab（避免首页一次性展示全部卡片过长）
 document.addEventListener('DOMContentLoaded', function(){
   try{
+    enhancePortfolioCards();
+    wireContactForm();
+    wireScrollSpy();
     const btns = document.querySelectorAll('.portfolio-buttons .btn');
-    const contentAll = document.getElementById('all');
     const contentWD = document.getElementById('webdevelop');
-    if(btns.length>=2 && contentAll && contentWD){
+    if(btns.length>=2 && contentWD){
       btns.forEach(b=>b.classList.remove('active'));
       document.querySelector('.portfolio-buttons .btn:nth-child(2)').classList.add('active');
       document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active-content'));
       contentWD.classList.add('active-content');
+      applyCardStagger('webdevelop');
     }
   }catch(e){}
 });
