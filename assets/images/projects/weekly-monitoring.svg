@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-label="WEEKLY MONITORING">
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0c4a6e" />
+      <stop offset="100%" stop-color="#0369a1" />
+    </linearGradient>
+    <radialGradient id="spot" cx="20%" cy="15%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.22)" />
+      <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+    </radialGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fbbf24" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#fbbf24" stop-opacity="0.45" />
+    </linearGradient>
+    <filter id="grain" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="7" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0 0.055" />
+      </feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="960" height="600" fill="url(#bg)" />
+  <rect width="960" height="600" fill="url(#spot)" />
+  <rect width="960" height="600" filter="url(#grain)" />
+  <rect x="18" y="18" width="924" height="564" rx="26" fill="none" stroke="rgba(255,255,255,0.24)" />
+  <rect x="18" y="18" width="924" height="8" rx="4" fill="url(#accent)" />
+  
+
+  <text x="46" y="74" fill="rgba(255,255,255,0.95)" font-size="30" font-family="Montserrat, Segoe UI, sans-serif" font-weight="700" letter-spacing="1.2">WEEKLY MONITORING</text>
+  <text x="46" y="106" fill="rgba(255,255,255,0.72)" font-size="16" font-family="Segoe UI, sans-serif" letter-spacing="1">automation cockpit</text>
+  
+
+  <g>
+    <rect x="136" y="176" width="260" height="130" rx="12" fill="rgba(255,255,255,0.16)" />
+    <rect x="414" y="176" width="410" height="130" rx="12" fill="rgba(255,255,255,0.12)" />
+    <rect x="136" y="322" width="340" height="154" rx="12" fill="rgba(255,255,255,0.12)" />
+    <rect x="494" y="322" width="330" height="154" rx="12" fill="rgba(255,255,255,0.17)" />
+    <polyline points="170,434 220,398 270,412 320,362 370,376 430,340" fill="none" stroke="rgba(250,204,21,0.92)" stroke-width="3" />
+    <polyline points="448,260 518,238 592,268 666,226 744,248 806,214" fill="none" stroke="rgba(154,230,255,0.9)" stroke-width="3" />
+  </g>
+</svg>

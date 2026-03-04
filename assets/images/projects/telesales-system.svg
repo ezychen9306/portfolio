@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-label="TELESALES SYSTEM">
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#172554" />
+      <stop offset="100%" stop-color="#1e3a8a" />
+    </linearGradient>
+    <radialGradient id="spot" cx="20%" cy="15%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.22)" />
+      <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+    </radialGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#facc15" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#facc15" stop-opacity="0.45" />
+    </linearGradient>
+    <filter id="grain" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="7" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0 0.055" />
+      </feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="960" height="600" fill="url(#bg)" />
+  <rect width="960" height="600" fill="url(#spot)" />
+  <rect width="960" height="600" filter="url(#grain)" />
+  <rect x="18" y="18" width="924" height="564" rx="26" fill="none" stroke="rgba(255,255,255,0.24)" />
+  <rect x="18" y="18" width="924" height="8" rx="4" fill="url(#accent)" />
+  
+
+  <text x="46" y="74" fill="rgba(255,255,255,0.95)" font-size="30" font-family="Montserrat, Segoe UI, sans-serif" font-weight="700" letter-spacing="1.2">TELESALES SYSTEM</text>
+  <text x="46" y="106" fill="rgba(255,255,255,0.72)" font-size="16" font-family="Segoe UI, sans-serif" letter-spacing="1">call flow graph</text>
+  
+
+  <g>
+    <circle cx="200" cy="304" r="22" fill="rgba(190,228,255,0.8)" />
+    <circle cx="338" cy="248" r="22" fill="rgba(190,228,255,0.8)" />
+    <circle cx="338" cy="360" r="22" fill="rgba(190,228,255,0.8)" />
+    <circle cx="524" cy="304" r="24" fill="rgba(250,204,21,0.96)" />
+    <path d="M222 304 C 260 292, 292 272, 316 250" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2.4"/>
+    <path d="M222 304 C 262 318, 292 338, 316 360" fill="none" stroke="rgba(255,255,255,0.45)" stroke-width="2.4"/>
+    <path d="M360 248 C 418 248, 456 276, 500 304" fill="none" stroke="rgba(250,204,21,0.9)" stroke-width="2.6"/>
+    <path d="M360 360 C 418 352, 456 330, 500 304" fill="none" stroke="rgba(250,204,21,0.9)" stroke-width="2.6"/>
+  </g>
+</svg>

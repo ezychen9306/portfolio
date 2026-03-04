@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 600" role="img" aria-label="SKILLS DEVELOPMENT">
+
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#3f1d2e" />
+      <stop offset="100%" stop-color="#7c2d12" />
+    </linearGradient>
+    <radialGradient id="spot" cx="20%" cy="15%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.22)" />
+      <stop offset="100%" stop-color="rgba(255,255,255,0)" />
+    </radialGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#fb7185" stop-opacity="0.95" />
+      <stop offset="100%" stop-color="#fb7185" stop-opacity="0.45" />
+    </linearGradient>
+    <filter id="grain" x="-10%" y="-10%" width="120%" height="120%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" seed="7" />
+      <feColorMatrix type="saturate" values="0" />
+      <feComponentTransfer>
+        <feFuncA type="table" tableValues="0 0 0.055" />
+      </feComponentTransfer>
+    </filter>
+  </defs>
+  <rect width="960" height="600" fill="url(#bg)" />
+  <rect width="960" height="600" fill="url(#spot)" />
+  <rect width="960" height="600" filter="url(#grain)" />
+  <rect x="18" y="18" width="924" height="564" rx="26" fill="none" stroke="rgba(255,255,255,0.24)" />
+  <rect x="18" y="18" width="924" height="8" rx="4" fill="url(#accent)" />
+  
+
+  <text x="46" y="74" fill="rgba(255,255,255,0.95)" font-size="30" font-family="Montserrat, Segoe UI, sans-serif" font-weight="700" letter-spacing="1.2">SKILLS DEVELOPMENT</text>
+  <text x="46" y="106" fill="rgba(255,255,255,0.72)" font-size="16" font-family="Segoe UI, sans-serif" letter-spacing="1">modular acceleration</text>
+  
+<g><rect x="164" y="190" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.103)" /><rect x="270" y="190" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.229)" /><rect x="376" y="190" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.225)" /><rect x="482" y="190" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.181)" /><rect x="588" y="190" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.221)" /><rect x="694" y="190" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.131)" /><rect x="164" y="259.52" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.321)" /><rect x="270" y="259.52" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.234)" /><rect x="376" y="259.52" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.311)" /><rect x="482" y="259.52" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.261)" /><rect x="588" y="259.52" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.343)" /><rect x="694" y="259.52" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.251)" /><rect x="164" y="329.03999999999996" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.263)" /><rect x="270" y="329.03999999999996" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.324)" /><rect x="376" y="329.03999999999996" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.154)" /><rect x="482" y="329.03999999999996" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.269)" /><rect x="588" y="329.03999999999996" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.291)" /><rect x="694" y="329.03999999999996" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.113)" /><rect x="164" y="398.56" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.311)" /><rect x="270" y="398.56" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.133)" /><rect x="376" y="398.56" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.337)" /><rect x="482" y="398.56" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.105)" /><rect x="588" y="398.56" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.137)" /><rect x="694" y="398.56" width="96" height="59.5" rx="10" fill="rgba(255,255,255,0.278)" /><path d="M164 452 C 322 392, 500 508, 744 430" fill="none" stroke="rgba(251,113,133,0.95)" stroke-width="4" /></g>
+</svg>

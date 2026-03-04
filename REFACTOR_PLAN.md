@@ -32,6 +32,7 @@ Scope: content fixes + visual/interaction upgrades. Mobile-specific adaptation i
   - Enrich achievements content with intro chips, 6 outcome cards, and evidence list.
   - Remove now-unused ApexCharts dependency/init.
   - Commit simplification checkpoint, then replace achievements copy with project-grounded facts from RMV4 docs and demos.
+  - Regenerate portfolio cover images using algorithmic-art style SVGs and switch card image refs from PNG to SVG.
 
 ## Task Tracker
 
@@ -66,6 +67,9 @@ Scope: content fixes + visual/interaction upgrades. Mobile-specific adaptation i
 | P6-7 | Commit simplification iteration snapshot | completed | 2026-03-04 16:43:27 +08:00 | pass | commit: `5839d19`, msg: `feat: simplify sections and enrich achievements content` |
 | P7-1 | Refill achievements section with project-grounded facts | completed | 2026-03-04 16:55:21 +08:00 | pass | `index.html` now references RMV4 7-step pipeline, 7 SQL prerequisites, T+1/10%+, 9业务线, 92.5%, +50% from existing project files |
 | P7-2 | Re-run acceptance after content refill | completed | 2026-03-04 16:55:21 +08:00 | pass | `python scripts/check_refactor_acceptance.py` => all pass |
+| P8-1 | Generate artistic SVG covers by project semantics | completed | 2026-03-04 18:35:12 +08:00 | pass | Added `scripts/generate_project_covers.js`; generated 12 SVG files under `assets/images/projects/*.svg` |
+| P8-2 | Switch portfolio card media refs from PNG to SVG | completed | 2026-03-04 18:35:12 +08:00 | pass | `index.html` now points to `.svg` for all portfolio images; `.png` refs count is 0 |
+| P8-3 | Run acceptance and media existence checks | completed | 2026-03-04 18:35:12 +08:00 | pass | `check_refactor_acceptance.py`: all pass; media check: `refs=12 missing=0` |
 
 ## Final Acceptance Checklist
 
@@ -76,6 +80,7 @@ Scope: content fixes + visual/interaction upgrades. Mobile-specific adaptation i
 - [x] Section order is `01(home) / 02(portfolio) / 03(achievements) / 04(contact)`.
 - [x] Achievements section is enriched (intro chips + 6 cards + evidence list).
 - [x] Achievements copy is grounded in local project evidence (RMV4 docs + demo metrics).
+- [x] Portfolio covers are regenerated in algorithmic-art SVG style and all card refs are switched to SVG.
 - [x] ApexCharts dependency/init is removed after simplification.
 - [x] Portfolio cards show category strip + tech tags + hover overlay + stagger animation.
 - [x] ScrollReveal and Typed.js use jsdelivr URLs.
@@ -109,10 +114,11 @@ Scope: content fixes + visual/interaction upgrades. Mobile-specific adaptation i
   - P6-7 simplification snapshot committed (`5839d19`).
   - P7-1 updated achievements copy with project-grounded facts from RMV4 docs and demo files.
   - P7-2 acceptance re-check passed after refill.
+  - P8-1~P8-3 completed: generated 12 artistic SVG covers, replaced all PNG refs in portfolio cards, and passed acceptance/media checks.
 - Failed:
 - Blockers:
 - Next:
-  - Optional: commit this project-grounded content refill as a follow-up commit.
+  - Optional: review visual style in browser and fine-tune palette/contrast per card if needed.
 
 ## Open Issues
 
