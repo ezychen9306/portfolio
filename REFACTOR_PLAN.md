@@ -31,6 +31,7 @@ Scope: content fixes + visual/interaction upgrades. Mobile-specific adaptation i
   - Reorder section placeholders to `01(home) -> 02(portfolio) -> 03(achievements) -> 04(contact)`.
   - Enrich achievements content with intro chips, 6 outcome cards, and evidence list.
   - Remove now-unused ApexCharts dependency/init.
+  - Commit simplification checkpoint, then replace achievements copy with project-grounded facts from RMV4 docs and demos.
 
 ## Task Tracker
 
@@ -62,6 +63,9 @@ Scope: content fixes + visual/interaction upgrades. Mobile-specific adaptation i
 | P6-4 | Remove unused ApexCharts CDN and JS init | completed | 2026-03-04 16:40:23 +08:00 | pass | Removed apexcharts script tag from `index.html` and init block from `assets/js/script.js` |
 | P6-5 | Update CSS for new achievements layout and remove obsolete chart/testimonial styles | completed | 2026-03-04 16:40:23 +08:00 | pass | Added styles for intro/chips/evidence; removed `skills-chart` and legacy `testimonial-container` styles |
 | P6-6 | Re-run executable acceptance checks | completed | 2026-03-04 16:40:23 +08:00 | pass | `python scripts/check_refactor_acceptance.py` => all pass |
+| P6-7 | Commit simplification iteration snapshot | completed | 2026-03-04 16:43:27 +08:00 | pass | commit: `5839d19`, msg: `feat: simplify sections and enrich achievements content` |
+| P7-1 | Refill achievements section with project-grounded facts | completed | 2026-03-04 16:55:21 +08:00 | pass | `index.html` now references RMV4 7-step pipeline, 7 SQL prerequisites, T+1/10%+, 9业务线, 92.5%, +50% from existing project files |
+| P7-2 | Re-run acceptance after content refill | completed | 2026-03-04 16:55:21 +08:00 | pass | `python scripts/check_refactor_acceptance.py` => all pass |
 
 ## Final Acceptance Checklist
 
@@ -71,6 +75,7 @@ Scope: content fixes + visual/interaction upgrades. Mobile-specific adaptation i
 - [x] Standalone `#services` section is removed from nav + page.
 - [x] Section order is `01(home) / 02(portfolio) / 03(achievements) / 04(contact)`.
 - [x] Achievements section is enriched (intro chips + 6 cards + evidence list).
+- [x] Achievements copy is grounded in local project evidence (RMV4 docs + demo metrics).
 - [x] ApexCharts dependency/init is removed after simplification.
 - [x] Portfolio cards show category strip + tech tags + hover overlay + stagger animation.
 - [x] ScrollReveal and Typed.js use jsdelivr URLs.
@@ -101,10 +106,13 @@ Scope: content fixes + visual/interaction upgrades. Mobile-specific adaptation i
   - P5-1 feature commit created (`625d274`).
   - P5-2 documentation closed with full status/acceptance.
   - P6-1~P6-6 simplification iteration completed: removed `#services`, reordered placeholders to 02/03/04, enriched achievements section, removed ApexCharts, updated CSS/JS checks with pass.
+  - P6-7 simplification snapshot committed (`5839d19`).
+  - P7-1 updated achievements copy with project-grounded facts from RMV4 docs and demo files.
+  - P7-2 acceptance re-check passed after refill.
 - Failed:
 - Blockers:
 - Next:
-  - Optional: commit this simplification iteration as a standalone follow-up commit.
+  - Optional: commit this project-grounded content refill as a follow-up commit.
 
 ## Open Issues
 
