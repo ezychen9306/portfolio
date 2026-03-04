@@ -49,8 +49,8 @@ Scope: content fixes + visual/interaction upgrades. Mobile-specific adaptation i
 | P3-7 | Add scrollspy nav highlight | completed | 2026-03-04 14:53:50 +08:00 | pass | Added `wireScrollSpy()` for hash sections and `.navlist li a.active` style |
 | P4-1 | Add executable validation script (HTML/JS/structure checks) | completed | 2026-03-04 14:55:18 +08:00 | pass | Added `scripts/check_refactor_acceptance.py` + `package.json` script `refactor:check` |
 | P4-2 | Run validation + desktop smoke checks, fill final acceptance | completed | 2026-03-04 14:56:23 +08:00 | pass | `check_refactor_acceptance.py`: all pass; `validate_links.py`: pass; Playwright smoke: `themePersisted=true`, `activeTab=webdesign`, `emptyToast=请先填写所有必填项。`, `successToast=消息已收到...`, `consoleErrors=0` |
-| P5-1 | Feature commit (`feat: portfolio refactor (desktop-first)`) | in_progress |  | n/a | start: 2026-03-04 14:56:23 +08:00 |
-| P5-2 | Close documentation (all statuses + final/open issues) | pending |  | n/a |  |
+| P5-1 | Feature commit (`feat: portfolio refactor (desktop-first)`) | completed | 2026-03-04 14:57:11 +08:00 | pass | commit: `625d274` |
+| P5-2 | Close documentation (all statuses + final/open issues) | completed | 2026-03-04 14:57:34 +08:00 | pass | Tracker, checklist, daily update, and open issues updated |
 
 ## Final Acceptance Checklist
 
@@ -84,10 +84,12 @@ Scope: content fixes + visual/interaction upgrades. Mobile-specific adaptation i
   - P3-7 scrollspy nav highlight implemented.
   - P4-1 executable check script added (`scripts/check_refactor_acceptance.py`).
   - P4-2 validation and desktop smoke checks passed.
+  - P5-1 feature commit created (`625d274`).
+  - P5-2 documentation closed with full status/acceptance.
 - Failed:
 - Blockers:
 - Next:
-  - Create feature commit and close documentation.
+  - None.
 
 ## Open Issues
 
