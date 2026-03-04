@@ -199,45 +199,6 @@ if (multipleTextEl) {
   });
 }
 
-// ============== Skills chart (ApexCharts) ==============
-document.addEventListener("DOMContentLoaded", () => {
-  const chartEl = document.getElementById("skills-chart");
-  if (!chartEl || typeof ApexCharts === "undefined") return;
-  const options = {
-    chart: {
-      type: "radialBar",
-      height: 250,
-      sparkline: { enabled: true },
-    },
-    series: [90, 95, 85],
-    labels: ["数据分析", "风险策略", "AI Agent"],
-    colors: ["#6b8e9f", "#52b788", "#c9a227"],
-    plotOptions: {
-      radialBar: {
-        hollow: { size: "28%" },
-        track: { margin: 10, background: "rgba(107,142,159,0.12)" },
-        dataLabels: {
-          name: { fontSize: "12px" },
-          value: { fontSize: "14px", formatter: (v) => `${Math.round(v)}%` },
-          total: {
-            show: true,
-            label: "综合",
-            formatter: () => "90%",
-          },
-        },
-      },
-    },
-    legend: {
-      show: true,
-      position: "right",
-      fontSize: "12px",
-      labels: { colors: ["#4a5568"] },
-    },
-  };
-  const chart = new ApexCharts(chartEl, options);
-  chart.render();
-});
-
 // ============== SCROLL REVEAL ANIMATION ================
 // 初始半透明 + 提前触发，避免滚动时出现大片空白
 if(!reduceMotion){
@@ -260,14 +221,13 @@ sr.reveal(".about-container h3", { origin: "bottom" });
 sr.reveal(".about-container p", { origin: "bottom" });
 sr.reveal(".about-container .left", { origin: "left" });
 sr.reveal(".about-container .right", { origin: "right" });
-sr.reveal(".services .title", { origin: "top" });
-sr.reveal(".services .content-1", { origin: "left" });
-sr.reveal(".services .content-2", { origin: "right" });
 sr.reveal(".portfolio-container", { origin: "bottom" });
 sr.reveal(".portfolio .title", { origin: "top" });
 sr.reveal(".portfolio-buttons", { origin: "left" });
 sr.reveal(".testimonial .title", { origin: "right" });
-sr.reveal(".testimonial .testimonial-container", { origin: "left" });
+sr.reveal(".achievements-intro", { origin: "bottom" });
+sr.reveal(".achievements-grid", { origin: "bottom" });
+sr.reveal(".achievements-evidence", { origin: "bottom" });
 sr.reveal(".contact .title", { origin: "top" });
 sr.reveal(".contact .row .box", { origin: "right" });
 sr.reveal(".contact .row .contact-form", { origin: "left" });

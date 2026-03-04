@@ -23,8 +23,29 @@ def main():
     results.append(check("empty_alt_zero", 'alt=""' not in idx, 'index.html must not contain empty alt=""'))
     results.append(check("favicon_data_uri", "data:image/svg+xml" in idx, "favicon data URI must exist in <head>"))
     results.append(check("achievements_section", 'id="testimonial"' in idx and "经验与" in idx and "成就" in idx, "achievements section should exist"))
-    results.append(check("skills_chart_container", 'id="skills-chart"' in idx, "#skills-chart container should exist"))
-    results.append(check("apexcharts_cdn", "cdn.jsdelivr.net/npm/apexcharts" in idx, "ApexCharts CDN should be present"))
+    results.append(check("services_removed", 'id="services"' not in idx and 'href="#services"' not in idx, "services section/link should be removed"))
+    results.append(
+        check(
+            "section_numbers_reordered",
+            '<section class="portfolio" id="portfolio">' in idx
+            and '<span class="section-placeholder__num">02</span>' in idx
+            and '<section class="testimonial achievements" id="testimonial">' in idx
+            and '<span class="section-placeholder__num">03</span>' in idx
+            and '<section class="contact" id="contact">' in idx
+            and '<span class="section-placeholder__num">04</span>' in idx,
+            "placeholder numbers should be portfolio=02, achievements=03, contact=04",
+        )
+    )
+    results.append(
+        check(
+            "achievements_enriched",
+            "achievements-intro" in idx
+            and "achievements-evidence" in idx
+            and idx.count("achievement-card") >= 6,
+            "achievements should include intro/evidence and at least 6 cards",
+        )
+    )
+    results.append(check("apexcharts_removed", "cdn.jsdelivr.net/npm/apexcharts" not in idx and "ApexCharts" not in js, "ApexCharts dependency/init should be removed"))
     results.append(check("cdn_scrollreveal_jsdelivr", "cdn.jsdelivr.net/npm/scrollreveal@4/dist/scrollreveal.min.js" in idx, "ScrollReveal should use jsdelivr"))
     results.append(check("cdn_typed_jsdelivr", "cdn.jsdelivr.net/npm/typed.js@2.1.0/dist/typed.umd.js" in idx, "Typed.js should use jsdelivr"))
     results.append(check("tab_open_signature", "function tabOpen(x, el)" in js, "tabOpen should accept (x, el)"))

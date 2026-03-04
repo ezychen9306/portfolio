@@ -26,6 +26,11 @@ Scope: content fixes + visual/interaction upgrades. Mobile-specific adaptation i
   - CDN switch: ScrollReveal + Typed.js from unpkg to jsdelivr.
   - About/skills visualization: remove old SVG progress-ring path and use ApexCharts (`#skills-chart`) directly.
 - Redundant step removed: no standalone “fix GradientColor duplicate IDs” task; replaced by direct chart replacement.
+- Iteration update (2026-03-04):
+  - Simplify structure by removing the standalone `#services` section/nav entry.
+  - Reorder section placeholders to `01(home) -> 02(portfolio) -> 03(achievements) -> 04(contact)`.
+  - Enrich achievements content with intro chips, 6 outcome cards, and evidence list.
+  - Remove now-unused ApexCharts dependency/init.
 
 ## Task Tracker
 
@@ -51,13 +56,22 @@ Scope: content fixes + visual/interaction upgrades. Mobile-specific adaptation i
 | P4-2 | Run validation + desktop smoke checks, fill final acceptance | completed | 2026-03-04 14:56:23 +08:00 | pass | `check_refactor_acceptance.py`: all pass; `validate_links.py`: pass; Playwright smoke: `themePersisted=true`, `activeTab=webdesign`, `emptyToast=请先填写所有必填项。`, `successToast=消息已收到...`, `consoleErrors=0` |
 | P5-1 | Feature commit (`feat: portfolio refactor (desktop-first)`) | completed | 2026-03-04 14:57:11 +08:00 | pass | commit: `625d274` |
 | P5-2 | Close documentation (all statuses + final/open issues) | completed | 2026-03-04 14:57:34 +08:00 | pass | Tracker, checklist, daily update, and open issues updated |
+| P6-1 | Simplify structure by removing `#services` section and nav entry | completed | 2026-03-04 16:40:23 +08:00 | pass | `index.html` no longer contains `id=\"services\"` / `href=\"#services\"` |
+| P6-2 | Reorder section placeholders (portfolio/testimonial/contact -> 02/03/04) | completed | 2026-03-04 16:40:23 +08:00 | pass | `index.html` section-placeholder numbers updated in corresponding sections |
+| P6-3 | Enrich achievements content density | completed | 2026-03-04 16:40:23 +08:00 | pass | Added `achievements-intro`, 6 `achievement-card`, and `achievements-evidence` in `index.html` |
+| P6-4 | Remove unused ApexCharts CDN and JS init | completed | 2026-03-04 16:40:23 +08:00 | pass | Removed apexcharts script tag from `index.html` and init block from `assets/js/script.js` |
+| P6-5 | Update CSS for new achievements layout and remove obsolete chart/testimonial styles | completed | 2026-03-04 16:40:23 +08:00 | pass | Added styles for intro/chips/evidence; removed `skills-chart` and legacy `testimonial-container` styles |
+| P6-6 | Re-run executable acceptance checks | completed | 2026-03-04 16:40:23 +08:00 | pass | `python scripts/check_refactor_acceptance.py` => all pass |
 
 ## Final Acceptance Checklist
 
 - [x] No Lorem placeholder text in `index.html`.
 - [x] Empty `alt` count in `index.html` is 0.
 - [x] Favicon data URI exists in `<head>`.
-- [x] Skills chart (`#skills-chart`) renders via ApexCharts.
+- [x] Standalone `#services` section is removed from nav + page.
+- [x] Section order is `01(home) / 02(portfolio) / 03(achievements) / 04(contact)`.
+- [x] Achievements section is enriched (intro chips + 6 cards + evidence list).
+- [x] ApexCharts dependency/init is removed after simplification.
 - [x] Portfolio cards show category strip + tech tags + hover overlay + stagger animation.
 - [x] ScrollReveal and Typed.js use jsdelivr URLs.
 - [x] Theme persists after refresh (`portfolio_theme`).
@@ -86,10 +100,11 @@ Scope: content fixes + visual/interaction upgrades. Mobile-specific adaptation i
   - P4-2 validation and desktop smoke checks passed.
   - P5-1 feature commit created (`625d274`).
   - P5-2 documentation closed with full status/acceptance.
+  - P6-1~P6-6 simplification iteration completed: removed `#services`, reordered placeholders to 02/03/04, enriched achievements section, removed ApexCharts, updated CSS/JS checks with pass.
 - Failed:
 - Blockers:
 - Next:
-  - None.
+  - Optional: commit this simplification iteration as a standalone follow-up commit.
 
 ## Open Issues
 
