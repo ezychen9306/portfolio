@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>APM 日报 · Portfolio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css">
+<style>
+:root{--bg:#f0f2f5;--card:#fff;--primary:#4a6fa5;--accent:#c9a227;--text:#1a202c;--muted:#64748b;--border:#e2e8f0;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+.main{max-width:880px;margin:0 auto;padding:1.5rem;}
+.hero{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:2rem 2.2rem;margin-bottom:1.5rem;border-left:4px solid var(--accent);}
+.proj-num{font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;}
+.hero h1{font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:.45rem;display:flex;align-items:center;gap:.5rem;}
+.hero h1 i{color:var(--accent);font-size:1.35rem;}
+.hero-desc{font-size:.87rem;color:var(--muted);line-height:1.7;margin-bottom:1rem;}
+.kpi-chips{display:flex;gap:.5rem;flex-wrap:wrap;}
+.kpi-chip{display:inline-flex;align-items:center;gap:.35rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:.28rem .7rem;font-size:.77rem;color:var(--text);}
+.kpi-chip strong{font-weight:700;font-size:.9rem;color:var(--accent);}
+nav{background:#fff;border-bottom:1px solid var(--border);padding:.6rem 1.25rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:10;}
+nav a{display:inline-flex;align-items:center;gap:.35rem;color:var(--primary);text-decoration:none;font-weight:600;font-size:.88rem;}
+.sec{margin-bottom:1.5rem;}
+.sec-title{font-size:.85rem;font-weight:700;color:var(--primary);margin-bottom:.6rem;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:1.2rem;margin-bottom:.75rem;}
+.card ul{list-style:none;}
+.card li{font-size:.8rem;color:var(--text);padding:.35rem 0;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.4rem;}
+.card li:last-child{border-bottom:none;}
+.card li i{color:var(--accent);}
+</style>
+<script>if(window.parent!==window)document.documentElement.classList.add("in-iframe");</script>
+<style>.in-iframe nav{display:none!important;}</style>
+<meta name="description" content="APM 日报 · Agent/Skill 工作台 · 宪法合规">
+<link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
+<link rel="manifest" href="../../assets/icons/site.webmanifest">
+</head>
+<body>
+<nav>
+  <a href="../../index.html#portfolio" onclick="if(window.parent!==window){window.parent.closeModal();return false;}"><i class="ri-arrow-left-line"></i> 返回</a>
+  <span style="color:var(--muted);font-size:.88rem">APM 日报</span>
+</nav>
+<div class="main">
+  <div class="hero">
+    <div class="proj-num">PROJECT 12 · APM 日报</div>
+    <h1><i class="ri-dashboard-line"></i> APM 日报</h1>
+    <p class="hero-desc">Agent Project Monitor：对工作区内 Agent、Skill、MCP 等资产做盘点与日报，支持宪法合规扫描、Stale 项目提醒，便于日常维护与规范遵守。</p>
+    <div class="kpi-chips">
+      <div class="kpi-chip"><strong>Agent</strong> / Skill</div>
+      <div class="kpi-chip"><strong>宪法</strong> 合规</div>
+      <div class="kpi-chip"><strong>日报</strong> 一键</div>
+    </div>
+  </div>
+  <div class="sec">
+    <div class="sec-title">核心能力</div>
+    <div class="card">
+      <ul>
+        <li><i class="ri-check-line"></i> 工作区 Agent、Skill、MCP 数量与重复项统计</li>
+        <li><i class="ri-check-line"></i> Stale 项目（≥7 天未更新）提醒</li>
+        <li><i class="ri-check-line"></i> 宪法合规扫描与报告（BLOCKING / WARNING）</li>
+        <li><i class="ri-check-line"></i> 日报 HTML 一键生成，可对接 Dashboard</li>
+      </ul>
+    </div>
+  </div>
+</div>
+</body>
+</html>

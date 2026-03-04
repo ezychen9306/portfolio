@@ -1,0 +1,204 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<title>Signal Pulse · Art Preview</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+<style>
+body{margin:0;background:#f7f4ef;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:system-ui}
+h2{color:#6b8e9f;font-size:1rem;font-weight:600;margin:0 0 1rem;letter-spacing:.05em;opacity:.7}
+canvas{border-radius:12px;box-shadow:0 4px 24px rgba(107,142,159,.15)}
+</style>
+</head><body>
+<h2>变体 C：Signal Pulse · 信号脉冲</h2>
+<div id="c"></div>
+<script>
+const sk = function(p) {
+
+  // ── Palette ──────────────────────────────────────────────
+  const CREAM  = [247, 244, 239];
+  const TEAL   = [107, 142, 159];
+  const GOLD   = [201, 162,  39];
+
+  // ── Signal sources ───────────────────────────────────────
+  // Each source: { x, y, phase, speed, isGold }
+  let sources = [];
+  // Floating data labels
+  let dataLabels = [];
+
+  // Ring pool – each ring: { sx, sy, r, maxR, alpha, speed, isGold, isMouse }
+  let rings = [];
+
+  // Mouse-source cooldown
+  let mouseTimer = 0;
+
+  // ── Setup ────────────────────────────────────────────────
+  p.setup = function() {
+    let cnv = p.createCanvas(800, 660);
+    cnv.parent('c');
+    p.colorMode(p.RGB, 255, 255, 255, 255);
+    p.noFill();
+
+    // 5 standard teal sources
+    sources = [
+      { x: 160, y: 130, phase: 0.00, speed: 0.027, isGold: false },
+      { x: 420, y: 200, phase: 1.10, speed: 0.031, isGold: false },
+      { x: 650, y: 150, phase: 2.30, speed: 0.024, isGold: false },
+      { x: 260, y: 460, phase: 0.80, speed: 0.029, isGold: false },
+      { x: 600, y: 480, phase: 1.70, speed: 0.033, isGold: false },
+    ];
+
+    // 2 gold high-risk sources
+    sources.push({ x: 110, y: 330, phase: 0.50, speed: 0.038, isGold: true });
+    sources.push({ x: 700, y: 340, phase: 2.80, speed: 0.035, isGold: true });
+
+    p.background(CREAM[0], CREAM[1], CREAM[2]);
+  };
+
+  // ── Helpers ──────────────────────────────────────────────
+  function spawnRing(src) {
+    rings.push({
+      sx:     src.x,
+      sy:     src.y,
+      r:      0,
+      maxR:   src.isGold ? 260 : 220,
+      speed:  src.isGold ? 1.6 : 1.2,
+      isGold: src.isGold,
+      isMouse: src.isMouse || false
+    });
+  }
+
+  function spawnLabel() {
+    const samples = ['0.03','92%','1.28','0.47','NPL','85%','0.12','3.7σ','0.09','99%'];
+    dataLabels.push({
+      x:    p.random(40, 760),
+      y:    p.random(40, 620),
+      text: p.random(samples),
+      alpha: 180,
+      life:  p.random(120, 220)
+    });
+  }
+
+  // ── Draw ─────────────────────────────────────────────────
+  p.draw = function() {
+    // Ghost-trail: very low alpha cream overlay
+    p.fill(CREAM[0], CREAM[1], CREAM[2], 12);
+    p.noStroke();
+    p.rect(0, 0, p.width, p.height);
+    p.noFill();
+
+    let fc = p.frameCount;
+
+    // ── Emit new rings from sources ──────────────────────
+    for (let src of sources) {
+      src.phase += src.speed;
+      // Pulse trigger: positive zero-crossing of sin
+      let val = p.sin(src.phase);
+      let prev = p.sin(src.phase - src.speed);
+      if (val >= 0 && prev < 0) {
+        spawnRing(src);
+      }
+    }
+
+    // ── Mouse source (temporary) ─────────────────────────
+    mouseTimer--;
+    if (p.mouseX > 0 && p.mouseX < p.width && p.mouseY > 0 && p.mouseY < p.height) {
+      if (mouseTimer < 0) {
+        mouseTimer = 18; // emit every 18 frames
+        rings.push({
+          sx: p.mouseX, sy: p.mouseY,
+          r: 0, maxR: 300,
+          speed: 1.8,
+          isGold: false,
+          isMouse: true
+        });
+      }
+    }
+
+    // ── Update & draw rings ──────────────────────────────
+    for (let i = rings.length - 1; i >= 0; i--) {
+      let rng = rings[i];
+      rng.r += rng.speed;
+
+      let t = rng.r / rng.maxR;         // 0 → 1 as ring expands
+      let baseAlpha = rng.isMouse ? 140 : 80;
+      let a = baseAlpha * (1 - t);       // fade as it expands
+
+      if (a < 1) { rings.splice(i, 1); continue; }
+
+      let col = rng.isGold ? GOLD : TEAL;
+      p.stroke(col[0], col[1], col[2], a);
+      p.strokeWeight(rng.isMouse ? 1.8 : (rng.isGold ? 1.4 : 1.0));
+      p.ellipse(rng.sx, rng.sy, rng.r * 2, rng.r * 2);
+    }
+
+    // ── Interference bright spots ────────────────────────
+    // Detect rings that are close in radius near same point
+    // Approximate: for each pair of rings, if circles overlap near a pixel, brighten
+    // Efficient version: scan source pairs, check geometric overlap region
+    p.noStroke();
+    for (let a = 0; a < rings.length; a++) {
+      for (let b = a + 1; b < rings.length; b++) {
+        let ra = rings[a], rb = rings[b];
+        let d = p.dist(ra.sx, ra.sy, rb.sx, rb.sy);
+        // Rings overlap when |ra.r - rb.r| < d < ra.r + rb.r
+        if (d < ra.r + rb.r && d > Math.abs(ra.r - rb.r)) {
+          // Intersection point(s) – approximate centre
+          let t0 = (d * d + ra.r * ra.r - rb.r * rb.r) / (2 * d * d);
+          let mx = ra.sx + t0 * (rb.sx - ra.sx);
+          let my = ra.sy + t0 * (rb.sy - ra.sy);
+
+          // Brightness = sum of alphas
+          let tA = ra.r / ra.maxR, tB = rb.r / rb.maxR;
+          let aA = (1 - tA) * (ra.isMouse ? 140 : (ra.isGold ? 80 : 80));
+          let aB = (1 - tB) * (rb.isMouse ? 140 : (rb.isGold ? 80 : 80));
+          let bright = Math.min(aA + aB, 200);
+
+          // Color mix toward gold if either is gold
+          let col = (ra.isGold || rb.isGold) ? GOLD : TEAL;
+          p.fill(col[0], col[1], col[2], bright * 0.55);
+          p.ellipse(mx, my, 6, 6);
+        }
+      }
+    }
+    p.noFill();
+
+    // ── Draw source nodes ────────────────────────────────
+    for (let src of sources) {
+      let col = src.isGold ? GOLD : TEAL;
+      // Pulsing halo
+      let pulse = 0.5 + 0.5 * p.sin(src.phase * 1.2);
+      p.fill(col[0], col[1], col[2], 30 + 30 * pulse);
+      p.noStroke();
+      p.ellipse(src.x, src.y, (src.isGold ? 18 : 14) + pulse * 6);
+
+      p.fill(col[0], col[1], col[2], 200);
+      p.ellipse(src.x, src.y, src.isGold ? 7 : 5);
+    }
+    p.noFill();
+
+    // ── Floating data labels ─────────────────────────────
+    if (p.random() < 0.025) spawnLabel();
+
+    p.textSize(9);
+    p.textFont('monospace');
+    for (let i = dataLabels.length - 1; i >= 0; i--) {
+      let lbl = dataLabels[i];
+      lbl.life--;
+      lbl.alpha = p.map(lbl.life, 0, 40, 0, 160, true);
+      if (lbl.life <= 0) { dataLabels.splice(i, 1); continue; }
+      p.fill(TEAL[0], TEAL[1], TEAL[2], lbl.alpha);
+      p.noStroke();
+      p.text(lbl.text, lbl.x, lbl.y);
+    }
+    p.noFill();
+  };
+
+  // ── Mouse interaction ────────────────────────────────────
+  p.mouseMoved = function() {
+    // handled in draw via mouseTimer
+  };
+};
+
+new p5(sk, document.getElementById('c'));
+</script>
+</body></html>

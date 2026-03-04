@@ -15,50 +15,38 @@ projects = [
     },
     {
         "id": "rm-system",
-        "name": "RM 风险管理系统",
-        "desc": "500 亿在贷余额管理",
+        "name": "全面风险管理系统",
+        "desc": "9 条业务线 · 风险预估 · 财报与审计支持",
         "category": "risk"
     },
     {
         "id": "ai-deep-strategy",
-        "name": "AI 深度策略",
+        "name": "AI 风控策略",
         "desc": "借新还旧 · 提前结清 · 额度曲线",
         "category": "risk"
     },
     {
         "id": "kyc-platform",
-        "name": "KYC 经营策略中台",
+        "name": "KYC 策略中台",
         "desc": "转化率 +15.6% · 月增 2.7 亿",
         "category": "risk"
     },
     {
         "id": "telesales-system",
-        "name": "电销策略推荐系统",
+        "name": "智能电销系统",
         "desc": "转化率 +9.8% · 月增 1.1 亿",
         "category": "risk"
     },
     {
         "id": "year-end-report",
-        "name": "年终总结报告",
+        "name": "25年年度总结",
         "desc": "策略体系 · 时间线 · 核心成果",
         "category": "data"
     },
     {
         "id": "weekly-monitoring",
-        "name": "周报监控",
+        "name": "目标达成体系",
         "desc": "自动化周度风险监控",
-        "category": "data"
-    },
-    {
-        "id": "customer-segmentation",
-        "name": "客群分层策略",
-        "desc": "风险降 11.6% · 规模 +15.3%",
-        "category": "risk"
-    },
-    {
-        "id": "data-quality",
-        "name": "数据质量校验",
-        "desc": "自动化校验 · 效率提升 80%+",
         "category": "data"
     },
     {

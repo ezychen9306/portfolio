@@ -1,0 +1,192 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<title>Flow Meridian · Art Preview</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f7f4ef;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:system-ui}
+h2{color:#6b8e9f;font-size:1rem;font-weight:600;margin:0 0 1rem;letter-spacing:.05em;opacity:.7}
+canvas{border-radius:12px;box-shadow:0 4px 24px rgba(107,142,159,.15)}
+p.desc{color:#4a5568;font-size:.75rem;margin:.6rem 0 0;opacity:.55;letter-spacing:.03em}
+</style>
+</head><body>
+<h2>变体 A：Flow Meridian · 流场经线</h2>
+<div id="c"></div>
+<p class="desc">Perlin Noise Flow Field · 800 particles · Mouse attraction</p>
+<script>
+const sk = function(p) {
+  // ---------- palette ----------
+  const BG     = [247, 244, 239];   // #f7f4ef
+  const PRIMARY = [107, 142, 159];  // #6b8e9f
+  const ACCENT  = [201, 162,  39];  // #c9a227
+
+  // ---------- config ----------
+  const W = 800, H = 660;
+  const NUM_PARTICLES = 800;
+  const NOISE_SCALE   = 0.003;
+  const NOISE_Z_SPEED = 0.0006;
+  const MAX_SPEED     = 2.2;
+  const MOUSE_RADIUS  = 120;
+  const MOUSE_FORCE   = 0.4;
+  const FADE_ALPHA    = 8;
+
+  let particles = [];
+  let zOff = 0;
+  let pg;   // offscreen graphics for trail persistence
+
+  // ---------- Particle class ----------
+  class Particle {
+    constructor() { this.reset(true); }
+
+    reset(randomPos = false) {
+      if (randomPos) {
+        this.x = p.random(W);
+        this.y = p.random(H);
+      } else {
+        // respawn at a random edge
+        const edge = p.floor(p.random(4));
+        if (edge === 0) { this.x = p.random(W); this.y = -2; }
+        else if (edge === 1) { this.x = W + 2;  this.y = p.random(H); }
+        else if (edge === 2) { this.x = p.random(W); this.y = H + 2; }
+        else                 { this.x = -2;           this.y = p.random(H); }
+      }
+      this.px = this.x;
+      this.py = this.y;
+      this.vx = 0;
+      this.vy = 0;
+      this.sw = p.random(0.8, 1.5);
+      this.alpha = p.random(60, 120);
+      // colour mix t in [0,1]
+      this.colorT = p.random(1);
+    }
+
+    update(mx, my) {
+      const angle = p.noise(this.x * NOISE_SCALE, this.y * NOISE_SCALE, zOff) * p.TWO_PI * 2;
+      const ax = p.cos(angle) * 0.5;
+      const ay = p.sin(angle) * 0.5;
+
+      // secondary noise layer for turbulence
+      const angle2 = p.noise(this.x * NOISE_SCALE * 2.5 + 100,
+                             this.y * NOISE_SCALE * 2.5 + 100, zOff * 1.4) * p.TWO_PI;
+      const bx = p.cos(angle2) * 0.15;
+      const by = p.sin(angle2) * 0.15;
+
+      this.vx += ax + bx;
+      this.vy += ay + by;
+
+      // mouse attraction
+      const dx = mx - this.x;
+      const dy = my - this.y;
+      const dist = p.sqrt(dx * dx + dy * dy);
+      if (dist < MOUSE_RADIUS && dist > 1) {
+        const strength = (1 - dist / MOUSE_RADIUS) * MOUSE_FORCE;
+        this.vx += (dx / dist) * strength;
+        this.vy += (dy / dist) * strength;
+      }
+
+      // clamp speed
+      const speed = p.sqrt(this.vx * this.vx + this.vy * this.vy);
+      if (speed > MAX_SPEED) {
+        this.vx = (this.vx / speed) * MAX_SPEED;
+        this.vy = (this.vy / speed) * MAX_SPEED;
+      }
+
+      this.px = this.x;
+      this.py = this.y;
+      this.x += this.vx;
+      this.y += this.vy;
+
+      // damping
+      this.vx *= 0.95;
+      this.vy *= 0.95;
+
+      // slowly shift colour over time
+      this.colorT += p.random(-0.005, 0.005);
+      this.colorT = p.constrain(this.colorT, 0, 1);
+
+      // respawn if out of bounds
+      if (this.x < -10 || this.x > W + 10 || this.y < -10 || this.y > H + 10) {
+        this.reset(false);
+      }
+    }
+
+    draw(pg) {
+      // interpolate colour
+      const r = p.lerp(PRIMARY[0], ACCENT[0], this.colorT);
+      const g = p.lerp(PRIMARY[1], ACCENT[1], this.colorT);
+      const b = p.lerp(PRIMARY[2], ACCENT[2], this.colorT);
+
+      pg.strokeWeight(this.sw);
+      pg.stroke(r, g, b, this.alpha);
+      pg.line(this.px, this.py, this.x, this.y);
+    }
+  }
+
+  // ---------- setup ----------
+  p.setup = function() {
+    const cnv = p.createCanvas(W, H);
+    cnv.parent('c');
+
+    pg = p.createGraphics(W, H);
+    pg.background(BG[0], BG[1], BG[2]);
+
+    for (let i = 0; i < NUM_PARTICLES; i++) {
+      particles.push(new Particle());
+    }
+  };
+
+  // ---------- draw ----------
+  p.draw = function() {
+    // fade the offscreen buffer
+    pg.noStroke();
+    pg.fill(BG[0], BG[1], BG[2], FADE_ALPHA);
+    pg.rect(0, 0, W, H);
+
+    const mx = p.constrain(p.mouseX, 0, W);
+    const my = p.constrain(p.mouseY, 0, H);
+
+    // update & draw each particle onto the persistent buffer
+    for (let pt of particles) {
+      pt.update(mx, my);
+      pt.draw(pg);
+    }
+
+    // blit the buffer to the canvas
+    p.image(pg, 0, 0);
+
+    // subtle vignette
+    const grad = p.drawingContext.createRadialGradient(
+      W / 2, H / 2, H * 0.25,
+      W / 2, H / 2, H * 0.78
+    );
+    grad.addColorStop(0, 'rgba(247,244,239,0)');
+    grad.addColorStop(1, 'rgba(247,244,239,0.35)');
+    p.drawingContext.fillStyle = grad;
+    p.drawingContext.fillRect(0, 0, W, H);
+
+    zOff += NOISE_Z_SPEED;
+  };
+
+  // ---------- mouse click: burst reset ----------
+  p.mousePressed = function() {
+    if (p.mouseX >= 0 && p.mouseX <= W && p.mouseY >= 0 && p.mouseY <= H) {
+      // scatter a subset of particles toward mouse click
+      const num = p.floor(NUM_PARTICLES * 0.15);
+      for (let i = 0; i < num; i++) {
+        const pt = particles[p.floor(p.random(NUM_PARTICLES))];
+        pt.x = p.mouseX + p.random(-20, 20);
+        pt.y = p.mouseY + p.random(-20, 20);
+        pt.px = pt.x;
+        pt.py = pt.y;
+        const ang = p.random(p.TWO_PI);
+        pt.vx = p.cos(ang) * p.random(1, 3);
+        pt.vy = p.sin(ang) * p.random(1, 3);
+      }
+    }
+  };
+};
+
+new p5(sk, document.getElementById('c'));
+</script>
+</body></html>

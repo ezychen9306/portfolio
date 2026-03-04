@@ -1,23 +1,50 @@
-<!doctype html>
-<html lang="zh-CN"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Skills 技能开发 · 演示</title>
-<link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Skills 技能开发 · 效率 +50% · 规范遵守 95%+</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-:root{--primary:#6b8e9f;--accent:#c9a227;--text:#2d2d2d;--muted:#666}
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Microsoft Yahei",sans-serif;margin:0;background:#fafafa;color:var(--text)}
-.topbar{display:flex;gap:.75rem;align-items:center;justify-content:space-between;padding:.6rem .9rem;border-bottom:1px solid #eee;background:#fff;position:sticky;top:0}
-.topbar a{color:var(--primary);text-decoration:none;font-weight:600}
-.topbar a.btn{display:inline-flex;align-items:center;gap:.35rem;background:var(--primary);color:#fff;padding:.35rem .6rem;border-radius:6px}
-.container{max-width:1040px;margin:0 auto;padding:1rem}
-footer{padding:2rem 1rem;color:#888;text-align:center}
-article{background:#fff;border:1px solid #eee;border-radius:10px;padding:1.2rem}
-article h1,article h2{border-bottom:1px solid #eee;padding-bottom:.25rem}
-article img{max-width:100%;height:auto}
+:root{--bg:#f7f4ef;--card:#fff;--primary:#6b8e9f;--accent:#c9a227;--text:#4a5568;--muted:#718096;--border:#e8e4dc;--shadow:0 2px 8px rgba(0,0,0,.06)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+nav{background:#fff;border-bottom:1px solid #e8e4dc;padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:10}
+nav a{display:inline-flex;align-items:center;gap:.4rem;color:#6b8e9f;text-decoration:none;font-weight:600;font-size:.9rem;padding:.3rem .7rem;border-radius:6px;border:1px solid #e8e4dc;transition:background .2s}
+nav a:hover{background:#f7f4ef}
+nav span{color:#718096;font-size:.9rem}
+.page{padding:1.5rem;max-width:960px;margin:0 auto}
+.header{margin-bottom:1.25rem}
+.header h1{font-size:1.35rem;font-weight:700;color:var(--text);display:flex;align-items:center;gap:.5rem}
+.header p{font-size:.83rem;color:var(--muted);margin-top:.3rem}
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.25rem}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;box-shadow:var(--shadow)}
+.kpi-label{font-size:.75rem;color:var(--muted);margin-bottom:.35rem;display:flex;align-items:center;gap:.3rem}
+.kpi-value{font-size:1.75rem;font-weight:700;line-height:1.1}
+.kpi-value span{font-size:.95rem;font-weight:400}
+.color-accent{color:var(--accent)}
+.color-primary{color:var(--primary)}
+.kpi-badge{display:inline-block;font-size:.7rem;padding:.15rem .4rem;border-radius:4px;font-weight:600;margin-top:.3rem}
+.badge-up{background:#fef3c7;color:#92400e}
+.badge-green{background:#d1fae5;color:#065f46}
+.main-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1rem}
+.section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;box-shadow:var(--shadow)}
+.section.span2{grid-column:span 2}
+.section-title{font-size:.88rem;font-weight:600;color:var(--text);margin-bottom:.9rem;display:flex;align-items:center;gap:.4rem}
+.section-title i{color:var(--primary)}
+.chart-wrap{position:relative;height:200px}
+.ring-wrap{display:flex;flex-direction:column;align-items:center;justify-content:center;height:200px;position:relative}
+.ring-canvas-wrap{position:relative;width:160px;height:160px}
+.ring-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center}
+.ring-num{font-size:1.8rem;font-weight:700;color:var(--accent)}
+.ring-sub{font-size:.72rem;color:var(--muted)}
+@media(max-width:720px){.kpi-grid{grid-template-columns:1fr}.main-grid{grid-template-columns:1fr}.section.span2{grid-column:1}}
 </style>
+<script>if(window.parent!==window)document.documentElement.classList.add("in-iframe");</script>
+<style>.in-iframe nav{display:none!important;}</style>
 <meta name="description" content="效率 +50% · 规范遵守 95%+">
-<meta property="og:title" content="Skills 技能开发 · 演示 · 演示" />
+<meta property="og:title" content="Skills 技能开发 · 效率 +50% · 规范遵守 95%+ · 演示" />
 <meta property="og:description" content="效率 +50% · 规范遵守 95%+" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="../../screenshot.png" />
@@ -26,71 +53,144 @@ article img{max-width:100%;height:auto}
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16x16.png">
 <link rel="manifest" href="../../assets/icons/site.webmanifest">
-</head><body>
-<div class="topbar">
-  <div><a href="../../index.html"><i class="ri-arrow-left-line"></i> 返回作品集</a></div>
-  <div style="color:#999;font-size:.9rem">Skills 技能开发</div>
-  <div><a class="btn" href="#" onclick="history.back();return false;"><i class="ri-history-line"></i> 返回</a></div>
+</head>
+<body>
+<nav>
+  <a href="../../index.html#portfolio" onclick="if(window.parent!==window){window.parent.closeModal();return false;}"><i class="ri-arrow-left-line"></i> 返回</a>
+  <span>效率 +50% · 规范遵守 95%+</span>
+</nav>
+<div class="page">
+  <div class="header">
+    <h1><i class="ri-code-s-slash-line" style="color:var(--primary)"></i> Skills 技能开发</h1>
+    <p>效率 +50% &nbsp;·&nbsp; 规范遵守 95%+ &nbsp;·&nbsp; 4 团队覆盖 · 持续迭代</p>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="ri-apps-line"></i> Skills 数量</div>
+      <div class="kpi-value color-primary">30<span>个</span></div>
+      <span class="kpi-badge badge-up">↑ 12→30 稳定增长</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="ri-shield-check-line"></i> 规范遵守率</div>
+      <div class="kpi-value color-accent">95<span>%</span></div>
+      <span class="kpi-badge badge-green">超预期达标</span>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label"><i class="ri-team-line"></i> 覆盖团队</div>
+      <div class="kpi-value color-primary">4<span>个</span></div>
+      <span class="kpi-badge" style="background:#e8f4f8;color:#4a7a8a">全部门覆盖</span>
+    </div>
+  </div>
+
+  <div class="main-grid">
+    <div class="section span2">
+      <div class="section-title"><i class="ri-line-chart-line"></i> 7 周 Skills 数量趋势（12→30）</div>
+      <div class="chart-wrap"><canvas id="trendChart"></canvas></div>
+    </div>
+    <div class="section">
+      <div class="section-title"><i class="ri-pie-chart-line"></i> 团队使用分布</div>
+      <div class="chart-wrap"><canvas id="teamChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="section" style="margin-top:1rem">
+    <div class="section-title"><i class="ri-award-line"></i> 规范遵守率</div>
+    <div class="ring-wrap">
+      <div class="ring-canvas-wrap">
+        <canvas id="ringChart"></canvas>
+        <div class="ring-label">
+          <div class="ring-num">95%</div>
+          <div class="ring-sub">遵守率</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<div class="container">
-<article>
-<h1>Skills 技能开发</h1>
-<h2>项目概述</h2>
-<p>基于 Claude Code / Cursor 的 Skills 技能开发，将业务经验与开发规范封装为可复用的 AI 技能。</p>
-<h2>核心技能</h2>
-<h3>1. constitutional-compliance</h3>
-<ul>
-<li>23 条宪法规则快速参考</li>
-<li>项目规范与开发标准</li>
-<li>最佳实践指南</li>
-</ul>
-<h3>2. data-report-builder</h3>
-<ul>
-<li>数据驱动 HTML 报告生成</li>
-<li>交互式图表与模块化架构</li>
-<li>自动化报表流水线</li>
-</ul>
-<h3>3. year-end-report</h3>
-<ul>
-<li>年终汇报幻灯片生成</li>
-<li>策略体系图与时间线</li>
-<li>月报/QBR 链接整合</li>
-</ul>
-<h3>4. wechat-article-processor</h3>
-<ul>
-<li>微信文章处理与格式化</li>
-<li>内容提取与结构化</li>
-<li>批量处理自动化</li>
-</ul>
-<h2>技能特点</h2>
-<ul>
-<li>**可复用**：一次开发，多次使用</li>
-<li>**标准化**：统一规范，减少错误</li>
-<li>**高效**：自动化流程，节省时间</li>
-<li>**可维护**：版本管理，持续优化</li>
-</ul>
-<h2>开发流程</h2>
-<p>1. 需求分析与场景梳理</p>
-<p>2. 技能设计与接口定义</p>
-<p>3. 代码实现与测试</p>
-<p>4. 文档编写与示例</p>
-<p>5. 部署与迭代优化</p>
-<h2>业务价值</h2>
-<ul>
-<li>开发效率提升 **50%+**</li>
-<li>代码质量提升 **30%+**</li>
-<li>规范遵守率 **95%+**</li>
-<li>团队协作效率 **40%+**</li>
-</ul>
-<h2>技术栈</h2>
-<ul>
-<li>Claude Code / Cursor</li>
-<li>Python / JavaScript</li>
-<li>Markdown（文档）</li>
-<li>Git（版本管理）</li>
-</ul>
-<h2>示例技能</h2>
-<p>详见 `.claude/skills/` 目录</p>
-</article></div>
-<footer>© 2026 Portfolio Demos</footer>
-</body></html>
+
+<script>
+const DATA = {
+  trend:[12,14,18,20,23,26,30],
+  compliance:0.95,
+  teams:[{name:"风控",v:0.34},{name:"运营",v:0.28},{name:"产品",v:0.22},{name:"研发",v:0.16}]
+};
+
+document.addEventListener('DOMContentLoaded',()=>{
+  // Trend line
+  const ctx1 = document.getElementById('trendChart').getContext('2d');
+  const grad = ctx1.createLinearGradient(0,0,0,180);
+  grad.addColorStop(0,'rgba(107,142,159,.2)');
+  grad.addColorStop(1,'rgba(107,142,159,.02)');
+  new Chart(ctx1,{
+    type:'line',
+    data:{
+      labels:['W1','W2','W3','W4','W5','W6','W7'],
+      datasets:[{
+        label:'Skills 数量',
+        data:DATA.trend,
+        borderColor:'#6b8e9f',
+        backgroundColor:grad,
+        borderWidth:2.5,
+        pointRadius:5,
+        pointBackgroundColor:'#6b8e9f',
+        fill:true,
+        tension:.35
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>' '+c.parsed.y+' 个'}}},
+      scales:{
+        x:{grid:{color:'#f0ede8'},ticks:{font:{size:11}}},
+        y:{grid:{color:'#f0ede8'},ticks:{font:{size:11}},min:8,max:34}
+      }
+    }
+  });
+
+  // Team donut
+  const ctx2 = document.getElementById('teamChart').getContext('2d');
+  new Chart(ctx2,{
+    type:'doughnut',
+    data:{
+      labels:DATA.teams.map(t=>t.name),
+      datasets:[{
+        data:DATA.teams.map(t=>Math.round(t.v*100)),
+        backgroundColor:['#6b8e9f','#c9a227','#8fa9b5','#e0c875'],
+        borderWidth:2,
+        borderColor:'#fff',
+        hoverOffset:6
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      cutout:'58%',
+      plugins:{
+        legend:{position:'bottom',labels:{font:{size:10},padding:8}},
+        tooltip:{callbacks:{label:c=>` ${c.label}: ${c.parsed}%`}}
+      }
+    }
+  });
+
+  // Compliance ring
+  const ctx3 = document.getElementById('ringChart').getContext('2d');
+  const pct = Math.round(DATA.compliance*100);
+  new Chart(ctx3,{
+    type:'doughnut',
+    data:{
+      datasets:[{
+        data:[pct,100-pct],
+        backgroundColor:['#c9a227','#f0ede8'],
+        borderWidth:0,
+        hoverOffset:0
+      }]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:true,
+      cutout:'72%',
+      plugins:{legend:{display:false},tooltip:{enabled:false}}
+    }
+  });
+});
+</script>
+</body>
+</html>

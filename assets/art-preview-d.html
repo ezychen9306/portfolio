@@ -1,0 +1,241 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<title>Growth Lattice · Art Preview</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+<style>
+body{margin:0;background:#f7f4ef;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:system-ui}
+h2{color:#6b8e9f;font-size:1rem;font-weight:600;margin:0 0 1rem;letter-spacing:.05em;opacity:.7}
+canvas{border-radius:12px;box-shadow:0 4px 24px rgba(107,142,159,.15)}
+</style>
+</head><body>
+<h2>变体 D：Growth Lattice · 增长晶格</h2>
+<div id="c"></div>
+<script>
+const sk = function(p) {
+
+  // ── Palette ──────────────────────────────────────────────
+  const CREAM = [247, 244, 239];
+  const TEAL  = [107, 142, 159];
+  const GOLD  = [201, 162,  39];
+
+  // ── State ────────────────────────────────────────────────
+  const CYCLE_FRAMES = 180;   // frames to complete one growth cycle
+  const FADE_FRAMES  = 60;    // frames to fade out before restart
+
+  let trees = [];              // array of Tree objects
+  let cycleFrame = 0;
+  let fading = false;
+  let fadeAlpha = 0;           // overlay alpha during fade
+  let extraSeeds = [];         // temporary seeds from mouse clicks
+
+  // ── Perlin noise offsets ─────────────────────────────────
+  let noiseOff = 0;
+
+  // ── Tree class ───────────────────────────────────────────
+  class Branch {
+    constructor(x, y, angle, len, depth, noiseBase) {
+      this.x1 = x;
+      this.y1 = y;
+      this.angle = angle;
+      this.len = len;
+      this.depth = depth;       // 0 = trunk, 3 = leaf
+      this.noiseBase = noiseBase;
+      // Compute endpoint using noise-perturbed angle
+      let na = angle + (p.noise(noiseBase, depth * 10) - 0.5) * 0.9;
+      this.x2 = x + p.cos(na) * len;
+      this.y2 = y + p.sin(na) * len;
+      this.children = [];
+      this.drawProgress = 0;    // 0 → 1, animated
+      this.startFrame = 0;      // cycle frame when this branch begins
+      this.drawn = false;
+    }
+  }
+
+  class Tree {
+    constructor(sx, sy, isExtra) {
+      this.sx = sx;
+      this.sy = sy;
+      this.isExtra = isExtra || false;
+      this.branches = [];
+      this.noiseBase = p.random(0, 100);
+      this._build();
+    }
+
+    _build() {
+      this.branches = [];
+      // Determine a main direction biased upward but varied
+      let mainAngle = p.random(-p.PI * 0.9, -p.PI * 0.1);
+      // Trunk
+      let trunk = this._makeBranch(this.sx, this.sy, mainAngle, p.random(55, 85), 0, this.noiseBase, 0);
+      this.branches.push(trunk);
+      this._scheduleChildren(trunk);
+    }
+
+    _makeBranch(x, y, angle, len, depth, noiseBase, startFrame) {
+      let b = new Branch(x, y, angle, len, depth, noiseBase);
+      b.startFrame = startFrame;
+      return b;
+    }
+
+    _scheduleChildren(branch) {
+      if (branch.depth >= 3) return;
+      // Number of children: 2-3
+      let numChildren = branch.depth < 2 ? p.floor(p.random(2, 4)) : p.floor(p.random(1, 3));
+      let childLen = branch.len * p.random(0.55, 0.72);
+      let spreadAngle = p.random(0.35, 0.75);
+      // Child branches start after parent finishes (staggered by depth)
+      let childStart = branch.startFrame + p.floor(CYCLE_FRAMES * 0.18 * (branch.depth + 1) / 4);
+      childStart = p.min(childStart, CYCLE_FRAMES - 20);
+
+      for (let i = 0; i < numChildren; i++) {
+        let offset = p.map(i, 0, numChildren - 1, -spreadAngle, spreadAngle);
+        let childAngle = branch.angle + offset + (p.noise(branch.noiseBase + i * 3.7) - 0.5) * 0.5;
+        let child = this._makeBranch(
+          branch.x2, branch.y2,
+          childAngle, childLen,
+          branch.depth + 1,
+          branch.noiseBase + i * 13.1,
+          childStart
+        );
+        branch.children.push(child);
+        this.branches.push(child);
+        this._scheduleChildren(child);
+      }
+    }
+
+    draw(cf) {
+      for (let b of this.branches) {
+        // Progress for this branch
+        let localDur = p.floor(CYCLE_FRAMES * 0.22);
+        let t = p.constrain((cf - b.startFrame) / localDur, 0, 1);
+        if (t <= 0) continue;
+
+        // Interpolated endpoint
+        let cx2 = p.lerp(b.x1, b.x2, t);
+        let cy2 = p.lerp(b.y1, b.y2, t);
+
+        // Style by depth
+        let isTrunk = b.depth === 0;
+        let isLeaf  = b.depth === 3;
+        let alphaVal = isTrunk ? 220 : p.map(b.depth, 1, 3, 180, 70);
+        let sw = isTrunk ? 2.2 : p.map(b.depth, 1, 3, 1.6, 0.7);
+
+        let r = TEAL[0], g = TEAL[1], bl = TEAL[2];
+        if (isLeaf) { r = p.lerp(TEAL[0], GOLD[0], 0.4); g = p.lerp(TEAL[1], GOLD[1], 0.4); bl = p.lerp(TEAL[2], GOLD[2], 0.4); }
+
+        p.stroke(r, g, bl, alphaVal);
+        p.strokeWeight(sw);
+        p.line(b.x1, b.y1, cx2, cy2);
+
+        // Leaf-end gold dot when fully drawn
+        if (isLeaf && t >= 1) {
+          p.noStroke();
+          p.fill(GOLD[0], GOLD[1], GOLD[2], 200 + 40 * p.sin(p.frameCount * 0.08 + b.noiseBase));
+          p.ellipse(b.x2, b.y2, 5, 5);
+          p.noFill();
+        }
+      }
+    }
+  }
+
+  // ── Build seed positions ─────────────────────────────────
+  function buildSeeds() {
+    return [
+      { x: p.random(100, 220),  y: p.random(350, 580) },
+      { x: p.random(280, 420),  y: p.random(400, 620) },
+      { x: p.random(450, 600),  y: p.random(380, 600) },
+      { x: p.random(600, 730),  y: p.random(350, 570) },
+      { x: p.random(160, 320),  y: p.random(180, 320) },
+    ];
+  }
+
+  function initTrees(seeds) {
+    trees = [];
+    for (let s of seeds) {
+      trees.push(new Tree(s.x, s.y));
+    }
+    // Re-add extra seeds (temporary mouse-click trees)
+    for (let es of extraSeeds) {
+      trees.push(new Tree(es.x, es.y, true));
+    }
+    cycleFrame = 0;
+    fading = false;
+    fadeAlpha = 0;
+  }
+
+  // ── Setup ────────────────────────────────────────────────
+  p.setup = function() {
+    let cnv = p.createCanvas(800, 660);
+    cnv.parent('c');
+    p.colorMode(p.RGB, 255, 255, 255, 255);
+    p.background(CREAM[0], CREAM[1], CREAM[2]);
+    initTrees(buildSeeds());
+  };
+
+  // ── Draw ─────────────────────────────────────────────────
+  p.draw = function() {
+    // Redraw cream background each frame so branches are crisp
+    p.background(CREAM[0], CREAM[1], CREAM[2]);
+
+    // Seed dot decorations (subtle)
+    p.noStroke();
+    for (let tr of trees) {
+      let a = tr.isExtra ? 180 : 100;
+      let col = tr.isExtra ? GOLD : TEAL;
+      p.fill(col[0], col[1], col[2], a);
+      p.ellipse(tr.sx, tr.sy, 6, 6);
+    }
+    p.noFill();
+
+    if (!fading) {
+      // Normal growth phase
+      for (let tr of trees) {
+        tr.draw(cycleFrame);
+      }
+      cycleFrame++;
+      if (cycleFrame >= CYCLE_FRAMES) {
+        fading = true;
+        fadeAlpha = 0;
+      }
+    } else {
+      // Draw fully-grown trees at t=1
+      for (let tr of trees) {
+        tr.draw(CYCLE_FRAMES);
+      }
+      // Fade overlay
+      fadeAlpha += 255 / FADE_FRAMES;
+      p.noStroke();
+      p.fill(CREAM[0], CREAM[1], CREAM[2], p.min(fadeAlpha, 255));
+      p.rect(0, 0, p.width, p.height);
+      p.noFill();
+
+      if (fadeAlpha >= 255) {
+        // Clear extra seeds after one cycle
+        extraSeeds = [];
+        initTrees(buildSeeds());
+      }
+    }
+
+    // ── Subtle grid texture ──────────────────────────────
+    p.stroke(TEAL[0], TEAL[1], TEAL[2], 8);
+    p.strokeWeight(0.4);
+    for (let x = 0; x <= p.width; x += 40) p.line(x, 0, x, p.height);
+    for (let y = 0; y <= p.height; y += 40) p.line(0, y, p.width, y);
+    p.noStroke();
+  };
+
+  // ── Mouse click: add temporary seed ─────────────────────
+  p.mouseClicked = function() {
+    if (p.mouseX < 0 || p.mouseX > p.width || p.mouseY < 0 || p.mouseY > p.height) return;
+    if (extraSeeds.length < 4) {
+      extraSeeds.push({ x: p.mouseX, y: p.mouseY });
+      // Immediately add a live tree from this point
+      trees.push(new Tree(p.mouseX, p.mouseY, true));
+    }
+  };
+};
+
+new p5(sk, document.getElementById('c'));
+</script>
+</body></html>

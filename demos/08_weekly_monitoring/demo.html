@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>周报监控 - 2025 W07</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Microsoft YaHei',sans-serif;background:#f7f4ef;padding:2rem}
+.container{max-width:1200px;margin:0 auto;background:#fff;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.header{border-bottom:2px solid #6b8e9f;padding-bottom:1rem;margin-bottom:2rem}
+h1{color:#2d2d2d;font-size:1.8rem}
+.week-info{color:#6b8e9f;font-size:.9rem;margin-top:.5rem}
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem}
+.kpi-card{background:#f9f9f9;padding:1.2rem;border-radius:6px;border-left:4px solid #6b8e9f}
+.kpi-card.warning{border-left-color:#ffc107}
+.kpi-card.danger{border-left-color:#dc3545}
+.kpi-label{font-size:.8rem;color:#666;margin-bottom:.3rem}
+.kpi-value{font-size:1.8rem;font-weight:700;color:#2d2d2d}
+.kpi-change{font-size:.75rem;margin-top:.3rem}
+.kpi-change.up{color:#28a745}
+.kpi-change.down{color:#dc3545}
+.kpi-change.neutral{color:#999}
+.section{margin-top:2rem}
+.section-title{font-size:1.2rem;color:#2d2d2d;margin-bottom:1rem;border-left:4px solid #c9a227;padding-left:1rem}
+table{width:100%;border-collapse:collapse}
+th,td{padding:.7rem;text-align:left;border-bottom:1px solid #e0e0e0;font-size:.85rem}
+th{background:#f5f5f5;color:#2d2d2d;font-weight:600}
+.alert{background:#fff3cd;border-left:4px solid #ffc107;padding:1rem;border-radius:4px;margin-top:1rem}
+.alert-title{font-weight:600;color:#856404;margin-bottom:.5rem}
+.alert-content{font-size:.85rem;color:#856404}
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>周报监控</h1>
+    <div class="week-info">2025 年第 7 周（2025-02-10 至 2025-02-16）</div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card">
+      <div class="kpi-label">放款规模（万）</div>
+      <div class="kpi-value">12,500</div>
+      <div class="kpi-change up">▲ 5.9% WoW</div>
+    </div>
+    <div class="kpi-card warning">
+      <div class="kpi-label">fpd7</div>
+      <div class="kpi-value">6.8%</div>
+      <div class="kpi-change down">▲ 0.3pp WoW</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">在贷余额（亿）</div>
+      <div class="kpi-value">68</div>
+      <div class="kpi-change up">▲ 3.0% WoW</div>
+    </div>
+    <div class="kpi-card">
+      <div class="kpi-label">活跃客户数（万）</div>
+      <div class="kpi-value">42.5</div>
+      <div class="kpi-change up">▲ 2.1% WoW</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">核心指标详情</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>指标</th>
+          <th>本周</th>
+          <th>上周</th>
+          <th>WoW</th>
+          <th>月均</th>
+          <th>状态</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>放款规模（万）</td>
+          <td>12,500</td>
+          <td>11,800</td>
+          <td style="color:#28a745">+5.9%</td>
+          <td>12,100</td>
+          <td>✓ 正常</td>
+        </tr>
+        <tr>
+          <td>fpd7</td>
+          <td>6.8%</td>
+          <td>6.5%</td>
+          <td style="color:#dc3545">+0.3pp</td>
+          <td>6.6%</td>
+          <td>⚠ 观察</td>
+        </tr>
+        <tr>
+          <td>fpd30</td>
+          <td>12.5%</td>
+          <td>12.3%</td>
+          <td style="color:#dc3545">+0.2pp</td>
+          <td>12.4%</td>
+          <td>✓ 正常</td>
+        </tr>
+        <tr>
+          <td>M3+</td>
+          <td>8.2%</td>
+          <td>8.5%</td>
+          <td style="color:#28a745">-0.3pp</td>
+          <td>8.4%</td>
+          <td>✓ 正常</td>
+        </tr>
+        <tr>
+          <td>在贷余额（亿）</td>
+          <td>68</td>
+          <td>66</td>
+          <td style="color:#28a745">+3.0%</td>
+          <td>66</td>
+          <td>✓ 正常</td>
+        </tr>
+        <tr>
+          <td>活跃客户数（万）</td>
+          <td>42.5</td>
+          <td>41.6</td>
+          <td style="color:#28a745">+2.1%</td>
+          <td>41.8</td>
+          <td>✓ 正常</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">异常预警</h2>
+    <div class="alert">
+      <div class="alert-title">⚠ fpd7 指标异常</div>
+      <div class="alert-content">
+        本周 fpd7 为 6.8%，较上周上升 0.3pp，超过月均水平。<br>
+        初步分析：受台风 Karding 影响，Luzon 北部客户还款延迟。<br>
+        建议：持续观察，必要时启动灾难管控策略。
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">策略效果追踪</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>策略名称</th>
+          <th>上线时间</th>
+          <th>覆盖客户数</th>
+          <th>风险变化</th>
+          <th>规模变化</th>
+          <th>状态</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>额度策略 V5.1</td>
+          <td>2025-02-01</td>
+          <td>15,000</td>
+          <td style="color:#28a745">-1.2pp</td>
+          <td style="color:#28a745">+8.5%</td>
+          <td>✓ 效果良好</td>
+        </tr>
+        <tr>
+          <td>灾难管控策略</td>
+          <td>2025-02-10</td>
+          <td>15,600</td>
+          <td style="color:#28a745">-12.3%</td>
+          <td style="color:#999">-5.2%</td>
+          <td>✓ 符合预期</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="margin-top:2rem;color:#999;font-size:.8rem;text-align:center">
+    * 所有数据已脱敏处理，仅用于展示 | 生成时间: 2025-02-16 09:00
+  </p>
+</div>
+</body>
+</html>

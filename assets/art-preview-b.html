@@ -1,0 +1,264 @@
+<!doctype html>
+<html><head>
+<meta charset="utf-8">
+<title>Risk Constellation · Art Preview</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"></script>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#f7f4ef;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;font-family:system-ui}
+h2{color:#6b8e9f;font-size:1rem;font-weight:600;margin:0 0 1rem;letter-spacing:.05em;opacity:.7}
+canvas{border-radius:12px;box-shadow:0 4px 24px rgba(107,142,159,.15)}
+p.desc{color:#4a5568;font-size:.75rem;margin:.6rem 0 0;opacity:.55;letter-spacing:.03em}
+</style>
+</head><body>
+<h2>变体 B：Risk Constellation · 风险星图</h2>
+<div id="c"></div>
+<p class="desc">Drifting Nodes · Dynamic Connections · Ripple Pulses · Mouse Attraction</p>
+<script>
+const sk = function(p) {
+  // ---------- palette ----------
+  const BG      = [247, 244, 239];
+  const PRIMARY = [107, 142, 159];  // #6b8e9f
+  const ACCENT  = [201, 162,  39];  // #c9a227
+  const TEXT_C  = [ 74,  85, 104];  // #4a5568
+
+  // ---------- config ----------
+  const W = 800, H = 660;
+  const NUM_NODES    = 40;
+  const LINK_DIST    = 120;
+  const MOUSE_RADIUS = 100;
+  const MOUSE_FORCE  = 0.18;
+  const FADE_ALPHA   = 15;
+  const NOISE_SCALE  = 0.0009;
+  const NODE_SPEED   = 0.55;
+
+  let nodes = [];
+  let ripples = [];   // { x, y, r, maxR, alpha }
+  let frameCount = 0;
+
+  // ---------- Node class ----------
+  class Node {
+    constructor(isCore) {
+      this.isCore = isCore;
+      this.x = p.random(W);
+      this.y = p.random(H);
+      this.px = this.x;
+      this.py = this.y;
+
+      // noise seeds for independent drift
+      this.nx = p.random(1000);
+      this.ny = p.random(1000);
+
+      if (isCore) {
+        this.baseRadius = p.random(6, 10);
+        this.r = [ACCENT[0], ACCENT[1], ACCENT[2]];
+        // ripple cooldown: random offset so cores don't all fire at once
+        this.rippleTimer = p.floor(p.random(120, 240));
+        this.rippleInterval = p.floor(p.random(120, 240)); // 2-4 sec at 60fps
+      } else {
+        this.baseRadius = p.random(3, 6);
+        this.r = [PRIMARY[0], PRIMARY[1], PRIMARY[2]];
+        this.rippleTimer = 0;
+        this.rippleInterval = 0;
+      }
+
+      this.radius = this.baseRadius;
+      this.phase = p.random(p.TWO_PI); // breathing phase
+    }
+
+    update(mx, my) {
+      // Perlin-noise driven drift
+      const angleX = p.noise(this.nx, frameCount * NOISE_SCALE * 0.6) * p.TWO_PI * 2;
+      const angleY = p.noise(this.ny + 500, frameCount * NOISE_SCALE * 0.6) * p.TWO_PI * 2;
+
+      this.px = this.x;
+      this.py = this.y;
+
+      this.x += p.cos(angleX) * NODE_SPEED;
+      this.y += p.sin(angleY) * NODE_SPEED;
+
+      // bounce off walls with padding
+      const pad = 30;
+      if (this.x < pad)    { this.x = pad;     }
+      if (this.x > W - pad){ this.x = W - pad; }
+      if (this.y < pad)    { this.y = pad;     }
+      if (this.y > H - pad){ this.y = H - pad; }
+
+      // mouse attraction
+      const dx = mx - this.x;
+      const dy = my - this.y;
+      const dist = p.sqrt(dx * dx + dy * dy);
+      if (dist < MOUSE_RADIUS && dist > 1) {
+        const strength = (1 - dist / MOUSE_RADIUS) * MOUSE_FORCE;
+        this.x += (dx / dist) * strength;
+        this.y += (dy / dist) * strength;
+      }
+
+      // breathing animation for core nodes
+      if (this.isCore) {
+        const pulse = p.sin(frameCount * 0.04 + this.phase) * 0.35 + 1;
+        this.radius = this.baseRadius * pulse;
+
+        // ripple trigger
+        this.rippleTimer++;
+        if (this.rippleTimer >= this.rippleInterval) {
+          this.rippleTimer = 0;
+          this.rippleInterval = p.floor(p.random(120, 240));
+          ripples.push({
+            x: this.x, y: this.y,
+            r: this.radius,
+            maxR: p.random(60, 110),
+            alpha: 200,
+            isCore: true
+          });
+        }
+      } else {
+        this.radius = this.baseRadius;
+      }
+    }
+
+    draw() {
+      p.noStroke();
+      if (this.isCore) {
+        // outer glow
+        p.fill(ACCENT[0], ACCENT[1], ACCENT[2], 35);
+        p.ellipse(this.x, this.y, this.radius * 3.5, this.radius * 3.5);
+        // main dot
+        p.fill(ACCENT[0], ACCENT[1], ACCENT[2], 220);
+        p.ellipse(this.x, this.y, this.radius * 2, this.radius * 2);
+        // bright centre
+        p.fill(255, 235, 180, 180);
+        p.ellipse(this.x, this.y, this.radius * 0.85, this.radius * 0.85);
+      } else {
+        // subtle glow
+        p.fill(PRIMARY[0], PRIMARY[1], PRIMARY[2], 40);
+        p.ellipse(this.x, this.y, this.radius * 2.8, this.radius * 2.8);
+        // main dot
+        p.fill(PRIMARY[0], PRIMARY[1], PRIMARY[2], 190);
+        p.ellipse(this.x, this.y, this.radius * 2, this.radius * 2);
+      }
+    }
+  }
+
+  // ---------- setup ----------
+  p.setup = function() {
+    const cnv = p.createCanvas(W, H);
+    cnv.parent('c');
+    p.background(BG[0], BG[1], BG[2]);
+
+    const coreCount = p.floor(NUM_NODES * 0.2); // 20% core
+
+    for (let i = 0; i < NUM_NODES; i++) {
+      nodes.push(new Node(i < coreCount));
+    }
+  };
+
+  // ---------- draw ----------
+  p.draw = function() {
+    frameCount++;
+
+    // fade background for trail persistence
+    p.noStroke();
+    p.fill(BG[0], BG[1], BG[2], FADE_ALPHA);
+    p.rect(0, 0, W, H);
+
+    const mx = p.mouseX;
+    const my = p.mouseY;
+
+    // update & draw ripples (before nodes so nodes sit on top)
+    for (let i = ripples.length - 1; i >= 0; i--) {
+      const rp = ripples[i];
+      rp.r += 1.4;
+      rp.alpha -= 4.5;
+
+      if (rp.alpha <= 0 || rp.r > rp.maxR) {
+        ripples.splice(i, 1);
+        continue;
+      }
+
+      p.noFill();
+      const col = rp.isCore ? ACCENT : PRIMARY;
+      p.stroke(col[0], col[1], col[2], rp.alpha);
+      p.strokeWeight(1.2);
+      p.ellipse(rp.x, rp.y, rp.r * 2, rp.r * 2);
+    }
+
+    // draw connections
+    p.noFill();
+    for (let i = 0; i < nodes.length; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        const a = nodes[i];
+        const b = nodes[j];
+        const dx = a.x - b.x;
+        const dy = a.y - b.y;
+        const dist = p.sqrt(dx * dx + dy * dy);
+
+        if (dist < LINK_DIST) {
+          const t = 1 - dist / LINK_DIST; // 1 when close, 0 at edge
+          const baseAlpha = t * t * 160;  // quadratic falloff
+
+          // determine line colour: gold if either node is core
+          let col;
+          if (a.isCore || b.isCore) {
+            col = ACCENT;
+          } else {
+            col = PRIMARY;
+          }
+
+          p.strokeWeight(p.lerp(0.4, 1.4, t));
+          p.stroke(col[0], col[1], col[2], baseAlpha);
+          p.line(a.x, a.y, b.x, b.y);
+
+          // extra bright shimmer for very close pairs
+          if (dist < LINK_DIST * 0.45) {
+            p.strokeWeight(0.5);
+            p.stroke(255, 255, 255, t * 60);
+            p.line(a.x, a.y, b.x, b.y);
+          }
+        }
+      }
+    }
+
+    // update & draw nodes
+    for (let nd of nodes) {
+      nd.update(mx, my);
+      nd.draw();
+    }
+
+    // vignette overlay
+    const grad = p.drawingContext.createRadialGradient(
+      W / 2, H / 2, H * 0.22,
+      W / 2, H / 2, H * 0.75
+    );
+    grad.addColorStop(0, 'rgba(247,244,239,0)');
+    grad.addColorStop(1, 'rgba(247,244,239,0.28)');
+    p.drawingContext.fillStyle = grad;
+    p.drawingContext.fillRect(0, 0, W, H);
+  };
+
+  // ---------- mouse click: trigger ripple at nearest core ----------
+  p.mousePressed = function() {
+    if (p.mouseX < 0 || p.mouseX > W || p.mouseY < 0 || p.mouseY > H) return;
+
+    // find nearest node and send a ripple
+    let nearest = null;
+    let minDist = Infinity;
+    for (let nd of nodes) {
+      const d = p.dist(p.mouseX, p.mouseY, nd.x, nd.y);
+      if (d < minDist) { minDist = d; nearest = nd; }
+    }
+    if (nearest) {
+      ripples.push({
+        x: nearest.x, y: nearest.y,
+        r: nearest.radius,
+        maxR: 130,
+        alpha: 230,
+        isCore: nearest.isCore
+      });
+    }
+  };
+};
+
+new p5(sk, document.getElementById('c'));
+</script>
+</body></html>

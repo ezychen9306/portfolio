@@ -401,8 +401,8 @@ nav.scrolling {
   padding: 1rem 3rem;
 }
 .home .social-icons {
-  margin-top: 35px;
-  margin-bottom: 40px;
+  margin-top: 16px;
+  margin-bottom: 0;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -469,11 +469,12 @@ nav.scrolling {
 }
 
 .home .social-icon-label--double {
-  white-space: normal;
   line-height: 1.5;
+  /* 不覆盖 white-space:nowrap，否则 max-width:0 时文字折行撑高 item */
 }
 .home .social-icon-item:hover .social-icon-label--double,
 .home .social-icon-item.is-expanded .social-icon-label--double {
+  white-space: normal;
   max-width: 20em;
 }
 
@@ -915,7 +916,7 @@ svg {
   margin-top: 30px;
   display: none;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.5rem;
+  gap: 1.5rem;
   overflow: hidden;
 }
 .portfolio-container .tab-content .image {
@@ -987,8 +988,10 @@ svg {
 .portfolio-container .tab-content img:hover {
   transform: scale(1.05);
 }
-.tab-content.active-content {
+.portfolio-container .tab-content.active-content {
   display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
   transition: var(--transition);
   -webkit-transition: var(--transition);
   -moz-transition: var(--transition);
@@ -1170,6 +1173,11 @@ svg {
 .contact {
   min-height: auto;
   padding-bottom: 0;
+}
+/* 联系区「04」提高不透明度，避免移动到页面下方时显得过虚 */
+.contact .section-placeholder {
+  animation: none;
+  opacity: 0.35;
 }
 .copyright {
   text-align: center;

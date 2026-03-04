@@ -1,23 +1,127 @@
-<!doctype html>
-<html lang="zh-CN"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AI 深度策略 · 演示</title>
-<link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI 风控策略 · Portfolio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css">
 <style>
-:root{--primary:#6b8e9f;--accent:#c9a227;--text:#2d2d2d;--muted:#666}
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Microsoft Yahei",sans-serif;margin:0;background:#fafafa;color:var(--text)}
-.topbar{display:flex;gap:.75rem;align-items:center;justify-content:space-between;padding:.6rem .9rem;border-bottom:1px solid #eee;background:#fff;position:sticky;top:0}
-.topbar a{color:var(--primary);text-decoration:none;font-weight:600}
-.topbar a.btn{display:inline-flex;align-items:center;gap:.35rem;background:var(--primary);color:#fff;padding:.35rem .6rem;border-radius:6px}
-.container{max-width:1040px;margin:0 auto;padding:1rem}
-footer{padding:2rem 1rem;color:#888;text-align:center}
-article{background:#fff;border:1px solid #eee;border-radius:10px;padding:1.2rem}
-article h1,article h2{border-bottom:1px solid #eee;padding-bottom:.25rem}
-article img{max-width:100%;height:auto}
+:root{--bg:#f7f7f5;--card:#fff;--primary:#6b8e9f;--accent:#c9a227;--text:#37352f;--muted:#9b9a97;--border:#e9e9e7;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);}
+.main{max-width:1100px;margin:0 auto;padding:1.5rem;}
+.hero{background:#fff;border:1px solid var(--border);border-radius:10px;padding:2rem 2.2rem;margin-bottom:1.5rem;border-left:4px solid var(--accent);}
+.proj-num{font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;}
+.hero h1{font-size:1.65rem;font-weight:800;color:var(--text);margin-bottom:.45rem;display:flex;align-items:center;gap:.5rem;}
+.hero h1 i{color:var(--accent);font-size:1.5rem;}
+.hero-desc{font-size:.87rem;color:var(--muted);line-height:1.7;margin-bottom:1.1rem;}
+.kpi-chips{display:flex;gap:.5rem;flex-wrap:wrap;}
+.kpi-chip{display:inline-flex;align-items:center;gap:.35rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:.28rem .7rem;font-size:.77rem;color:var(--text);}
+.kpi-chip strong{font-weight:700;font-size:.9rem;color:var(--accent);}
+.sec{margin-bottom:2rem;}
+.sec-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:1px solid var(--border);}
+.sec-num{font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.08em;background:#f0f0ee;border-radius:4px;padding:.2rem .5rem;flex-shrink:0;}
+.sec-title{font-size:1rem;font-weight:700;color:var(--text);}
+.sec-subtitle{font-size:.75rem;color:var(--muted);margin-top:.1rem;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.15rem;}
+.goal-line{font-size:.9rem;line-height:1.75;color:var(--text);}
+.method-slim{display:flex;flex-direction:column;gap:.65rem;}
+.method-lane{border:1px solid #e2eaee;border-radius:10px;background:#fff;padding:.62rem .68rem;}
+.method-lane.before{background:#fcfcfb;}
+.method-lane.after{background:linear-gradient(180deg,#f8fcff 0%,#ffffff 100%);border-color:#d9e8f0;}
+.method-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:.45rem;}
+.method-title{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+.method-lane.before .method-title{color:#87847f;}
+.method-lane.after .method-title{color:#4f7a8d;}
+.method-total{font-size:.66rem;color:#6e8089;background:#eef4f7;border:1px solid #dde8ed;border-radius:999px;padding:.08rem .4rem;}
+.method-track{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.4rem;}
+.method-node{border:1px solid #e6ecef;border-radius:7px;background:#fff;padding:.38rem .42rem;}
+.method-node .k{font-size:.66rem;color:#4f6471;font-weight:700;line-height:1.35;}
+.method-node .t{font-size:.63rem;color:#758791;margin-top:.16rem;}
+.method-note{font-size:.71rem;color:#5d7380;line-height:1.55;border-top:1px dashed #d9e5eb;padding-top:.45rem;}
+.examples{display:flex;flex-direction:column;gap:1rem;}
+.example-panel{min-height:72vh;padding:1.2rem 1.2rem 1rem;position:relative;overflow:hidden;border-color:#dfe8ed;box-shadow:0 10px 24px rgba(64,102,122,.06);}
+.example-panel::before{content:"";position:absolute;left:0;top:0;right:0;height:3px;background:linear-gradient(90deg,#d4e6ef,#b7d3e1,#d4e6ef);}
+.example-panel.featured{border:1px solid #cfe1ea;background:linear-gradient(180deg,#f8fdff 0%,#ffffff 24%);box-shadow:0 14px 30px rgba(73,118,143,.1);}
+.example-panel.featured::before{height:4px;background:linear-gradient(90deg,#8fb4c8,#6b8e9f,#8fb4c8);}
+.example-layout{display:grid;grid-template-columns:1fr;gap:.8rem;height:100%;}
+.example-side{display:flex;flex-direction:column;gap:.55rem;}
+.ex-title{font-size:.85rem;font-weight:700;margin-bottom:.35rem;display:flex;align-items:center;gap:.35rem;}
+.ex-title i{color:var(--accent);}
+.ex-tags{display:flex;gap:.4rem;flex-wrap:wrap;}
+.ex-tag{font-size:.72rem;color:#4f5f68;background:#eef3f6;border:1px solid #dde8ed;border-radius:999px;padding:.18rem .52rem;}
+.ex-highlight{margin-top:.5rem;border:1px solid #cfe1ea;border-radius:9px;background:linear-gradient(180deg,#f3fbff,#ffffff);padding:.48rem .56rem;display:flex;align-items:center;gap:.42rem;box-shadow:0 3px 10px rgba(82,125,147,.1);}
+.ex-highlight i{font-size:.92rem;color:#4f7a8d;flex-shrink:0;}
+.ex-highlight span{font-size:.74rem;color:#436576;line-height:1.55;font-weight:700;}
+.value-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.45rem;margin-top:.5rem;}
+.metric-card{border:1px solid #d7e5ec;border-radius:9px;background:linear-gradient(180deg,#fafdff,#f3fafc);padding:.5rem .55rem;box-shadow:0 2px 8px rgba(76,118,140,.08);}
+.metric-k{font-size:.64rem;color:#6b7d87;line-height:1.3;}
+.metric-v{font-size:.86rem;font-weight:800;color:#365f73;margin-top:.2rem;letter-spacing:.01em;}
+.mini-note{font-size:.72rem;color:#667882;margin:.58rem 0 .38rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;}
+.def-compare{display:grid;grid-template-columns:1fr 1fr;gap:.5rem;margin-top:.4rem;}
+.def-box{border:1px solid #e6ecef;border-radius:7px;background:#fbfdfe;padding:.5rem .55rem;}
+.def-box h5{font-size:.72rem;color:#4f5f68;margin-bottom:.35rem;display:flex;justify-content:space-between;align-items:center;}
+.def-badge{font-size:.64rem;padding:.08rem .35rem;border-radius:999px;background:#eef3f6;border:1px solid #dce7ec;color:#5a6d77;}
+.exp-flow{margin-top:.55rem;display:flex;flex-direction:column;gap:.36rem;}
+.exp-step{display:flex;gap:.4rem;align-items:flex-start;font-size:.74rem;line-height:1.55;color:var(--text);}
+.exp-step-num{width:18px;height:18px;line-height:18px;text-align:center;border-radius:50%;font-size:.66rem;font-weight:700;background:#eef3f6;border:1px solid #dce7ec;color:#5e707a;flex-shrink:0;margin-top:.08rem;}
+.exp-step b{color:var(--primary);}
+.advice-pick{margin-top:.5rem;display:grid;grid-template-columns:1fr auto 1fr;gap:.5rem;align-items:stretch;}
+.advice-col{border:1px solid #e6ecef;border-radius:8px;background:#fbfdfe;padding:.55rem;}
+.advice-head{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:.45rem;}
+.advice-head.left{color:#7b8a92;}
+.advice-head.right{color:#4f7a8d;}
+.def-item{font-size:.72rem;line-height:1.45;color:#5f6f78;padding:.38rem .42rem;border:1px solid #e7eef2;border-radius:6px;background:#fff;margin-bottom:.32rem;}
+.def-item:last-child{margin-bottom:0;}
+.def-item.selected{border-color:#b9d5e2;background:#f4fbff;color:#365766;font-weight:600;}
+.pick-arrow{display:flex;align-items:center;justify-content:center;font-size:.72rem;color:#fff;font-weight:700;background:linear-gradient(135deg,#6b8e9f,#7ea0b0);border-radius:999px;padding:0 .5rem;}
+.def-canvas{display:grid;grid-template-columns:1fr;gap:.5rem;align-items:start;}
+.candidate-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.42rem;}
+.candidate-card{border:1px solid #e4edf2;border-radius:8px;background:#fff;padding:.42rem .48rem;}
+.candidate-card .name{font-size:.68rem;font-weight:700;color:#506674;}
+.candidate-card .desc{font-size:.66rem;color:#6a7b85;line-height:1.45;margin-top:.22rem;}
+.candidate-card.selected{border-color:#b8d5e3;background:#f4fbff;box-shadow:inset 0 0 0 1px #d6e8f0;}
+.pick-badge{display:inline-block;font-size:.62rem;color:#3f6575;background:#eaf5fb;border:1px solid #cfe2ec;border-radius:999px;padding:.03rem .35rem;margin-left:.3rem;}
+.chosen-panel{border:1px solid #cfe1ea;border-radius:10px;background:linear-gradient(180deg,#f3fbff,#ffffff);padding:.56rem;box-shadow:0 4px 12px rgba(82,125,147,.12);}
+.chosen-head{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#4f7a8d;margin-bottom:.38rem;}
+.picked-item{border:1px solid #d9e7ef;border-radius:7px;background:#fff;padding:.34rem .4rem;margin-bottom:.3rem;}
+.picked-item:last-child{margin-bottom:0;}
+.picked-item .k{font-size:.66rem;font-weight:700;color:#456879;}
+.picked-item .v{font-size:.65rem;color:#667983;line-height:1.45;margin-top:.14rem;}
+.pick-rationale{margin-top:.38rem;font-size:.66rem;color:#5d7380;line-height:1.5;border-top:1px dashed #d7e5ec;padding-top:.35rem;}
+.ec-signal{display:grid;grid-template-columns:1fr;gap:.5rem;}
+.signal-box{border:1px solid #e6ecef;border-radius:8px;background:#fbfdfe;padding:.6rem .65rem;}
+.signal-title{font-size:.7rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#647884;margin-bottom:.4rem;}
+.signal-list{display:flex;gap:.35rem;flex-wrap:wrap;}
+.signal-pill{font-size:.68rem;padding:.14rem .45rem;border-radius:999px;background:#edf3f6;border:1px solid #dce7ec;color:#59707c;}
+.signal-arrow{display:flex;align-items:center;justify-content:center;font-size:.72rem;font-weight:700;color:#fff;background:linear-gradient(135deg,#6b8e9f,#7ea0b0);border-radius:999px;padding:.2rem .5rem;justify-self:center;}
+.demo-fig{margin-top:.65rem;border:1px solid #dce7ed;border-radius:10px;background:#fff;padding:.5rem;box-shadow:0 4px 14px rgba(80,118,138,.08);}
+.demo-wrap{position:relative;}
+.demo-fig img{width:100%;display:block;border-radius:6px;}
+.hotspot{position:absolute;display:inline-flex;align-items:center;gap:.22rem;font-size:.64rem;font-weight:700;color:#3d5561;background:#f3f9fc;border:1px solid #cfe0e8;border-radius:999px;padding:.12rem .42rem;box-shadow:0 1px 2px rgba(0,0,0,.06);}
+.hotspot i{font-size:.72rem;color:#4f7a8d;}
+.hotspot.h1{top:11%;left:4%;}
+.hotspot.h2{top:43%;left:4%;}
+.hotspot.h3{top:75%;left:4%;}
+.demo-points{margin-top:.45rem;display:grid;grid-template-columns:1fr;gap:.28rem;}
+.demo-point{font-size:.7rem;color:#5a6a73;line-height:1.5;display:flex;align-items:flex-start;gap:.3rem;}
+.demo-point b{color:#486977;}
+.demo-point i{color:#5f8798;margin-top:.08rem;}
+.demo-cap{font-size:.72rem;color:#6f7f87;line-height:1.55;margin-top:.38rem;padding-top:.38rem;border-top:1px dashed #e4ebef;}
+.demo-fig.full-span{grid-column:1 / -1;}
+.window{display:flex;gap:.18rem;align-items:center;flex-wrap:wrap}
+.blk{width:16px;height:10px;border-radius:2px;border:1px solid #dfe7eb;background:#fff;}
+.blk.pre{background:#f2f4f5;}
+.blk.cur{background:#c9a227;border-color:#b9971d;}
+.blk.post{background:#6b8e9f33;border-color:#c9d7de;}
+.win-label{font-size:.62rem;color:#7f8a91;margin-left:.2rem;}
+@media(max-width:900px){.method-track,.value-metrics,.candidate-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:800px){.example-layout,.value-metrics,.def-canvas,.candidate-grid,.method-track{grid-template-columns:1fr;}.example-panel{min-height:auto;}}
 </style>
+<script>if(window.parent!==window)document.documentElement.classList.add("in-iframe");</script>
+<style>.in-iframe nav{display:none!important;}</style>
 <meta name="description" content="借新还旧 · 提前结清 · 额度曲线">
-<meta property="og:title" content="AI 深度策略 · 演示 · 演示" />
+<meta property="og:title" content="AI 风控策略 · Portfolio · 演示" />
 <meta property="og:description" content="借新还旧 · 提前结清 · 额度曲线" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="../../screenshot.png" />
@@ -26,64 +130,246 @@ article img{max-width:100%;height:auto}
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16x16.png">
 <link rel="manifest" href="../../assets/icons/site.webmanifest">
-</head><body>
-<div class="topbar">
-  <div><a href="../../index.html"><i class="ri-arrow-left-line"></i> 返回作品集</a></div>
-  <div style="color:#999;font-size:.9rem">AI 深度策略</div>
-  <div><a class="btn" href="#" onclick="history.back();return false;"><i class="ri-history-line"></i> 返回</a></div>
+</head>
+<body>
+<nav style="background:#fff;border-bottom:1px solid #e8e4dc;padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:10">
+  <a href="../../index.html#portfolio" onclick="if(window.parent!==window){window.parent.closeModal();return false;}" style="display:inline-flex;align-items:center;gap:.4rem;color:#6b8e9f;text-decoration:none;font-weight:600;font-size:.9rem;padding:.3rem .7rem;border-radius:6px;border:1px solid #e8e4dc">
+    <i class="ri-arrow-left-line"></i> 返回
+  </a>
+  <span style="color:#718096;font-size:.9rem">AI 风控策略</span>
+</nav>
+
+<div class="main">
+  <div class="hero">
+    <div class="proj-num">PROJECT 04 · AI 风控策略</div>
+    <h1><i class="ri-brain-line"></i>AI 风控策略</h1>
+    <p class="hero-desc">围绕真实信贷策略场景，构建 AI 协同开发闭环：更快完成定义探索、代码验证与标准化交付，持续提升策略深度与落地效率。</p>
+    <div class="kpi-chips">
+      <div class="kpi-chip"><strong>深度</strong>&nbsp;提升</div>
+      <div class="kpi-chip"><strong>效率</strong>&nbsp;提升</div>
+      <div class="kpi-chip"><strong>成本</strong>&nbsp;下降</div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-header">
+      <div class="sec-num">01</div>
+      <div><div class="sec-title">目标</div><div class="sec-subtitle">用 AI 重构策略开发链路，兼顾深度、速度与可复用性</div></div>
+    </div>
+    <div class="card">
+      <p class="goal-line">把“经验驱动 + 人工串行”的传统流程升级为“AI 协同 + 快速迭代”的工程化流程，在业务可控前提下缩短开发周期，并提升策略分析与交付质量。</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-header">
+      <div class="sec-num">02</div>
+      <div><div class="sec-title">方法</div><div class="sec-subtitle">从传统试错到 AI 协同开发</div></div>
+    </div>
+    <div class="card">
+      <div class="method-slim">
+        <div class="method-lane before">
+          <div class="method-head">
+            <div class="method-title">Before · 传统流程</div>
+            <div class="method-total">总耗时约 5-8 天</div>
+          </div>
+          <div class="method-track">
+            <div class="method-node"><div class="k">需求对齐</div><div class="t">0.5 天</div></div>
+            <div class="method-node"><div class="k">人工取数</div><div class="t">1-2 天</div></div>
+            <div class="method-node"><div class="k">代码调试</div><div class="t">2-3 天</div></div>
+            <div class="method-node"><div class="k">上线交付</div><div class="t">1-2 天</div></div>
+          </div>
+        </div>
+        <div class="method-lane after">
+          <div class="method-head">
+            <div class="method-title">After · AI流程</div>
+            <div class="method-total">总耗时约 2 天</div>
+          </div>
+          <div class="method-track">
+            <div class="method-node"><div class="k">AI辅助建议</div><div class="t">0.5 小时</div></div>
+            <div class="method-node"><div class="k">AI编程</div><div class="t">2-4 小时</div></div>
+            <div class="method-node"><div class="k">快速调试</div><div class="t">0.5 天</div></div>
+            <div class="method-node"><div class="k">标准化交付</div><div class="t">0.5 天</div></div>
+          </div>
+        </div>
+        <div class="method-note">核心变化：定义探索与编码验证由串行试错转为并行协同，显著压缩试错成本并提升交付稳定性。</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sec">
+    <div class="sec-header">
+      <div class="sec-num">03</div>
+      <div><div class="sec-title">示例</div><div class="sec-subtitle">借新还旧 · 提前结清</div></div>
+    </div>
+    <div class="examples">
+      <div class="card example-panel featured">
+        <div class="example-layout">
+          <div class="example-side">
+            <div class="ex-title"><i class="ri-refresh-line"></i>示例 1：借新还旧</div>
+            <div class="ex-tags">
+              <span class="ex-tag">候选定义 6种</span>
+              <span class="ex-tag">AI快速编程调试</span>
+              <span class="ex-tag">标准化报告</span>
+            </div>
+            <div class="ex-highlight">
+              <i class="ri-flashlight-line"></i>
+              <span>定义收敛 + 代码验证 + 交付准备从约 5-8 天压缩到约 2 天，且在洪水期样本上验证了策略方向有效。</span>
+            </div>
+            <div class="value-metrics">
+              <div class="metric-card">
+                <div class="metric-k">定义收敛耗时</div>
+                <div class="metric-v">1-2天 → 0.5天</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-k">代码验证耗时</div>
+                <div class="metric-v">2-3天 → 0.5天</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-k">端到端交付</div>
+                <div class="metric-v">约5-8天 → 约2天</div>
+              </div>
+            </div>
+            <div class="exp-flow">
+              <div class="exp-step"><span class="exp-step-num">1</span><span><b>定义筛选：</b>AI给出多种定义，结合业务经验筛选高价值口径。</span></div>
+              <div class="exp-step"><span class="exp-step-num">2</span><span><b>差异验证：</b>对“前3后5 / 前4后5”等口径，AI快速编程并落地调试。</span></div>
+              <div class="exp-step"><span class="exp-step-num">3</span><span><b>标准交付：</b>AI批量生成分析说明与示意图，减少沟通并加快上线。</span></div>
+            </div>
+          </div>
+          <div class="example-side">
+            <div class="mini-note">候选定义池（6）与最终入选（3）</div>
+            <div class="def-canvas">
+              <div class="candidate-grid">
+                <div class="candidate-card selected">
+                  <div class="name">时间定义<span class="pick-badge">入选</span></div>
+                  <div class="desc">还款日前后窗口匹配</div>
+                </div>
+                <div class="candidate-card selected">
+                  <div class="name">金额定义<span class="pick-badge">入选</span></div>
+                  <div class="desc">新借与待还金额差异约束</div>
+                </div>
+                <div class="candidate-card selected">
+                  <div class="name">组合定义<span class="pick-badge">入选</span></div>
+                  <div class="desc">时间 + 金额 + 同一期联合匹配</div>
+                </div>
+                <div class="candidate-card">
+                  <div class="name">频次定义</div>
+                  <div class="desc">周期内重复借还频率</div>
+                </div>
+                <div class="candidate-card">
+                  <div class="name">覆盖定义</div>
+                  <div class="desc">新借覆盖旧债比例</div>
+                </div>
+                <div class="candidate-card">
+                  <div class="name">评分定义</div>
+                  <div class="desc">规则组合得分判定</div>
+                </div>
+              </div>
+              <div class="chosen-panel">
+                <div class="chosen-head">Final 3 Definitions</div>
+                <div class="picked-item">
+                  <div class="k">① 时间窗</div>
+                  <div class="v">[还款日-3天, 还款日+5天]</div>
+                </div>
+                <div class="picked-item">
+                  <div class="k">② 金额差异</div>
+                  <div class="v">|新单-待还| / 待还 ≤ 20%</div>
+                </div>
+                <div class="picked-item">
+                  <div class="k">③ 组合口径</div>
+                  <div class="v">时间匹配 AND 金额匹配 AND 同一期</div>
+                </div>
+                <div class="pick-rationale">筛选原则：可解释性强、落地成本低、对高风险样本识别稳定。</div>
+              </div>
+            </div>
+          </div>
+          <div class="demo-fig full-span">
+            <div class="demo-wrap">
+              <img src="./assets/borrow_definitions_demo.png" alt="借新还旧三种定义示意图">
+              <span class="hotspot h1"><i class="ri-time-line"></i>定义1 时间匹配</span>
+              <span class="hotspot h2"><i class="ri-coins-line"></i>定义2 金额匹配</span>
+              <span class="hotspot h3"><i class="ri-git-merge-line"></i>定义3 组合匹配</span>
+            </div>
+            <div class="demo-points">
+              <div class="demo-point"><i class="ri-check-line"></i><span><b>对比更直观：</b>同一张图内展示三种口径，差异位置一眼可见。</span></div>
+              <div class="demo-point"><i class="ri-check-line"></i><span><b>解释更统一：</b>业务、策略、研发基于同一画面讨论，减少理解偏差。</span></div>
+              <div class="demo-point"><i class="ri-check-line"></i><span><b>沟通更高效：</b>把“文字定义”转为“可视化定义”，显著降低反复沟通成本。</span></div>
+            </div>
+          </div>
+          <div class="demo-fig full-span">
+            <div class="mini-note">风险趋势验证（洪水期间）</div>
+            <img src="./assets/borrow_flood_risk_trend.png" alt="借新还旧客群洪水期间DPD30风险趋势">
+            <div class="demo-cap"><strong>结果闭环：</strong>洪水期间蓝色曲线（借新还旧客群）风险上升更显著，符合业务逻辑，验证了该策略对高风险客群识别方向正确；也证明了 AI 辅助开发能更快产出有效策略。</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card example-panel">
+        <div class="example-layout">
+          <div class="example-side">
+            <div class="ex-title"><i class="ri-time-line"></i>示例 2：提前结清</div>
+            <div class="ex-tags">
+              <span class="ex-tag">客群分层</span>
+              <span class="ex-tag">收益优化</span>
+              <span class="ex-tag">触达节奏</span>
+            </div>
+            <div class="ex-highlight">
+              <i class="ri-flashlight-line"></i>
+              <span>把「提前结清」拆成四类可执行客群，在 AI 辅助下完成分群→策略映射→材料交付闭环，从粗放触达升级为分层精细化运营，兼顾收益与开发效率。</span>
+            </div>
+            <div class="value-metrics">
+              <div class="metric-card">
+                <div class="metric-k">信号识别耗时</div>
+                <div class="metric-v">约1天 → 1-2小时</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-k">策略生成耗时</div>
+                <div class="metric-v">约2天 → 0.5天</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-k">交付准备耗时</div>
+                <div class="metric-v">约1天 → 0.5天</div>
+              </div>
+            </div>
+            <div class="exp-flow">
+              <div class="exp-step"><span class="exp-step-num">1</span><span><b>分群建模：</b>基于到期日、还款时间和运营/货后触发，快速拆分 A 固定归月、B 主动提前、C1 运营触发、C2 货后触发四类客群。</span></div>
+              <div class="exp-step"><span class="exp-step-num">2</span><span><b>策略映射：</b>按客群生成差异化动作（触达窗口、优惠力度、分期/结清组合），兼顾收益与体验。</span></div>
+              <div class="exp-step"><span class="exp-step-num">3</span><span><b>批量交付：</b>自动生成标准化分析材料与示意图，支持快速评审与上线迭代。</span></div>
+            </div>
+            <div class="demo-fig full-span">
+              <div class="mini-note">Step1 分客群示意图</div>
+              <img src="./assets/prepay_segment_map.png" alt="提前结清分客群示意图">
+              <div class="demo-cap">该图将“提前结清”从单一标签拆解为可执行的四类路径，显著降低策略讨论中的定义歧义；AI 在客群识别与规则归并阶段提供了快速结构化支持，使后续策略动作设计更稳定、更可落地。</div>
+            </div>
+            <div class="mini-note">信号到动作示意</div>
+            <div class="ec-signal">
+              <div class="signal-box">
+                <div class="signal-title">输入信号</div>
+                <div class="signal-list">
+                  <span class="signal-pill">到期日/还款日关系</span>
+                  <span class="signal-pill">还款时间分布</span>
+                  <span class="signal-pill">运营触发日志</span>
+                  <span class="signal-pill">货后触发日志</span>
+                </div>
+              </div>
+              <div class="signal-arrow">AI分析</div>
+              <div class="signal-box">
+                <div class="signal-title">策略动作</div>
+                <div class="signal-list">
+                  <span class="signal-pill">分群触达</span>
+                  <span class="signal-pill">分层触达</span>
+                  <span class="signal-pill">期限优化</span>
+                  <span class="signal-pill">优惠力度分档</span>
+                  <span class="signal-pill">收益平衡</span>
+                </div>
+              </div>
+            </div>
+            <div class="demo-cap"><strong>结果闭环：</strong>通过 AI 辅助完成“分客群→动作映射→材料交付”闭环，提前结清策略从粗放触达升级为分层精细化运营，在保持收益约束下显著提升策略开发效率与落地一致性。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-<div class="container">
-<article>
-<h1>AI 深度策略</h1>
-<h2>项目概述</h2>
-<p>基于 AI 能力对客户行为进行深度刻画与策略优化，包括借新还旧、提前结清、额度增长曲线、APP 定制策略等。</p>
-<h2>核心模块</h2>
-<h3>1. 借新还旧识别</h3>
-<ul>
-<li>客户借款还款模式分析</li>
-<li>借新还旧风险评分</li>
-<li>差异化定价与额度策略</li>
-</ul>
-<h3>2. 提前结清预测</h3>
-<ul>
-<li>提前结清倾向性模型</li>
-<li>收益优化策略</li>
-<li>挽留与激励机制</li>
-</ul>
-<h3>3. 额度增长曲线</h3>
-<ul>
-<li>客户额度需求预测</li>
-<li>最优提额路径规划</li>
-<li>风险与收益平衡</li>
-</ul>
-<h3>4. APP 定制策略</h3>
-<ul>
-<li>用户行为偏好分析</li>
-<li>个性化产品推荐</li>
-<li>UI/UX 优化建议</li>
-</ul>
-<h2>业务成果</h2>
-<ul>
-<li>借新还旧客群风险降低 **14.37%**</li>
-<li>提前结清预测准确率 **82.5%**</li>
-<li>额度利用率提升 **12.8%**</li>
-<li>APP 转化率提升 **9.3%**</li>
-</ul>
-<h2>技术栈</h2>
-<ul>
-<li>Python（机器学习）</li>
-<li>LightGBM / XGBoost</li>
-<li>SQL（特征工程）</li>
-<li>AI Agent（策略生成）</li>
-</ul>
-<h2>示例分析（脱敏）</h2>
-<h3>借新还旧客群特征</h3>
-<ul>
-<li>平均借款频率: 2.8 次/月</li>
-<li>平均还款周期: 7-10 天</li>
-<li>风险评分: 65-75 分</li>
-<li>建议策略: 降额 20%，利率 +3pp</li>
-</ul>
-</article></div>
-<footer>© 2026 Portfolio Demos</footer>
-</body></html>
+</body>
+</html>

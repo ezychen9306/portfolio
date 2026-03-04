@@ -3,118 +3,412 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>灾难管控策略 - 监控看板</title>
+<title>灾难管控策略 · Portfolio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Microsoft YaHei',sans-serif;background:#f7f4ef;padding:2rem}
-.container{max-width:1200px;margin:0 auto;background:#fff;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
-h1{color:#2d2d2d;margin-bottom:.5rem;font-size:1.8rem}
-.subtitle{color:#6b8e9f;font-size:.9rem;margin-bottom:2rem}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-bottom:2rem}
-.card{background:#f9f9f9;padding:1.5rem;border-radius:6px;border-left:4px solid #6b8e9f}
-.card.warning{border-left-color:#c9a227}
-.card.danger{border-left-color:#d9534f}
-.card-title{font-size:.85rem;color:#666;margin-bottom:.5rem}
-.card-value{font-size:2rem;font-weight:700;color:#2d2d2d}
-.card-change{font-size:.8rem;color:#28a745;margin-top:.3rem}
-.card-change.negative{color:#d9534f}
-table{width:100%;border-collapse:collapse;margin-top:1rem}
-th,td{padding:.75rem;text-align:left;border-bottom:1px solid #e0e0e0}
-th{background:#6b8e9f;color:#fff;font-weight:600;font-size:.85rem}
-td{font-size:.85rem;color:#2d2d2d}
-.status{display:inline-block;padding:.2rem .6rem;border-radius:12px;font-size:.75rem;font-weight:600}
-.status.active{background:#fff3cd;color:#856404}
-.status.resolved{background:#d4edda;color:#155724}
-.chart-placeholder{background:#f0f0f0;height:200px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#999;font-size:.9rem;margin-top:1rem}
+:root{--bg:#f7f7f5;--card:#fff;--primary:#6b8e9f;--accent:#c9a227;--danger:#e53e3e;--warn:#dd6b20;--success:#38a169;--text:#37352f;--muted:#9b9a97;--border:#e9e9e7;--shadow:0 1px 3px rgba(0,0,0,.04);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,-apple-system,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);}
+.main{max-width:1100px;margin:0 auto;padding:1.5rem;}
+
+/* Hero — flat Notion style */
+.hero{background:#fff;border:1px solid var(--border);border-radius:10px;padding:2rem 2.2rem;margin-bottom:1.5rem;border-left:4px solid var(--primary);}
+.proj-num{font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;}
+.hero h1{font-size:1.65rem;font-weight:800;color:var(--text);margin-bottom:.45rem;display:flex;align-items:center;gap:.5rem;}
+.hero h1 i{color:var(--primary);font-size:1.5rem;}
+.hero-desc{font-size:.87rem;color:var(--muted);line-height:1.7;margin-bottom:1.2rem;}
+.kpi-chips{display:flex;gap:.5rem;flex-wrap:wrap;}
+.kpi-chip{display:inline-flex;align-items:center;gap:.35rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:.28rem .7rem;font-size:.77rem;color:var(--text);}
+.kpi-chip strong{font-weight:700;font-size:.9rem;color:var(--primary);}
+.kpi-chip.gold strong{color:#9a7200;}
+.kpi-chip.green strong{color:#276749;}
+
+/* Section */
+.sec{margin-bottom:2rem;}
+.sec-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:1px solid var(--border);}
+.sec-num{font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.08em;background:#f0f0ee;border-radius:4px;padding:.2rem .5rem;flex-shrink:0;}
+.sec-num.a{background:#fef6e4;color:#9a7200;}
+.sec-title{font-size:1rem;font-weight:700;color:var(--text);}
+.sec-subtitle{font-size:.75rem;color:var(--muted);margin-top:.1rem;}
+
+/* Card */
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.2rem;}
+.card-title{font-size:.83rem;font-weight:700;color:var(--text);margin-bottom:.8rem;display:flex;align-items:center;gap:.35rem;}
+.card-title i{color:var(--primary);}
+
+/* Grids */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:.7rem;}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:.8rem;}
+
+/* Stats */
+.stat-row{display:flex;gap:.7rem;margin-bottom:.8rem;}
+.stat-item{flex:1;background:#fafaf9;border:1px solid var(--border);border-radius:6px;padding:.75rem;text-align:center;}
+.stat-val{font-size:1.3rem;font-weight:800;color:var(--primary);}
+.stat-val.d{color:var(--danger);}
+.stat-val.w{color:var(--warn);}
+.stat-lbl{font-size:.67rem;color:var(--muted);margin-top:.2rem;line-height:1.3;}
+
+/* Months */
+.months-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:2px;margin:.5rem 0;}
+.mc{text-align:center;padding:.4rem .05rem;border-radius:3px;font-size:.61rem;font-weight:600;}
+.mc.n{background:#eef5f8;color:var(--primary);}
+.mc.w{background:#fef9ec;color:#a16207;}
+.mc.h{background:#fde8e8;color:#9b1c1c;border:1.5px solid #fca5a5;}
+
+/* Goal split */
+.goal-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.2rem;}
+.goal-card.risk{border-top:3px solid rgba(229,62,62,.45);}
+.goal-card.retain{border-top:3px solid rgba(56,161,105,.45);}
+.gicon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:.65rem;}
+.gicon.r{background:#fff1f0;}
+.gicon.g{background:#f0fdf4;}
+.goal-title{font-size:.9rem;font-weight:700;margin-bottom:.4rem;}
+.tlist{list-style:none;padding:0;}
+.tlist li{font-size:.77rem;padding:.27rem 0;border-bottom:1px solid #f0efee;display:flex;align-items:flex-start;gap:.4rem;line-height:1.5;color:var(--text);}
+.tlist li:last-child{border:none;}
+.tlist li i{font-size:.83rem;flex-shrink:0;margin-top:.1rem;}
+
+/* Solution cards */
+.sol-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.1rem;}
+.sol-icon{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1rem;margin-bottom:.6rem;}
+.sol-icon.b{background:#eef3f6;color:var(--primary);}
+.sol-icon.a{background:#fef9ec;color:#9a7200;}
+.sol-icon.r{background:#fff1f0;color:#c53030;}
+.sol-icon.g{background:#f0fdf4;color:#276749;}
+.sol-title{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:.45rem;}
+.slist{list-style:none;padding:0;}
+.slist li{font-size:.75rem;color:var(--muted);padding:.22rem 0;border-bottom:1px solid #f4f4f3;display:flex;gap:.35rem;line-height:1.5;}
+.slist li:last-child{border:none;}
+.slist li::before{content:'·';color:var(--primary);font-weight:700;flex-shrink:0;}
+
+/* Table */
+.cmp-table{width:100%;border-collapse:collapse;font-size:.79rem;}
+.cmp-table th{background:#fafaf9;padding:.52rem .8rem;text-align:left;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);font-size:.72rem;letter-spacing:.04em;text-transform:uppercase;}
+.cmp-table td{padding:.48rem .8rem;border-bottom:1px solid #f4f4f3;color:var(--text);}
+.cmp-table tr:last-child td{border:none;}
+.cmp-table tr:hover td{background:#fafaf9;}
+.tag{display:inline-flex;align-items:center;border-radius:4px;padding:.08rem .45rem;font-size:.71rem;font-weight:600;}
+.tag.dn{background:#e6f9f0;color:#166534;}
+.tag.up{background:#fde8e8;color:#991b1b;}
+.tag.neu{background:#e8f0fe;color:#1e40af;}
+
+/* Map */
+#flood-map{height:280px;border-radius:6px;overflow:hidden;border:1px solid var(--border);}
+
+/* Note */
+.note-box{padding:.65rem .9rem;border-radius:6px;border-left:3px solid var(--accent);background:#fefcf5;margin-top:.8rem;}
+.note-title{font-size:.77rem;font-weight:700;color:#9a7200;margin-bottom:.3rem;}
+.note-text{font-size:.74rem;color:var(--muted);line-height:1.6;}
+
+/* legend row */
+.leg-row{display:flex;gap:.8rem;flex-wrap:wrap;margin-top:.5rem;}
+.leg-row .li{display:flex;align-items:center;gap:.3rem;font-size:.68rem;color:var(--muted);}
+.leg-row .dot{width:9px;height:9px;border-radius:2px;}
+
+@media(max-width:768px){
+  .grid2,.grid4{grid-template-columns:1fr;}
+  .grid3{grid-template-columns:1fr 1fr;}
+  .hero h1{font-size:1.3rem;}
+}
 </style>
+<script>if(window.parent!==window)document.documentElement.classList.add("in-iframe");</script>
+<style>.in-iframe nav{display:none!important;}</style>
 <meta name="description" content="T+1 响应 · 风险降幅 10%+">
-<meta property="og:title" content="灾难管控策略 - 监控看板 · 演示" />
-<meta property="og:description" content="T+1 响应 · 风险降幅 10%+" />
-<meta property="og:type" content="website" />
-<meta property="og:image" content="../../screenshot.png" />
-<meta property="og:url" content="https://ezychen9306.github.io/portfolio/" />
 <link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16x16.png">
 <link rel="manifest" href="../../assets/icons/site.webmanifest">
 </head>
 <body>
-<div class="container">
-  <h1>灾难管控策略监控看板</h1>
-  <p class="subtitle">实时监控 · T+1 快速响应 · 业务连续性保障</p>
 
-  <div class="grid">
-    <div class="card warning">
-      <div class="card-title">当前活跃灾害</div>
-      <div class="card-value">2</div>
-      <div class="card-change">台风 + 洪水预警</div>
-    </div>
-    <div class="card">
-      <div class="card-title">受影响客户数</div>
-      <div class="card-value">18,300</div>
-      <div class="card-change">占总客户 3.2%</div>
-    </div>
-    <div class="card">
-      <div class="card-title">策略响应时间</div>
-      <div class="card-value">T+1</div>
-      <div class="card-change">平均 18 小时</div>
-    </div>
-    <div class="card">
-      <div class="card-title">风险降幅</div>
-      <div class="card-value">12.8%</div>
-      <div class="card-change">vs 未管控组</div>
+<nav style="background:#fff;border-bottom:1px solid #e9e9e7;padding:.7rem 1.5rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:100">
+  <a href="../../index.html#portfolio" onclick="if(window.parent!==window){window.parent.closeModal();return false;}" style="display:inline-flex;align-items:center;gap:.35rem;color:#9b9a97;text-decoration:none;font-size:.85rem;padding:.25rem .5rem;border-radius:4px;transition:color .15s" onmouseover="this.style.color='#37352f'" onmouseout="this.style.color='#9b9a97'">
+    <i class="ri-arrow-left-s-line"></i> 返回
+  </a>
+  <span style="color:#e9e9e7;font-size:1rem">·</span>
+  <span style="color:#9b9a97;font-size:.85rem">灾难管控策略</span>
+</nav>
+
+<div class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="proj-num">PROJECT 01 &nbsp;·&nbsp; 信贷风控策略</div>
+    <h1><i class="ri-flood-line"></i>灾难管控策略</h1>
+    <p class="hero-desc">针对菲律宾台风、洪水高发环境，构建动态信贷风险管控体系，精准压降灾难期逾期、同时保留优质客群。</p>
+    <div class="kpi-chips">
+      <div class="kpi-chip"><strong>-8.1%</strong>&nbsp;DPD1M_5 相对改善</div>
+      <div class="kpi-chip gold"><strong>T+1</strong>&nbsp;天响应时效</div>
+      <div class="kpi-chip green"><strong>-7.5%</strong>&nbsp;DPD2M_30 相对改善</div>
     </div>
   </div>
 
-  <h2 style="color:#2d2d2d;font-size:1.2rem;margin-bottom:1rem">近期灾害事件</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>灾害类型</th>
-        <th>发生时间</th>
-        <th>受影响区域</th>
-        <th>客户数</th>
-        <th>策略响应</th>
-        <th>状态</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>台风 Karding</td>
-        <td>2025-02-10</td>
-        <td>Luzon 北部</td>
-        <td>15,600</td>
-        <td>T+1 (16h)</td>
-        <td><span class="status active">监控中</span></td>
-      </tr>
-      <tr>
-        <td>洪水</td>
-        <td>2025-01-28</td>
-        <td>Metro Manila</td>
-        <td>12,500</td>
-        <td>T+1 (20h)</td>
-        <td><span class="status resolved">已恢复</span></td>
-      </tr>
-      <tr>
-        <td>地震 6.2级</td>
-        <td>2025-01-15</td>
-        <td>Mindanao</td>
-        <td>8,300</td>
-        <td>T+1 (14h)</td>
-        <td><span class="status resolved">已恢复</span></td>
-      </tr>
-    </tbody>
-  </table>
+  <!-- ========== 01 背景 ========== -->
+  <div class="sec">
+    <div class="sec-header">
+      <div class="sec-num">01</div>
+      <div><div class="sec-title">背景</div><div class="sec-subtitle">菲律宾地理环境与信贷风险挑战</div></div>
+    </div>
+    <!-- 地理背景描述 -->
+    <p style="font-size:.83rem;color:var(--muted);line-height:1.8;margin-bottom:1rem;padding:.75rem 1rem;background:#fafaf9;border-radius:6px;border-left:3px solid var(--border);">菲律宾由 7,641 个岛屿组成，地处西太平洋台风带核心区域，是全球受台风影响最频繁的国家之一。6–9 月为台风与洪涝集中高发期，吕宋岛、比科尔半岛及萨马岛沿海省份首当其冲。灾难期间居民收入骤降，直接导致贷款还款中断，是本地消费信贷最主要的系统性风险来源。</p>
+    <!-- 3 stat boxes -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1rem;">
+      <div class="stat-item"><div class="stat-val d">20</div><div class="stat-lbl">年均台风次数</div></div>
+      <div class="stat-item"><div class="stat-val d">7–9</div><div class="stat-lbl">高强度登陆台风</div></div>
+      <div class="stat-item"><div class="stat-val">9省</div><div class="stat-lbl">高风险受灾区域</div></div>
+    </div>
+    <!-- 2025 disaster table -->
+    <div class="card" style="margin-bottom:1rem;">
+      <div class="card-title"><i class="ri-alert-line"></i> 2025 年主要灾难事件</div>
+      <table class="cmp-table">
+        <thead>
+          <tr><th>灾难名称</th><th>时间</th><th>影响程度</th><th>影响范围</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><i class="ri-windy-line" style="color:#6b8e9f;margin-right:.3rem"></i>台风 Aghon</td>
+            <td>2025-06</td>
+            <td><span class="tag up">极高</span></td>
+            <td>东萨马省、莱特省、奎松省</td>
+          </tr>
+          <tr>
+            <td><i class="ri-flood-line" style="color:#c9a227;margin-right:.3rem"></i>西南季风洪涝</td>
+            <td>2025-07</td>
+            <td><span class="tag" style="background:#fef3cd;color:#856404;">高</span></td>
+            <td>大马尼拉、邦板牙省、布拉干省</td>
+          </tr>
+          <tr>
+            <td><i class="ri-windy-line" style="color:#6b8e9f;margin-right:.3rem"></i>台风 Butchoy</td>
+            <td>2025-07</td>
+            <td><span class="tag" style="background:#fef3cd;color:#856404;">高</span></td>
+            <td>卡加延省、伊莎贝拉省、新比斯开省</td>
+          </tr>
+          <tr>
+            <td><i class="ri-windy-line" style="color:#e53e3e;margin-right:.3rem"></i>台风 Carina</td>
+            <td>2025-08</td>
+            <td><span class="tag up">极高</span></td>
+            <td>北吕宋、大马尼拉、比科尔半岛</td>
+          </tr>
+          <tr>
+            <td><i class="ri-flood-line" style="color:#718096;margin-right:.3rem"></i>强降雨洪涝</td>
+            <td>2025-08</td>
+            <td><span class="tag neu">中</span></td>
+            <td>阿尔拜省、卡马里内斯苏尔省</td>
+          </tr>
+          <tr>
+            <td><i class="ri-earthquake-line" style="color:#7c3aed;margin-right:.3rem"></i>明达瑙岛地震</td>
+            <td>2025-09</td>
+            <td><span class="tag" style="background:#f3e8ff;color:#6b21a8;">高</span></td>
+            <td>北科达巴托省、苏里高省、达沃地区</td>
+          </tr>
+          <tr>
+            <td><i class="ri-windy-line" style="color:#e53e3e;margin-right:.3rem"></i>台风 Tino（Kalmaegi）</td>
+            <td>2025-11</td>
+            <td><span class="tag up">极高</span></td>
+            <td>南莱特省、宿务省、维萨亚斯群岛、巴拉望省</td>
+          </tr>
+          <tr>
+            <td><i class="ri-windy-line" style="color:#e53e3e;margin-right:.3rem"></i>超强台风 Uwan（Fung-Wong）</td>
+            <td>2025-11</td>
+            <td><span class="tag up">极高</span></td>
+            <td>奥罗拉省，波及全国 13 个地区</td>
+          </tr>
+          <tr>
+            <td><i class="ri-windy-line" style="color:#c9a227;margin-right:.3rem"></i>台风 Koto</td>
+            <td>2025-11</td>
+            <td><span class="tag" style="background:#fef3cd;color:#856404;">中</span></td>
+            <td>菲律宾南部、巴拉望省</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <h2 style="color:#2d2d2d;font-size:1.2rem;margin:2rem 0 1rem">策略效果对比</h2>
-  <div class="chart-placeholder">
-    [风险率对比图表：管控组 vs 未管控组]<br>
-    管控组逾期率: 8.5% | 未管控组: 21.3% | 降幅: 12.8%
   </div>
 
-  <p style="margin-top:2rem;color:#999;font-size:.8rem;text-align:center">
-    * 所有数据已脱敏处理，仅用于展示
-  </p>
-</div>
+  <!-- ========== 02 目标 ========== -->
+  <div class="sec">
+    <div class="sec-header">
+      <div class="sec-num">02</div>
+      <div><div class="sec-title">目标</div><div class="sec-subtitle">风险压降与业务保留的最优平衡</div></div>
+    </div>
+    <div class="grid2">
+      <div class="goal-card risk">
+        <div class="gicon r"><i class="ri-shield-keyhole-line" style="color:var(--danger)"></i></div>
+        <div class="goal-title" style="color:var(--danger)">压降灾难期风险</div>
+        <ul class="tlist" style="margin-top:.6rem;">
+          <li><i class="ri-arrow-down-line" style="color:var(--danger)"></i>DPD5 峰值控制在 4.5% 以内</li>
+          <li><i class="ri-arrow-down-line" style="color:var(--danger)"></i>DPD2M_30 同比改善 ≥ 10%</li>
+          <li><i class="ri-time-line" style="color:var(--danger)"></i>T+1 天完成受灾名单更新并上线</li>
+        </ul>
+      </div>
+      <div class="goal-card retain">
+        <div class="gicon g"><i class="ri-user-star-line" style="color:var(--success)"></i></div>
+        <div class="goal-title" style="color:var(--success)">保留优质客群</div>
+        <ul class="tlist" style="margin-top:.6rem;">
+          <li><i class="ri-check-line" style="color:var(--success)"></i>发标量整体保留率 ≥ 85%</li>
+          <li><i class="ri-user-heart-line" style="color:var(--success)"></i>A/B 级优质客群不受限制</li>
+          <li><i class="ri-building-2-line" style="color:var(--success)"></i>非受灾省份正常运营</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 03 方案 ========== -->
+  <div class="sec">
+    <div class="sec-header">
+      <div class="sec-num">03</div>
+      <div><div class="sec-title">方案</div><div class="sec-subtitle">四维管控：客群 · 地区 · 手段 · 贷后</div></div>
+    </div>
+    <div class="grid4">
+      <div class="sol-card">
+        <div class="sol-icon b"><i class="ri-group-line"></i></div>
+        <div class="sol-title">管控客群</div>
+        <ul class="slist">
+          <li>高风险评分段：拒绝或降额审批</li>
+          <li>高内外部多头客群：限额管控</li>
+          <li>借新还旧倾向客群：差异化拒绝</li>
+        </ul>
+      </div>
+      <div class="sol-card">
+        <div class="sol-icon a"><i class="ri-map-2-line"></i></div>
+        <div class="sol-title">受灾地区</div>
+        <ul class="slist">
+          <li>高风险省：暂停发标</li>
+          <li>中风险省：收紧审批标准</li>
+          <li>动态更新名单（T+1）</li>
+        </ul>
+      </div>
+      <div class="sol-card">
+        <div class="sol-icon r"><i class="ri-tools-line"></i></div>
+        <div class="sol-title">管控手段</div>
+        <ul class="slist">
+          <li>差异化审批拒绝</li>
+          <li>单笔额度限额管控</li>
+        </ul>
+      </div>
+      <div class="sol-card">
+        <div class="sol-icon g"><i class="ri-hand-coin-line"></i></div>
+        <div class="sol-title">贷后政策</div>
+        <ul class="slist">
+          <li>受灾区催收暂停 14 天</li>
+          <li>逾期宽限期延至 30 天</li>
+          <li>受灾客户特殊还款方案</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== 04 效果 ========== -->
+  <div class="sec">
+    <div class="sec-header">
+      <div class="sec-num a">04</div>
+      <div><div class="sec-title">效果</div><div class="sec-subtitle">洪水压降策略 A/B 实验结果 · 2025.7.22–2025.8.21</div></div>
+    </div>
+
+    <div class="grid2" style="margin-bottom:1rem;">
+      <div class="card">
+        <div class="card-title"><i class="ri-line-chart-line"></i> DPD1M_5 周度趋势 · 压降组 vs 对比组</div>
+        <div id="chart-dpd5"></div>
+      </div>
+      <div class="card">
+        <div class="card-title"><i class="ri-map-2-line"></i> 受灾地区风险分布 · 菲律宾</div>
+        <div id="flood-map"></div>
+        <div class="leg-row" style="margin-top:.5rem;">
+          <div class="li"><div class="dot" style="background:#e53e3e;border-radius:50%;opacity:.75"></div>高风险（发标限制）</div>
+          <div class="li"><div class="dot" style="background:#dd6b20;border-radius:50%;opacity:.75"></div>中风险（收紧审批）</div>
+          <div class="li"><div class="dot" style="background:#6b8e9f;border-radius:50%;opacity:.75"></div>正常运营</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ri-bar-chart-box-line"></i> 策略效果 · 核心指标对比</div>
+      <table class="cmp-table">
+        <thead>
+          <tr><th>指标</th><th>对比组</th><th>压降组</th><th>相对 diff</th><th>绝对值 diff</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>DPD1M_5</td><td>7.76%</td><td>7.13%</td><td><span class="tag dn">▼ 8.1%</span></td><td><span class="tag dn">-0.6pp</span></td></tr>
+          <tr><td>DPD1M_30</td><td>6.21%</td><td>5.63%</td><td><span class="tag dn">▼ 9.3%</span></td><td><span class="tag dn">-0.6pp</span></td></tr>
+          <tr><td>DPD2M_30</td><td>9.56%</td><td>8.84%</td><td><span class="tag dn">▼ 7.5%</span></td><td><span class="tag dn">-0.7pp</span></td></tr>
+          <tr><td>通过率</td><td>87.4%</td><td>86.1%</td><td>—</td><td><span class="tag neu">-1.3pp</span></td></tr>
+        </tbody>
+      </table>
+      <div style="font-size:.71rem;color:var(--muted);margin-top:.6rem;">数据区间：2025.7.22–2025.8.21（含 FT 组）&nbsp;·&nbsp; 压降组发标量 226,424 | 对比组发标量 58,901</div>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ── ApexCharts: DPD1M_5 周度趋势（真实 A/B 实验数据）────────
+new ApexCharts(document.getElementById('chart-dpd5'), {
+  series: [
+    {name:'对比组', data:[7.24, 7.46, 7.51, 7.29, 7.32, 7.62, 8.32, 7.73, 7.71, 7.30]},
+    {name:'压降组', data:[6.92, 7.02, 7.16, 7.17, 7.10, 7.50, 7.33, 7.07, 7.06, 7.21]}
+  ],
+  chart:{type:'line', height:220, toolbar:{show:false}, fontFamily:'system-ui,sans-serif',
+    animations:{enabled:true, easing:'easeinout', speed:600}},
+  colors:['#c9a227','#6b8e9f'],
+  stroke:{curve:'smooth', width:[2, 2.5], dashArray:[5, 0]},
+  markers:{size:4, strokeWidth:2, hover:{size:6}},
+  xaxis:{
+    categories:['6/9','6/16','6/23','6/30','7/7','7/14','7/21','7/28','8/4','8/11'],
+    labels:{style:{fontSize:'10px', colors:'#9b9a97'}},
+    axisBorder:{show:false}, axisTicks:{show:false}
+  },
+  yaxis:{
+    min:6.5, max:8.5,
+    labels:{formatter:v=>v.toFixed(2)+'%', style:{fontSize:'10px', colors:'#9b9a97'}}
+  },
+  annotations:{
+    xaxis:[
+      {x:'6/9',  x2:'7/14', fillColor:'rgba(201,162,39,.06)',  label:{text:'6月洪水期·到期标的', style:{background:'#fef9ec', color:'#9a7200', fontSize:'9px', fontWeight:600}, position:'top', offsetY:4}},
+      {x:'7/21', x2:'8/11', fillColor:'rgba(229,62,62,.06)', label:{text:'7/8月洪水期·发生标的', style:{background:'#fde8e8', color:'#991b1b', fontSize:'9px', fontWeight:600}, position:'top', offsetY:4}}
+    ]
+  },
+  tooltip:{shared:true, intersect:false, y:{formatter:v=>v.toFixed(2)+'%'}},
+  legend:{position:'top', fontSize:'11px'},
+  grid:{borderColor:'#f0efee', strokeDashArray:3, yaxis:{lines:{show:true}}, xaxis:{lines:{show:false}}}
+}).render();
+
+// ── Leaflet: 洪水风险地图 ────────────────────────────────────
+const ZONES = [
+  // high risk
+  {n:'Cagayan',        lat:18.0,  lng:121.8,  r:55000, risk:'h', d:'台风主要登陆通道，卡加延河易泛滥'},
+  {n:'Isabela',        lat:16.97, lng:121.83, r:50000, risk:'h', d:'卡加延河流域，洪涝灾害频繁'},
+  {n:'Albay',          lat:13.18, lng:123.58, r:38000, risk:'h', d:'比科尔半岛台风频繁登陆地'},
+  {n:'Eastern Samar',  lat:11.5,  lng:125.5,  r:42000, risk:'h', d:'太平洋一侧，台风直击'},
+  {n:'Leyte',          lat:10.85, lng:124.88, r:44000, risk:'h', d:'历史台风灾害最严重地区之一'},
+  {n:'Northern Samar', lat:12.35, lng:124.65, r:34000, risk:'h', d:'台风高频影响区域'},
+  // medium risk
+  {n:'Pampanga',       lat:15.07, lng:120.62, r:32000, risk:'m', d:'季节性洪涝，低地易积水'},
+  {n:'Bulacan',        lat:14.8,  lng:120.88, r:28000, risk:'m', d:'马尼拉近郊，排水系统压力大'},
+  {n:'Metro Manila',   lat:14.55, lng:121.0,  r:22000, risk:'m', d:'城市型洪涝，影响范围广'},
+  {n:'Iloilo',         lat:10.72, lng:122.56, r:30000, risk:'m', d:'维萨亚斯台风通道'},
+  {n:'Camarines Sur',  lat:13.62, lng:123.18, r:36000, risk:'m', d:'比科尔河流域'},
+  // normal
+  {n:'Cebu',           lat:10.35, lng:123.75, r:25000, risk:'l', d:'受山脉保护，风险较低'},
+  {n:'Davao',          lat:7.07,  lng:125.6,  r:30000, risk:'l', d:'棉兰老相对稳定区'},
+  {n:'Palawan',        lat:10.3,  lng:118.7,  r:28000, risk:'l', d:'西海岸，台风路径偏东'},
+];
+const RISK_COLOR = {h:'#e53e3e', m:'#dd6b20', l:'#6b8e9f'};
+const RISK_LABEL = {h:'高风险', m:'中风险', l:'正常'};
+
+const map = L.map('flood-map', {zoomControl:true, scrollWheelZoom:false}).setView([12.5, 122.5], 5);
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution:'© OpenStreetMap', maxZoom:18}).addTo(map);
+ZONES.forEach(z => {
+  const c = RISK_COLOR[z.risk];
+  L.circle([z.lat, z.lng], {
+    radius: z.r, color: c, fillColor: c,
+    fillOpacity: z.risk==='h' ? 0.35 : z.risk==='m' ? 0.22 : 0.18, weight: 1.5
+  }).bindPopup(`<b style="color:${c}">${z.n}</b><br>风险等级：<b>${RISK_LABEL[z.risk]}</b><br><small>${z.d}</small>`)
+    .addTo(map);
+});
+</script>
 </body>
 </html>

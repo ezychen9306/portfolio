@@ -1,23 +1,50 @@
-<!doctype html>
-<html lang="zh-CN"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>年终总结报告 · 演示</title>
-<link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>年终总结报告 · Portfolio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
-:root{--primary:#6b8e9f;--accent:#c9a227;--text:#2d2d2d;--muted:#666}
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Microsoft Yahei",sans-serif;margin:0;background:#fafafa;color:var(--text)}
-.topbar{display:flex;gap:.75rem;align-items:center;justify-content:space-between;padding:.6rem .9rem;border-bottom:1px solid #eee;background:#fff;position:sticky;top:0}
-.topbar a{color:var(--primary);text-decoration:none;font-weight:600}
-.topbar a.btn{display:inline-flex;align-items:center;gap:.35rem;background:var(--primary);color:#fff;padding:.35rem .6rem;border-radius:6px}
-.container{max-width:1040px;margin:0 auto;padding:1rem}
-footer{padding:2rem 1rem;color:#888;text-align:center}
-article{background:#fff;border:1px solid #eee;border-radius:10px;padding:1.2rem}
-article h1,article h2{border-bottom:1px solid #eee;padding-bottom:.25rem}
-article img{max-width:100%;height:auto}
+:root{--bg:#f7f4ef;--card:#fff;--primary:#6b8e9f;--accent:#c9a227;--text:#4a5568;--muted:#718096;--border:#e8e4dc;--shadow:0 2px 8px rgba(0,0,0,.06);}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+.main{max-width:1100px;margin:0 auto;padding:1.5rem;}
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem;}
+.kpi-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;box-shadow:var(--shadow);position:relative;overflow:hidden;}
+.kpi-card.golden::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),#f0d060,var(--accent));}
+.kpi-label{font-size:.73rem;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.4rem;display:flex;align-items:center;gap:.3rem;}
+.kpi-value{font-size:1.8rem;font-weight:700;color:var(--primary);line-height:1.1;}
+.kpi-accent{color:var(--accent)!important;}
+.kpi-sub{font-size:.76rem;color:var(--muted);margin-top:.3rem;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.2rem;box-shadow:var(--shadow);margin-bottom:1rem;}
+.section-title{font-size:.93rem;font-weight:700;color:var(--text);margin-bottom:.9rem;display:flex;align-items:center;gap:.4rem;}
+.section-title i{color:var(--accent);}
+.chart-wrap{height:240px;position:relative;}
+/* Timeline */
+.tl-outer{display:flex;gap:0;align-items:flex-start;padding:1rem 0 .5rem;}
+.tl-node{flex:1;text-align:center;position:relative;padding-top:.5rem;}
+.tl-node:not(:last-child)::after{content:'';position:absolute;top:22px;left:50%;width:100%;height:2px;background:linear-gradient(90deg,var(--accent),var(--primary));z-index:0;}
+.tl-circle{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,var(--accent),#e8b820);display:flex;align-items:center;justify-content:center;margin:0 auto .55rem;position:relative;z-index:1;box-shadow:0 0 0 5px rgba(201,162,39,.12);}
+.tl-circle i{font-size:.95rem;color:#fff;}
+.tl-date{font-size:.7rem;font-weight:700;color:var(--accent);letter-spacing:.03em;}
+.tl-title{font-size:.82rem;font-weight:700;color:var(--text);margin-top:.2rem;}
+.tl-desc{font-size:.72rem;color:var(--muted);margin-top:.2rem;line-height:1.45;}
+/* Achievement banner */
+.achieve-banner{background:linear-gradient(135deg,#6b5500 0%,#9a7200 30%,var(--accent) 60%,#e8c840 100%);border-radius:12px;padding:1.2rem 1.5rem;margin-top:1rem;position:relative;overflow:hidden;}
+.achieve-banner::before{content:'★';position:absolute;right:1.5rem;top:50%;transform:translateY(-50%);font-size:4rem;opacity:.12;color:#fff;}
+.achieve-title{color:#fff;font-size:1.05rem;font-weight:700;margin-bottom:.5rem;}
+.achieve-items{display:flex;gap:1.2rem;flex-wrap:wrap;}
+.achieve-item{display:flex;align-items:center;gap:.4rem;color:rgba(255,255,255,.9);font-size:.82rem;font-weight:600;}
+.achieve-item i{color:rgba(255,255,255,.7);font-size:.9rem;}
+.achieve-sub{color:rgba(255,255,255,.65);font-size:.75rem;margin-top:.4rem;}
+@media(max-width:700px){.kpi-grid{grid-template-columns:1fr 1fr;}.tl-outer{flex-direction:column;align-items:center;gap:1rem;}.tl-node:not(:last-child)::after{display:none;}}
 </style>
+<script>if(window.parent!==window)document.documentElement.classList.add("in-iframe");</script>
+<style>.in-iframe nav{display:none!important;}</style>
 <meta name="description" content="策略体系 · 时间线 · 核心成果">
-<meta property="og:title" content="年终总结报告 · 演示 · 演示" />
+<meta property="og:title" content="年终总结报告 · Portfolio · 演示" />
 <meta property="og:description" content="策略体系 · 时间线 · 核心成果" />
 <meta property="og:type" content="website" />
 <meta property="og:image" content="../../screenshot.png" />
@@ -26,55 +53,127 @@ article img{max-width:100%;height:auto}
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16x16.png">
 <link rel="manifest" href="../../assets/icons/site.webmanifest">
-</head><body>
-<div class="topbar">
-  <div><a href="../../index.html"><i class="ri-arrow-left-line"></i> 返回作品集</a></div>
-  <div style="color:#999;font-size:.9rem">年终总结报告</div>
-  <div><a class="btn" href="#" onclick="history.back();return false;"><i class="ri-history-line"></i> 返回</a></div>
+</head>
+<body>
+<nav style="background:#fff;border-bottom:1px solid #e8e4dc;padding:.75rem 1.5rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:10">
+  <a href="../../index.html#portfolio" onclick="if(window.parent!==window){window.parent.closeModal();return false;}" style="display:inline-flex;align-items:center;gap:.4rem;color:#6b8e9f;text-decoration:none;font-weight:600;font-size:.9rem;padding:.3rem .7rem;border-radius:6px;border:1px solid #e8e4dc">
+    <i class="ri-arrow-left-line"></i> 返回
+  </a>
+  <span style="color:#718096;font-size:.9rem">年终总结报告</span>
+</nav>
+
+<div class="main">
+  <div class="kpi-grid">
+    <div class="kpi-card golden">
+      <div class="kpi-label"><i class="ri-funds-line"></i> 年初余额</div>
+      <div class="kpi-value">62亿</div>
+      <div class="kpi-sub">年度起点规模</div>
+    </div>
+    <div class="kpi-card golden">
+      <div class="kpi-label"><i class="ri-line-chart-line"></i> 年末余额 · 增幅</div>
+      <div class="kpi-value kpi-accent">118亿 <span style="font-size:1rem;font-weight:600">+90.3%</span></div>
+      <div class="kpi-sub">全年规模翻近一倍</div>
+    </div>
+    <div class="kpi-card golden">
+      <div class="kpi-label"><i class="ri-flag-line"></i> 年度里程碑</div>
+      <div class="kpi-value">3个</div>
+      <div class="kpi-sub">重大策略节点</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title"><i class="ri-bar-chart-2-line"></i> 全年业务规模走势（亿元）</div>
+    <div class="chart-wrap">
+      <canvas id="yearChart"></canvas>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-title"><i class="ri-map-pin-time-line"></i> 年度里程碑时间轴</div>
+    <div class="tl-outer" id="tlContainer"></div>
+  </div>
+
+  <div class="achieve-banner">
+    <div class="achieve-title"><i class="ri-trophy-fill"></i> 年度核心成就</div>
+    <div class="achieve-items">
+      <div class="achieve-item"><i class="ri-rocket-line"></i> 规模 62亿 → 118亿，增幅 +90.3%</div>
+      <div class="achieve-item"><i class="ri-shield-star-line"></i> 额度曲线灰度上线，精准风控</div>
+      <div class="achieve-item"><i class="ri-brain-line"></i> AI 中台正式发布，赋能全业务线</div>
+    </div>
+    <div class="achieve-sub">三大里程碑驱动业务持续高速增长，AI 能力全面落地</div>
+  </div>
 </div>
-<div class="container">
-<article>
-<h1>年终总结报告</h1>
-<h2>项目概述</h2>
-<p>2025 年度贷中风险策略工作总结，包含策略体系、核心成果、时间线、体系图、指标图表等。</p>
-<h2>报告结构</h2>
-<h3>1. 核心成果</h3>
-<ul>
-<li>业务结果：首次盈利 500 万+ USD</li>
-<li>策略数量：120+ 条策略上线</li>
-<li>风险降幅：14.37%</li>
-<li>规模增长：2 倍+</li>
-</ul>
-<h3>2. 策略体系</h3>
-<ul>
-<li>客群识别体系</li>
-<li>额度策略体系</li>
-<li>定价/期限体系</li>
-<li>准入/审批体系</li>
-<li>AI 深度策略</li>
-</ul>
-<h3>3. 时间线</h3>
-<ul>
-<li>Q1：灾难管控策略上线</li>
-<li>Q2：额度策略 V5 迭代</li>
-<li>Q3：RM 系统优化</li>
-<li>Q4：AI 深度策略落地</li>
-</ul>
-<h3>4. 月报/QBR 链接</h3>
-<ul>
-<li>月度经营报告</li>
-<li>季度业务回顾</li>
-<li>专项分析报告</li>
-</ul>
-<h2>技术实现</h2>
-<ul>
-<li>单文件 HTML 幻灯片</li>
-<li>交互式图表（Chart.js）</li>
-<li>响应式设计</li>
-<li>可导出 PDF</li>
-</ul>
-<h2>示例内容（脱敏）</h2>
-<p>详见 `demo.html` 完整演示</p>
-</article></div>
-<footer>© 2026 Portfolio Demos</footer>
-</body></html>
+
+<script>
+const MILESTONE_COLORS = ['#c9a227','#6b8e9f','#c9a227'];
+const MILESTONE_ICONS = ['ri-settings-3-fill','ri-equalizer-fill','ri-cpu-fill'];
+const MILESTONE_DESCS = [
+  '额度策略全面升级，客群分层精细化，规模加速增长',
+  '额度动态调整机制灰度验证，精准风控落地',
+  'AI 策略中台正式发布，赋能多产品线智能决策'
+];
+
+fetch('./data.json').then(r=>r.json()).then(data=>{
+  const months = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+
+  // Find milestone annotations
+  const milestoneMonths = data.milestones.map(m=>{
+    const month = parseInt(m.m.split('-')[0]);
+    return month - 1; // 0-indexed
+  });
+
+  new Chart(document.getElementById('yearChart'),{
+    type:'line',
+    data:{
+      labels:months,
+      datasets:[{
+        label:'业务规模（亿元）',
+        data:data.trend,
+        borderColor:'#6b8e9f',
+        backgroundColor:'rgba(107,142,159,.07)',
+        borderWidth:2.5,
+        pointRadius:data.trend.map((_,i)=>milestoneMonths.includes(i)?7:3.5),
+        pointBackgroundColor:data.trend.map((_,i)=>milestoneMonths.includes(i)?'#c9a227':'#6b8e9f'),
+        pointBorderColor:data.trend.map((_,i)=>milestoneMonths.includes(i)?'#fff':'#6b8e9f'),
+        pointBorderWidth:data.trend.map((_,i)=>milestoneMonths.includes(i)?2:0),
+        tension:.4,
+        fill:true
+      }]
+    },
+    options:{
+      responsive:true,
+      maintainAspectRatio:false,
+      plugins:{
+        legend:{display:false},
+        tooltip:{callbacks:{
+          label:c=>`规模: ${c.parsed.y} 亿`,
+          afterLabel:(c)=>{
+            const mi = milestoneMonths.indexOf(c.dataIndex);
+            return mi>=0 ? `里程碑: ${data.milestones[mi].t}` : null;
+          }
+        }},
+        annotation:{}
+      },
+      scales:{
+        x:{grid:{display:false},ticks:{font:{size:10},color:'#718096'}},
+        y:{grid:{color:'rgba(0,0,0,.05)'},ticks:{font:{size:10},color:'#718096',callback:v=>v+'亿'},min:55,max:125}
+      }
+    }
+  });
+
+  // Timeline nodes
+  const tl = document.getElementById('tlContainer');
+  data.milestones.forEach((m,i)=>{
+    tl.innerHTML += `<div class="tl-node">
+      <div class="tl-circle" style="background:linear-gradient(135deg,${MILESTONE_COLORS[i]},${MILESTONE_COLORS[i]}99)">
+        <i class="${MILESTONE_ICONS[i]}"></i>
+      </div>
+      <div class="tl-date">${m.m}</div>
+      <div class="tl-title">${m.t}</div>
+      <div class="tl-desc">${MILESTONE_DESCS[i]}</div>
+    </div>`;
+  });
+}).catch(()=>{ console.warn('data.json not found'); });
+</script>
+</body>
+</html>

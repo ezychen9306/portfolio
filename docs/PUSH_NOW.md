@@ -21,7 +21,7 @@
 在 PowerShell 中执行以下命令：
 
 ```powershell
-cd d:\AI_agents\21_Report_Agent\05_portfolio
+cd d:\AI_agents\21_Report_Projects\05_portfolio
 
 # 如果之前添加过远程仓库，先删除（没有可忽略报错）
 git remote remove origin
@@ -113,7 +113,7 @@ git push -u origin main
 更新网站内容后：
 
 ```powershell
-cd d:\AI_agents\21_Report_Agent\05_portfolio
+cd d:\AI_agents\21_Report_Projects\05_portfolio
 
 git add .
 git commit -m "Update: 描述你的更改"

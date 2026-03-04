@@ -1,6 +1,6 @@
 # Portfolio - 个人作品集
 
-**归属**：本仓库中为 Report Agent 子项目，路径 `21_Report_Agent/05_portfolio`。
+**归属**：本仓库中为 Report Agent 子项目，路径 `21_Report_Projects/05_portfolio`。
 
 数据分析师 & AI Agent 开发者的个人作品集网站。
 

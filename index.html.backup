@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="zh-CN"> 
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="国内外贷中风险策略负责人 · AI策略专家 · AI Agent 开发者" />
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <title>Portfolio — 贷中风险策略 · AI 策略 · Agent 开发</title>
+  </head>
+  <body>
+    <nav>
+      <div class="container nav-container">
+        <a href="index.html" class="logo">Ezy<span>Portfolio</span></a>
+        <ul class="navlist">
+          <li><a href="#home">首页</a></li>
+          <li><a href="#services">能力</a></li>
+          <li><a href="#portfolio">项目</a></li>
+          <li><a href="cv.html" class="nav-link-resume">简历</a></li>
+          <li><a href="#contact">联系</a></li>
+        </ul>
+        <div class="nav-icons">
+          <div id="theme-btn" class="ri-moon-line"></div>
+          <div id="menu-btn" class="ri-menu-line"></div>
+        </div>
+      </div>
+    </nav>
+    <!-- ==================================
+                  HOME SECTION（首页 + 关于合并）
+    ==================================== -->
+    <section class="home" id="home">
+      <div class="section-placeholder" aria-hidden="true"><span class="section-placeholder__num">01</span><span class="section-placeholder__dots">···</span></div>
+      <div class="container home-container">
+        <div class="left">
+          <h1 class="home-name"><span class="home-name-inner">Ezy Chen</span></h1>
+          <p class="home-typed">我是 <span class="multiple-text"></span></p>
+          <p class="home-intro home-summary">
+            7 年金融风控 · <span class="home-key">4 年团队管理</span>；国内到海外，<b class="home-key">8%–180%</b> 定价信贷产品，在贷余额超 <b class="home-key home-key-accent">500 亿</b>，多项 <span class="home-key">0-1</span> 落地，持续交付可量化的业务价值。
+          </p>
+          <div class="social-icons-container">
+            <div class="social-icons">
+              <div class="social-icon-item">
+                <a href="tel:15618109306" class="social-icon-item__link" title="电话" aria-label="电话"><i class="ri-phone-line"></i></a>
+                <span class="social-icon-label" title="点击选中复制">15618109306</span>
+              </div>
+              <div class="social-icon-item">
+                <a href="javascript:void(0)" class="social-icon-item__link" title="邮箱" aria-label="邮箱"><i class="ri-mail-line"></i></a>
+                <span class="social-icon-label social-icon-label--double" title="点击选中复制">enzhaochen@foxmail.com<br>ezychen9306@gmail.com</span>
+              </div>
+              <div class="social-icon-item">
+                <a href="https://github.com/ezychen9306" target="_blank" rel="noopener" class="social-icon-item__link" aria-label="GitHub"><i class="ri-github-line"></i></a>
+                <span class="social-icon-label" title="点击选中复制">github.com/ezychen9306</span>
+              </div>
+            </div>
+            <a href="#contact" class="btn overlay" id="btn">
+              <span>联系我</span>
+            </a>
+          </div>
+        </div>
+        <div class="right home-demos-wrap" aria-hidden="true">
+          <img src="assets/images/home-placeholder.svg" alt="" class="home-placeholder-img">
+        </div>
+      </div>
+    </section>
+    <!-- ==================================
+                SERVICE SECTION
+    ==================================== -->
+    <section class="services" id="services">
+      <div class="section-placeholder" aria-hidden="true"><span class="section-placeholder__num">02</span><span class="section-placeholder__dots">···</span></div>
+      <div class="title">
+        <h2>核心 <span>能力</span></h2>
+      </div>
+      <div class="container services-container">
+        <div class="box overlay content-1">
+          <div class="content ">
+            <i class="ri-line-chart-line"></i>
+            <h4>贷中风险策略</h4>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">行为评分 · 调额 · 预警</p>
+          </div>
+        </div>
+        <div class="box overlay content-1">
+          <div class="content ">
+            <i class="ri-brain-line"></i>
+            <h4>AI 策略</h4>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">数据驱动 · 模型与监控</p>
+          </div>
+        </div>
+        <div class="box overlay content-1">
+          <div class="content ">
+            <i class="ri-robot-2-line"></i>
+            <h4>AI Agent 开发</h4>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Skills · 知识库 · 自动化</p>
+          </div>
+        </div>
+        <div class="box overlay content-2">
+          <div class="content ">
+            <i class="ri-database-2-line"></i>
+            <h4>数据分析</h4>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Python · SQL · 报表</p>
+          </div>
+        </div>
+        <div class="box overlay content-2">
+          <div class="content ">
+            <i class="ri-file-chart-line"></i>
+            <h4>报告自动化</h4>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">HTML · Excel · 可视化</p>
+          </div>
+        </div>
+        <div class="box overlay content-2">
+          <div class="content ">
+            <i class="ri-code-s-slash-line"></i>
+            <h4>全栈开发</h4>
+            <p style="font-size: 0.9rem; margin-top: 0.5rem;">Python · JavaScript</p>
+          </div>
+        </div>
+      </div>
+    </section>
+     <!-- ==================================
+                PORTFOLIO SECTION
+    ==================================== -->
+    <section class="portfolio" id="portfolio">
+        <div class="section-placeholder" aria-hidden="true"><span class="section-placeholder__num">03</span><span class="section-placeholder__dots">···</span></div>
+        <div class="title">
+            <h2>精选 <span>项目</span></h2>
+        </div>
+        <div class="container portfolio-container">
+            <div class="portfolio-buttons" >
+                <button class="btn portfolio-tab active" onclick="tabOpen('all')">
+                    全部</button>
+                <button class="btn portfolio-tab " onclick="tabOpen('webdevelop')">
+                    风险策略</button>
+                <button class="btn portfolio-tab " onclick="tabOpen('webdesign')">
+                    数据分析</button>
+                <button class="btn portfolio-tab " onclick="tabOpen('appdevelop')">
+                    AI Agent</button>
+            </div>
+            <div class="tab-content active-content" id="all">
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/audit-model.jpg" alt="贷中审计估计模型" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">贷中审计估计模型</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>贷中审计估计模型</h4>
+                    <p>逾期率估计与审计口径落地，ODPS 预处理与版本管理</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/behavior-score.jpg" alt="行为评分与调额策略" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">行为评分与调额策略</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>行为评分与调额策略</h4>
+                    <p>贷中行为分与额度策略联动，策略迭代与监控</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/knowledge-base-agent.jpg" alt="知识库 Agent" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">知识库 Agent</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>知识库 Agent</h4>
+                    <p>文档解析、RAG 检索与结构化输出</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/report-pipeline.jpg" alt="报表自动化流水线" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">报表自动化流水线</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>报表自动化流水线</h4>
+                    <p>HTML/Excel 报表、可视化与分部生成合并</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/analysis-agent.jpg" alt="Analysis Agent" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">Analysis Agent</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>Analysis Agent</h4>
+                    <p>SQL 规范、ODPS 分析与数据校验</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/strategy-dashboard.jpg" alt="策略监控看板" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">策略监控看板</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>策略监控看板</h4>
+                    <p>核心指标、预警监控与月报看板</p>
+                  </div>
+                </div>
+            </div>
+            <div class="tab-content" id="webdevelop">
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/behavior-score.jpg" alt="行为评分与调额策略" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">行为评分与调额策略</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>行为评分与调额策略</h4>
+                    <p>贷中行为分与额度策略联动</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/early-warning.jpg" alt="贷中预警体系" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">贷中预警体系</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>贷中预警体系</h4>
+                    <p>早期预警规则与名单监控</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/strategy-dashboard.jpg" alt="策略监控看板" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">策略监控看板</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>策略监控看板</h4>
+                    <p>核心指标与预警监控</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/audit-model.jpg" alt="贷中审计估计模型" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">贷中审计估计模型</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>贷中审计估计模型</h4>
+                    <p>逾期率估计与审计口径</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/quota-strategy.jpg" alt="额度策略与策略迭代" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">额度策略与策略迭代</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>额度策略与策略迭代</h4>
+                    <p>调额规则与 A/B 验证</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/risk-pricing.jpg" alt="风险定价与收益平衡" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">风险定价与收益平衡</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>风险定价与收益平衡</h4>
+                    <p>定价策略与收益风险权衡</p>
+                  </div>
+                </div>
+            </div>
+            <div class="tab-content" id="webdesign">
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/audit-model.jpg" alt="贷中审计估计模型" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">贷中审计估计模型</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>贷中审计估计模型</h4>
+                    <p>ODPS 预处理与 SQL 开发规范</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/report-pipeline.jpg" alt="报表自动化流水线" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">报表自动化流水线</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>报表自动化流水线</h4>
+                    <p>HTML/Excel 报表与可视化</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/odps-analysis.jpg" alt="ODPS 数据分析与取数" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">ODPS 数据分析与取数</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>ODPS 数据分析与取数</h4>
+                    <p>大数据取数与分析流程</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/viz-monthly.jpg" alt="可视化看板与月报" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">可视化看板与月报</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>可视化看板与月报</h4>
+                    <p>看板搭建与月报自动化</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/data-quality.jpg" alt="数据质量校验" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">数据质量校验</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>数据质量校验</h4>
+                    <p>形状、缺失与异常校验</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/metrics-doc.jpg" alt="指标口径文档化" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">指标口径文档化</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>指标口径文档化</h4>
+                    <p>口径说明与文档沉淀</p>
+                  </div>
+                </div>
+            </div>
+            <div class="tab-content" id="appdevelop">
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/knowledge-base-agent.jpg" alt="知识库 Agent" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">知识库 Agent</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>知识库 Agent</h4>
+                    <p>文档解析、RAG 检索与结构化输出</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/analysis-agent.jpg" alt="Analysis Agent" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">Analysis Agent</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>Analysis Agent</h4>
+                    <p>SQL 规范、ODPS 分析与数据校验</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/skills-dev.jpg" alt="Skills 技能开发" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">Skills 技能开发</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>Skills 技能开发</h4>
+                    <p>OpenSkills 技能与 Cursor 规则</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/multi-agent.jpg" alt="多 Agent 工作区" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">多 Agent 工作区</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>多 Agent 工作区</h4>
+                    <p>数据分析、创作与学习整合</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/constitution-rules.jpg" alt="宪法规则与规范落地" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">宪法规则与规范落地</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>宪法规则与规范落地</h4>
+                    <p>开发规范、检查清单与最佳实践</p>
+                  </div>
+                </div>
+                <div class="image">
+                  <div class="portfolio-card__media">
+                    <img src="assets/images/projects/report-agent.jpg" alt="报告与文档自动化 Agent" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+                    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">报告与文档自动化 Agent</span></div>
+                  </div>
+                  <div class="portfolio-card__caption">
+                    <h4>报告与文档自动化 Agent</h4>
+                    <p>年终汇报、数据报告与文档生成</p>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ==================================
+                CONTACT SECTION
+   ==================================== -->
+<section class="contact" id="contact">
+   <div class="section-placeholder" aria-hidden="true"><span class="section-placeholder__num">04</span><span class="section-placeholder__dots">···</span></div>
+    <div class="title">
+        <h2>联系 <span>我</span></h2>
+    </div>
+    <div class="contact-content">
+        <div class="row">
+          <div class="box">
+              <div class="box-icon">
+                  <i class="ri-mail-line"></i>
+              </div>
+              <div class="box-info contact-copyable">
+                  <h4>邮箱</h4>
+                  <a href="mailto:ezychen9306@gmail.com">ezychen9306@gmail.com</a><br>
+                  <a href="mailto:enzhaochen@qq.com">enzhaochen@qq.com</a>
+              </div>
+          </div>
+          <div class="box">
+              <div class="box-icon">
+                  <i class="ri-github-line"></i>
+              </div>
+              <div class="box-info contact-copyable">
+                  <h4>GitHub</h4>
+                  <a href="https://github.com/ezychen9306" target="_blank" rel="noopener">https://github.com/ezychen9306</a>
+              </div>
+          </div>
+          <div class="box">
+              <div class="box-icon">
+                  <i class="ri-wechat-fill"></i>
+              </div>
+              <div class="box-info contact-copyable">
+                  <h4>微信/手机号</h4>
+                  <span>15618109306</span>
+              </div>
+          </div>
+        </div>
+        <div class="row">
+            <form action="" class="contact-form">
+                <div class="form-box">
+                    <input type="text" placeholder="您的姓名" required>
+                </div>
+                <div class="form-box">
+                    <input type="email" placeholder="您的邮箱" required>
+                </div>
+                <div class="form-box">
+                    <input type="text" placeholder="主题" required>
+                </div>
+                <div class="form-box">
+                    <textarea name="Message" id="" cols="10" rows="10" placeholder="留言内容"></textarea>
+                </div>
+                <button type="submit" class="btn overlay">
+                    <span>发送消息</span>
+                </button>
+            </form>
+        </div>
+    </div>
+   </section>
+   <div class="copyright">
+    <p>Copyright &copy; 2026 · 贷中风险策略 · AI 策略 · Agent 开发</p>
+   </div>
+
+
+    <!-- ==================================
+                   Scroll Reveal
+    ==================================== -->
+    <script src="https://unpkg.com/scrollreveal"></script>
+    <!-- ==================================
+                   Typed Js
+    ==================================== -->
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+    <!-- ==================================
+                   custom Js
+    ==================================== -->
+    <script src="assets/js/script.js"></script>
+  </body>
+</html>

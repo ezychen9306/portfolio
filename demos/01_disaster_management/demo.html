@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>灾难管控策略 - 监控看板</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Microsoft YaHei',sans-serif;background:#f7f4ef;padding:2rem}
+.container{max-width:1200px;margin:0 auto;background:#fff;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+h1{color:#2d2d2d;margin-bottom:.5rem;font-size:1.8rem}
+.subtitle{color:#6b8e9f;font-size:.9rem;margin-bottom:2rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:1.5rem;margin-bottom:2rem}
+.card{background:#f9f9f9;padding:1.5rem;border-radius:6px;border-left:4px solid #6b8e9f}
+.card.warning{border-left-color:#c9a227}
+.card.danger{border-left-color:#d9534f}
+.card-title{font-size:.85rem;color:#666;margin-bottom:.5rem}
+.card-value{font-size:2rem;font-weight:700;color:#2d2d2d}
+.card-change{font-size:.8rem;color:#28a745;margin-top:.3rem}
+.card-change.negative{color:#d9534f}
+table{width:100%;border-collapse:collapse;margin-top:1rem}
+th,td{padding:.75rem;text-align:left;border-bottom:1px solid #e0e0e0}
+th{background:#6b8e9f;color:#fff;font-weight:600;font-size:.85rem}
+td{font-size:.85rem;color:#2d2d2d}
+.status{display:inline-block;padding:.2rem .6rem;border-radius:12px;font-size:.75rem;font-weight:600}
+.status.active{background:#fff3cd;color:#856404}
+.status.resolved{background:#d4edda;color:#155724}
+.chart-placeholder{background:#f0f0f0;height:200px;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#999;font-size:.9rem;margin-top:1rem}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>灾难管控策略监控看板</h1>
+  <p class="subtitle">实时监控 · T+1 快速响应 · 业务连续性保障</p>
+
+  <div class="grid">
+    <div class="card warning">
+      <div class="card-title">当前活跃灾害</div>
+      <div class="card-value">2</div>
+      <div class="card-change">台风 + 洪水预警</div>
+    </div>
+    <div class="card">
+      <div class="card-title">受影响客户数</div>
+      <div class="card-value">18,300</div>
+      <div class="card-change">占总客户 3.2%</div>
+    </div>
+    <div class="card">
+      <div class="card-title">策略响应时间</div>
+      <div class="card-value">T+1</div>
+      <div class="card-change">平均 18 小时</div>
+    </div>
+    <div class="card">
+      <div class="card-title">风险降幅</div>
+      <div class="card-value">12.8%</div>
+      <div class="card-change">vs 未管控组</div>
+    </div>
+  </div>
+
+  <h2 style="color:#2d2d2d;font-size:1.2rem;margin-bottom:1rem">近期灾害事件</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>灾害类型</th>
+        <th>发生时间</th>
+        <th>受影响区域</th>
+        <th>客户数</th>
+        <th>策略响应</th>
+        <th>状态</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>台风 Karding</td>
+        <td>2025-02-10</td>
+        <td>Luzon 北部</td>
+        <td>15,600</td>
+        <td>T+1 (16h)</td>
+        <td><span class="status active">监控中</span></td>
+      </tr>
+      <tr>
+        <td>洪水</td>
+        <td>2025-01-28</td>
+        <td>Metro Manila</td>
+        <td>12,500</td>
+        <td>T+1 (20h)</td>
+        <td><span class="status resolved">已恢复</span></td>
+      </tr>
+      <tr>
+        <td>地震 6.2级</td>
+        <td>2025-01-15</td>
+        <td>Mindanao</td>
+        <td>8,300</td>
+        <td>T+1 (14h)</td>
+        <td><span class="status resolved">已恢复</span></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2 style="color:#2d2d2d;font-size:1.2rem;margin:2rem 0 1rem">策略效果对比</h2>
+  <div class="chart-placeholder">
+    [风险率对比图表：管控组 vs 未管控组]<br>
+    管控组逾期率: 8.5% | 未管控组: 21.3% | 降幅: 12.8%
+  </div>
+
+  <p style="margin-top:2rem;color:#999;font-size:.8rem;text-align:center">
+    * 所有数据已脱敏处理，仅用于展示
+  </p>
+</div>
+</body>
+</html>

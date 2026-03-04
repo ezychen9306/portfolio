@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>额度策略 V5 - 管理看板</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Microsoft YaHei',sans-serif;background:#f7f4ef;padding:2rem}
+.container{max-width:1400px;margin:0 auto;background:#fff;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+h1{color:#2d2d2d;margin-bottom:.5rem;font-size:1.8rem}
+.subtitle{color:#6b8e9f;font-size:.9rem;margin-bottom:2rem}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-bottom:2rem}
+.card{background:linear-gradient(135deg,#6b8e9f 0%,#5a7a8a 100%);padding:1.5rem;border-radius:8px;color:#fff}
+.card-title{font-size:.85rem;opacity:.9;margin-bottom:.5rem}
+.card-value{font-size:2.2rem;font-weight:700}
+.card-change{font-size:.8rem;opacity:.85;margin-top:.3rem}
+.section{margin-top:2rem}
+.section-title{font-size:1.2rem;color:#2d2d2d;margin-bottom:1rem;border-left:4px solid #c9a227;padding-left:1rem}
+table{width:100%;border-collapse:collapse}
+th,td{padding:.75rem;text-align:left;border-bottom:1px solid #e0e0e0}
+th{background:#f5f5f5;color:#2d2d2d;font-weight:600;font-size:.85rem}
+td{font-size:.85rem;color:#2d2d2d}
+.progress-bar{background:#e0e0e0;height:8px;border-radius:4px;overflow:hidden;margin-top:.3rem}
+.progress-fill{background:#6b8e9f;height:100%;transition:width .3s}
+.badge{display:inline-block;padding:.2rem .6rem;border-radius:12px;font-size:.75rem;font-weight:600}
+.badge.success{background:#d4edda;color:#155724}
+.badge.warning{background:#fff3cd;color:#856404}
+.badge.info{background:#d1ecf1;color:#0c5460}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>额度策略 V5 管理看板</h1>
+  <p class="subtitle">固额 · 临额 · 限额 | 多版本组合 · 动态调整 · A/B 测试</p>
+
+  <div class="grid">
+    <div class="card">
+      <div class="card-title">总授信规模</div>
+      <div class="card-value">125 亿</div>
+      <div class="card-change">YoY +102.3%</div>
+    </div>
+    <div class="card">
+      <div class="card-title">在贷余额</div>
+      <div class="card-value">68 亿</div>
+      <div class="card-change">额度利用率 54.4%</div>
+    </div>
+    <div class="card">
+      <div class="card-title">平均额度</div>
+      <div class="card-value">32,500</div>
+      <div class="card-change">vs V4 +8.2%</div>
+    </div>
+    <div class="card">
+      <div class="card-title">年化逾期率</div>
+      <div class="card-value">6.8%</div>
+      <div class="card-change">持平 V4</div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">客群额度分布</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>客群</th>
+          <th>客户数</th>
+          <th>固定额度</th>
+          <th>临时额度</th>
+          <th>额度利用率</th>
+          <th>逾期率</th>
+          <th>状态</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>优质客户</strong></td>
+          <td>125,600</td>
+          <td>50,000</td>
+          <td>+20,000</td>
+          <td>68.5%<div class="progress-bar"><div class="progress-fill" style="width:68.5%"></div></div></td>
+          <td>2.3%</td>
+          <td><span class="badge success">正常</span></td>
+        </tr>
+        <tr>
+          <td><strong>标准客户</strong></td>
+          <td>285,300</td>
+          <td>30,000</td>
+          <td>+10,000</td>
+          <td>72.1%<div class="progress-bar"><div class="progress-fill" style="width:72.1%"></div></div></td>
+          <td>5.8%</td>
+          <td><span class="badge success">正常</span></td>
+        </tr>
+        <tr>
+          <td><strong>成长客户</strong></td>
+          <td>198,700</td>
+          <td>20,000</td>
+          <td>+5,000</td>
+          <td>65.3%<div class="progress-bar"><div class="progress-fill" style="width:65.3%"></div></div></td>
+          <td>8.9%</td>
+          <td><span class="badge info">观察</span></td>
+        </tr>
+        <tr>
+          <td><strong>风险客户</strong></td>
+          <td>42,100</td>
+          <td>15,000</td>
+          <td>0</td>
+          <td>45.2%<div class="progress-bar"><div class="progress-fill" style="width:45.2%"></div></div></td>
+          <td>12.5%</td>
+          <td><span class="badge warning">限额</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="section">
+    <h2 class="section-title">A/B 测试进行中</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>测试版本</th>
+          <th>测试客群</th>
+          <th>样本量</th>
+          <th>放款规模</th>
+          <th>逾期率</th>
+          <th>收益率</th>
+          <th>决策</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>V5.1 激进版</strong></td>
+          <td>标准客户</td>
+          <td>15,000</td>
+          <td>4.8 亿</td>
+          <td>6.2%</td>
+          <td>18.5%</td>
+          <td><span class="badge success">待上线</span></td>
+        </tr>
+        <tr>
+          <td><strong>V5.2 保守版</strong></td>
+          <td>成长客户</td>
+          <td>12,000</td>
+          <td>2.1 亿</td>
+          <td>7.8%</td>
+          <td>16.2%</td>
+          <td><span class="badge warning">观察中</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <p style="margin-top:2rem;color:#999;font-size:.8rem;text-align:center">
+    * 所有数据已脱敏处理，仅用于展示
+  </p>
+</div>
+</body>
+</html>

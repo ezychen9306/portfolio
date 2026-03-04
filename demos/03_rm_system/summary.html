@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>全面风险管理系统 · Portfolio</title>
+<meta name="description" content="9 条业务线风险管理 · 经营决策 · 财报与审计支持 · RMV4 方案摘要">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css">
+<style>
+:root{--bg:#f7f7f5;--card:#fff;--primary:#6b8e9f;--accent:#c9a227;--text:#37352f;--muted:#9b9a97;--border:#e9e9e7;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,-apple-system,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);}
+.main{max-width:1100px;margin:0 auto;padding:1.5rem;}
+
+.hero{background:#fff;border:1px solid var(--border);border-radius:10px;padding:2rem 2.2rem;margin-bottom:1.5rem;border-left:4px solid var(--accent);}
+.proj-num{font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;}
+.hero h1{font-size:1.65rem;font-weight:800;color:var(--text);margin-bottom:.45rem;display:flex;align-items:center;gap:.5rem;}
+.hero h1 i{color:var(--accent);font-size:1.5rem;}
+.hero-desc{font-size:.87rem;color:var(--muted);line-height:1.7;margin-bottom:1.2rem;}
+.kpi-chips{display:flex;gap:.5rem;flex-wrap:wrap;}
+.kpi-chip{display:inline-flex;align-items:center;gap:.35rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:.28rem .7rem;font-size:.77rem;color:var(--text);}
+.kpi-chip strong{font-weight:700;font-size:.9rem;color:var(--accent);}
+.kpi-chip.blue strong{color:var(--primary);}
+
+.sec{margin-bottom:2rem;}
+.sec-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:1px solid var(--border);}
+.sec-num{font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.08em;background:#f0f0ee;border-radius:4px;padding:.2rem .5rem;flex-shrink:0;}
+.sec-title{font-size:1rem;font-weight:700;color:var(--text);}
+.sec-subtitle{font-size:.75rem;color:var(--muted);margin-top:.1rem;}
+
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.2rem;margin-bottom:1rem;}
+.card-title{font-size:.83rem;font-weight:700;color:var(--text);margin-bottom:.6rem;display:flex;align-items:center;gap:.35rem;}
+.card-title i{color:var(--accent);}
+.tlist{list-style:none;padding:0;}
+.tlist li{font-size:.8rem;padding:.35rem 0;border-bottom:1px solid #f0efee;display:flex;align-items:flex-start;gap:.4rem;line-height:1.55;color:var(--text);}
+.tlist li:last-child{border:none;}
+.tlist li i{font-size:.85rem;flex-shrink:0;margin-top:.15rem;color:var(--accent);}
+.tlist.sublist{margin-left:1rem;margin-top:.4rem;}
+.tlist.sublist li{font-size:.76rem;color:var(--muted);padding:.25rem 0;}
+.effect-note{font-size:.82rem;line-height:1.7;color:var(--text);margin-bottom:.65rem;}
+.effect-img{width:100%;display:block;border:1px solid var(--border);border-radius:8px;background:#fff;}
+.effect-cap{font-size:.74rem;color:var(--muted);margin-top:.5rem;line-height:1.55;}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;}
+@media(max-width:768px){.grid2{grid-template-columns:1fr;} .hero h1{font-size:1.3rem;}}
+</style>
+<script>if(window.parent!==window)document.documentElement.classList.add("in-iframe");</script>
+<style>.in-iframe nav{display:none!important;}</style>
+<link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
+</head>
+<body>
+
+<nav style="background:#fff;border-bottom:1px solid #e9e9e7;padding:.7rem 1.5rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:100">
+  <a href="../../index.html#portfolio" onclick="if(window.parent!==window){window.parent.closeModal();return false;}" style="display:inline-flex;align-items:center;gap:.35rem;color:#9b9a97;text-decoration:none;font-size:.85rem;padding:.25rem .5rem;border-radius:4px;transition:color .15s" onmouseover="this.style.color='#37352f'" onmouseout="this.style.color='#9b9a97'">
+    <i class="ri-arrow-left-s-line"></i> 返回
+  </a>
+  <span style="color:#e9e9e7;font-size:1rem">·</span>
+  <span style="color:#9b9a97;font-size:.85rem">全面风险管理系统</span>
+</nav>
+
+<div class="main">
+
+  <div class="hero">
+    <div class="proj-num">PROJECT 03 · 风险管理系统</div>
+    <h1><i class="ri-shield-check-line"></i>全面风险管理系统</h1>
+    <p class="hero-desc">面向 9 条产品形态差异较大的业务线，搭建自动化风险管理机制，支撑高频经营决策，并满足财报与外部审计的统一口径要求。</p>
+    <div class="kpi-chips">
+      <div class="kpi-chip"><strong>9</strong>&nbsp;条业务线</div>
+      <div class="kpi-chip blue"><strong>4 维</strong>&nbsp;交叉校验</div>
+      <div class="kpi-chip"><strong>DPD</strong>&nbsp;阶段监控</div>
+    </div>
+  </div>
+
+  <!-- 01 背景 -->
+  <div class="sec">
+    <div class="sec-header">
+      <div class="sec-num">01</div>
+      <div><div class="sec-title">背景</div><div class="sec-subtitle">从分散流程到统一、可复核的风险管理机制</div></div>
+    </div>
+    <div class="card">
+      <p style="font-size:.9rem;line-height:1.75;color:var(--text);">
+        业务线产品结构差异较大，若依赖分散人工流程，跨业务线对齐和复核成本高。项目通过统一口径、分层校验与阶段监控，将风险管理流程标准化，在保证时效的同时提升结果稳定性与可追溯性。
+      </p>
+    </div>
+  </div>
+
+  <!-- 02 效果 -->
+  <div class="sec">
+    <div class="sec-header">
+      <div class="sec-num">02</div>
+      <div><div class="sec-title">效果</div><div class="sec-subtitle">策略调整、分层校验与阶段监控的落地展示</div></div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ri-image-line"></i> 策略调参示例</div>
+      <p class="effect-note">根据当月表现与外部变化调整参数，并同步更新各业务线风险管理结果。</p>
+      <img class="effect-img" src="./assets/effect_simulation.png" alt="图1-策略调优模拟">
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ri-table-line"></i> 多维明细校验</div>
+      <p class="effect-note">按业务线、user_flag、期限、评级等维度交叉核验，确保结果一致且可解释。</p>
+      <img class="effect-img" src="./assets/effect_validation.png" alt="图2-多维明细校验">
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ri-line-chart-line"></i> DPD 阶段风险监控</div>
+      <p class="effect-note">对各 DPD 阶段真实风险进行可视化跟踪，形成连续监控视图。</p>
+      <img class="effect-img" src="./assets/effect_monitoring.png" alt="图3-DPD阶段风险监控">
+      <p class="effect-cap">覆盖 dpd5、dpd30、dpd30_2~dpd30_6 与当期 Vintage 阶段，用于持续识别风险变化并辅助策略迭代。</p>
+    </div>
+
+    <p style="font-size:.78rem;color:var(--muted);text-align:center;margin-top:1rem;">* 本页展示 RMV4 在策略调整、结果校验与风险监控三个核心环节的落地效果。</p>
+  </div>
+
+</div>
+</body>
+</html>

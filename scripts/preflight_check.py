@@ -1,9 +1,9 @@
-﻿# coding: utf-8
+# coding: utf-8
 from html.parser import HTMLParser
 from pathlib import Path
 import sys, json, re
 
-ROOT = Path(r"d:\AI_agents\21_Report_Agent\05_portfolio")
+ROOT = Path(r"d:\AI_agents\21_Report_Projects\05_portfolio")
 PAGES = [ROOT/'index.html', ROOT/'cv.html']
 DEMOS = [p for p in (ROOT/'demos').rglob('index.html')]
 JS = ROOT/'assets/js/script.js'

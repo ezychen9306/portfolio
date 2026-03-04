@@ -56,7 +56,7 @@ themeBtn.onclick = function () {
 const multipleTextEl = document.querySelector(".multiple-text");
 if (multipleTextEl) {
   const typed = new Typed(".multiple-text", {
-    strings: ["贷中风险策略负责人", "AI 策略专家", "AI Agent 开发者"],
+    strings: ['贷中风控策略负责人', 'AI 策略专家', 'AI Agent 开发者'],
     typeSpeed: 100,
     backSpeed: 100,
     backDelay: 1000,
@@ -235,9 +235,7 @@ sr.reveal(".contact .row .contact-form", { origin: "left" });
           ctx.stroke();
         }
       }
-    }
-
-    t++;
+    }    t++;
     requestAnimationFrame(draw);
   }
 
@@ -302,3 +300,19 @@ sr.reveal(".contact .row .contact-form", { origin: "left" });
   draw();
   window.addEventListener("resize", resize);
 })();
+
+
+// 默认打开“风控/经营”Tab（避免首页一次性展示全部卡片过长）
+document.addEventListener('DOMContentLoaded', function(){
+  try{
+    const btns = document.querySelectorAll('.portfolio-buttons .btn');
+    const contentAll = document.getElementById('all');
+    const contentWD = document.getElementById('webdevelop');
+    if(btns.length>=2 && contentAll && contentWD){
+      btns.forEach(b=>b.classList.remove('active'));
+      document.querySelector('.portfolio-buttons .btn:nth-child(2)').classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active-content'));
+      contentWD.classList.add('active-content');
+    }
+  }catch(e){}
+});

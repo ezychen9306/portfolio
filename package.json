@@ -1,8 +1,13 @@
-{
+﻿{
     "name":  "portfolio",
     "private":  true,
-    "scripts": {"validate": "python scripts/validate_links.py", "build": "python scripts/build_demos_and_projects.py && node screenshot.js", 
-                    "screenshot":  "node screenshot.js"
+    "scripts":  {
+                    "validate":  "python scripts/validate_links.py",
+                    "screenshot":  "node screenshot.js",
+                    "build":  "python scripts/rebuild_portfolio_section.py \u0026\u0026 python scripts/build_demos_and_projects.py \u0026\u0026 python scripts/patch_demos_meta.py \u0026\u0026 python scripts/preflight_check.py \u0026\u0026 node screenshot.js",
+                    "preflight":  "python scripts/preflight_check.py",
+                    "fs:check":  "python scripts/fs_ascii_guard.py",
+                    "fs:fix":  "python scripts/fs_ascii_guard.py --fix"
                 },
     "devDependencies":  {
                             "playwright":  "^1.40.0"

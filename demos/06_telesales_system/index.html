@@ -1,80 +1,285 @@
-<!doctype html>
-<html lang="zh-CN"><head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>电销策略推荐系统 · 演示</title>
-<link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet">
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能电销系统 · Portfolio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css">
 <style>
-:root{--primary:#6b8e9f;--accent:#c9a227;--text:#2d2d2d;--muted:#666}
-body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Microsoft Yahei",sans-serif;margin:0;background:#fafafa;color:var(--text)}
-.topbar{display:flex;gap:.75rem;align-items:center;justify-content:space-between;padding:.6rem .9rem;border-bottom:1px solid #eee;background:#fff;position:sticky;top:0}
-.topbar a{color:var(--primary);text-decoration:none;font-weight:600}
-.topbar a.btn{display:inline-flex;align-items:center;gap:.35rem;background:var(--primary);color:#fff;padding:.35rem .6rem;border-radius:6px}
-.container{max-width:1040px;margin:0 auto;padding:1rem}
-footer{padding:2rem 1rem;color:#888;text-align:center}
-article{background:#fff;border:1px solid #eee;border-radius:10px;padding:1.2rem}
-article h1,article h2{border-bottom:1px solid #eee;padding-bottom:.25rem}
-article img{max-width:100%;height:auto}
+:root{--bg:#f0f2f5;--card:#fff;--primary:#4a6fa5;--accent:#c9a227;--text:#1a202c;--muted:#64748b;--border:#e2e8f0;--success:#0d9488;--warn:#b45309;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+.main{max-width:960px;margin:0 auto;padding:1rem 1.25rem;padding-bottom:2rem;}
+
+/* Nav */
+nav{background:#fff;border-bottom:1px solid var(--border);padding:.6rem 1.25rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:100;}
+nav a{display:inline-flex;align-items:center;gap:.35rem;color:var(--primary);text-decoration:none;font-weight:600;font-size:.88rem;}
+nav a:hover{color:var(--accent);}
+nav .crumb{color:var(--muted);font-size:.8rem;}
+
+/* Hero：与 03/04 卡片一致 */
+.hero{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:2rem 2.2rem;margin-bottom:1.5rem;border-left:4px solid var(--accent);}
+.proj-num{font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;}
+.hero h1{font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:.45rem;display:flex;align-items:center;gap:.5rem;}
+.hero h1 i{color:var(--accent);font-size:1.35rem;}
+.hero-desc{font-size:.87rem;color:var(--muted);line-height:1.7;margin-bottom:1rem;}
+.kpi-chips{display:flex;gap:.5rem;flex-wrap:wrap;}
+.kpi-chip{display:inline-flex;align-items:center;gap:.35rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:.28rem .7rem;font-size:.77rem;color:var(--text);}
+.kpi-chip strong{font-weight:700;font-size:.9rem;color:var(--accent);}
+.hero-note{font-size:.72rem;color:var(--muted);margin-top:.6rem;line-height:1.5;}
+.hero-note strong{color:var(--text);}
+
+/* 单页三块 */
+.page-section{margin-bottom:2rem;}
+.section-label{font-size:.7rem;font-weight:700;letter-spacing:.08em;color:var(--primary);margin-bottom:.5rem;display:flex;align-items:center;gap:.35rem;}
+.section-label i{color:var(--accent);}
+
+/* List */
+.list-toolbar{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:.5rem;margin-bottom:.75rem;}
+.list-toolbar .date{font-size:.8rem;font-weight:600;color:var(--text);}
+.list-toolbar .stats{font-size:.72rem;color:var(--muted);}
+.table-wrap{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.04);}
+.table-wrap{overflow-x:auto;}
+.table-wrap table{width:100%;min-width:880px;border-collapse:collapse;font-size:.7rem;}
+.table-wrap th,.table-wrap td{border-bottom:1px solid var(--border);padding:.35rem .45rem;text-align:left;}
+.table-wrap th{background:#f8fafc;color:var(--muted);font-weight:700;}
+.table-wrap tr:last-child td{border-bottom:none;}
+.rec{display:inline-flex;align-items:center;gap:.2rem;font-size:.65rem;padding:.12rem .35rem;border-radius:4px;font-weight:600;}
+.rec.yes{background:#d1fae5;color:#065f46;}
+.rec.no{background:#fef3c7;color:#92400e;}
+.risk{font-weight:700;}
+.risk.r1,.risk.r2{color:#0d9488;}
+.risk.r3,.risk.r4{color:var(--primary);}
+.risk.r5,.risk.r6{color:var(--warn);}
+.intent-high{color:#0d9488;font-weight:600;}
+.intent-mid{color:var(--muted);}
+.intent-low{color:var(--warn);}
+
+/* Detail */
+.detail-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1.25rem;box-shadow:0 2px 12px rgba(0,0,0,.04);}
+.detail-card h3{font-size:.85rem;font-weight:700;color:var(--primary);margin-bottom:.75rem;display:flex;align-items:center;gap:.35rem;}
+.detail-sub{font-size:.72rem;font-weight:700;color:var(--muted);margin:.9rem 0 .5rem;padding-bottom:.25rem;border-bottom:1px solid var(--border);}
+.detail-sub:first-of-type{margin-top:0;}
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.5rem 1rem;}
+.detail-grid .item{font-size:.72rem;}
+.detail-grid .item .l{color:var(--muted);margin-bottom:.08rem;}
+.detail-grid .item .v{font-weight:600;color:var(--text);}
+.detail-note{font-size:.7rem;color:var(--muted);margin-top:.75rem;} 
+
+/* Call */
+.call-layout{display:grid;grid-template-columns:1fr 260px;gap:1rem;align-items:start;}
+@media(max-width:720px){.call-layout{grid-template-columns:1fr;}}
+.call-main{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem;box-shadow:0 2px 12px rgba(0,0,0,.04);}
+.call-main h3{font-size:.8rem;font-weight:700;color:var(--primary);margin-bottom:.5rem;}
+.transcript{background:#1a202c;color:#e2e8f0;border-radius:8px;padding:.75rem 1rem;min-height:280px;font-size:.72rem;line-height:1.55;}
+.transcript .agent{color:#94a3b8;}
+.transcript .customer{color:#cbd5e1;}
+.transcript .sys{color:var(--accent);font-size:.68rem;}
+.call-intro{font-size:.75rem;color:var(--muted);line-height:1.6;margin-bottom:1rem;padding:.5rem .6rem;background:rgba(74,111,165,.06);border-radius:8px;border-left:3px solid var(--primary);}
+.call-side{display:flex;flex-direction:column;gap:.75rem;}
+.rec-card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:.75rem;box-shadow:0 2px 8px rgba(0,0,0,.04);}
+.rec-card h4{font-size:.7rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:.5rem;display:flex;align-items:center;gap:.25rem;}
+.rec-card h4 i{color:var(--accent);}
+.rec-card .item{padding:.3rem 0;font-size:.72rem;border-bottom:1px solid var(--border);}
+.rec-card .item:last-child{border-bottom:none;}
+.rec-card .item strong{display:block;margin-bottom:.08rem;}
+.rec-card .item span{color:var(--muted);font-size:.68rem;}
+.rec-note{font-size:.65rem;color:var(--muted);line-height:1.5;margin-top:.5rem;padding-top:.4rem;border-top:1px dashed var(--border);}
+.coupon-tag{display:inline-block;margin-top:.3rem;padding:.18rem .4rem;background:rgba(201,162,39,.2);border-radius:4px;font-size:.65rem;font-weight:600;color:#92400e;}
 </style>
-<meta name="description" content="转化率 +9.8% · 月增 1.1 亿">
-<meta property="og:title" content="电销策略推荐系统 · 演示 · 演示" />
-<meta property="og:description" content="转化率 +9.8% · 月增 1.1 亿" />
-<meta property="og:type" content="website" />
-<meta property="og:image" content="../../screenshot.png" />
-<meta property="og:url" content="https://ezychen9306.github.io/portfolio/" />
+<script>if(window.parent!==window)document.documentElement.classList.add("in-iframe");</script>
+<style>.in-iframe nav{display:none!important;}</style>
+<meta name="description" content="智能电销系统 · 名单排序 · 知识库 · 话术推荐">
 <link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16x16.png">
 <link rel="manifest" href="../../assets/icons/site.webmanifest">
-</head><body>
-<div class="topbar">
-  <div><a href="../../index.html"><i class="ri-arrow-left-line"></i> 返回作品集</a></div>
-  <div style="color:#999;font-size:.9rem">电销策略推荐系统</div>
-  <div><a class="btn" href="#" onclick="history.back();return false;"><i class="ri-history-line"></i> 返回</a></div>
+</head>
+<body>
+<nav>
+  <a href="../../index.html#portfolio" onclick="if(window.parent!==window){window.parent.closeModal();return false;}"><i class="ri-arrow-left-line"></i> 返回</a>
+  <span class="crumb">智能电销系统</span>
+</nav>
+
+<div class="main">
+  <div class="hero">
+    <div class="proj-num">PROJECT 06 · 智能电销系统</div>
+    <h1><i class="ri-customer-service-2-line"></i> 智能电销系统</h1>
+    <p class="hero-desc">经营名单智能排序 + 客服知识库 + 实时话术推荐，提升座席产能、优化客户体验、助力新座席留存。</p>
+    <div class="kpi-chips">
+      <div class="kpi-chip"><strong>名单</strong> 排序</div>
+      <div class="kpi-chip"><strong>知识库</strong></div>
+      <div class="kpi-chip"><strong>话术</strong> 推荐</div>
+    </div>
+    <p class="hero-note"><strong>难点：</strong>名单排序 · 知识库搭建 · 话术推荐 &nbsp;|&nbsp; <strong>价值：</strong>产能提升 · 体验优化 · 新座席留存</p>
+  </div>
+
+  <!-- 一、今日外呼名单 -->
+  <section class="page-section" id="section-list">
+    <div class="section-label"><i class="ri-list-check-2"></i> 一、今日外呼名单</div>
+    <div class="list-toolbar">
+      <span class="date"><i class="ri-calendar-line"></i> 座席登录后首屏（按风险 R1→R6、意愿高→低排序）</span>
+      <span class="stats">共 15 人 · 推荐拨打 10 人</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>姓名</th>
+            <th>电话</th>
+            <th>年龄</th>
+            <th>性别</th>
+            <th>渠道</th>
+            <th>风险评级</th>
+            <th>意愿评级</th>
+            <th>已拨打</th>
+            <th>上次联系</th>
+            <th>投诉概率</th>
+            <th>建议拨打时间</th>
+            <th>推荐拨打</th>
+            <th>推荐理由</th>
+          </tr>
+        </thead>
+        <tbody id="list-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 二、客户详情 -->
+  <section class="page-section" id="section-detail">
+    <div class="section-label"><i class="ri-user-line"></i> 二、客户详情（点击名单某行进入）</div>
+    <div class="detail-card">
+      <h3><i class="ri-user-line"></i> 张* · 138****8821</h3>
+
+      <div class="detail-sub">人口学特征</div>
+      <div class="detail-grid">
+        <div class="item"><div class="l">姓名</div><div class="v">张*</div></div>
+        <div class="item"><div class="l">年龄</div><div class="v">35 岁</div></div>
+        <div class="item"><div class="l">性别</div><div class="v">男</div></div>
+        <div class="item"><div class="l">学历</div><div class="v">本科</div></div>
+        <div class="item"><div class="l">政治面貌</div><div class="v">群众</div></div>
+        <div class="item"><div class="l">职业</div><div class="v">机械工程师</div></div>
+        <div class="item"><div class="l">婚姻状况</div><div class="v">已婚</div></div>
+        <div class="item"><div class="l">户籍</div><div class="v">江苏南京</div></div>
+        <div class="item"><div class="l">常驻城市</div><div class="v">上海</div></div>
+        <div class="item"><div class="l">行业</div><div class="v">制造业</div></div>
+        <div class="item"><div class="l">工作单位性质</div><div class="v">民营企业</div></div>
+        <div class="item"><div class="l">工作年限</div><div class="v">8 年</div></div>
+        <div class="item"><div class="l">月收入范围</div><div class="v">1.5万–2万</div></div>
+        <div class="item"><div class="l">现居地址</div><div class="v">上海市浦东新区张江镇 XX 路 XX 号</div></div>
+        <div class="item"><div class="l">紧急联系人</div><div class="v">配偶 李女士 139****0001</div></div>
+      </div>
+
+      <div class="detail-sub">信贷信息</div>
+      <div class="detail-grid">
+        <div class="item"><div class="l">首次借款时间</div><div class="v">2022-06-15</div></div>
+        <div class="item"><div class="l">渠道来源</div><div class="v">BD</div></div>
+        <div class="item"><div class="l">上次放款时间</div><div class="v">2025-01-15</div></div>
+        <div class="item"><div class="l">总额度</div><div class="v">5 万</div></div>
+        <div class="item"><div class="l">当前已用额度</div><div class="v">1.2 万</div></div>
+        <div class="item"><div class="l">在贷笔数</div><div class="v">1 笔</div></div>
+        <div class="item"><div class="l">历史借款笔数</div><div class="v">12 笔</div></div>
+        <div class="item"><div class="l">历史逾期次数</div><div class="v">0 次</div></div>
+        <div class="item"><div class="l">当前逾期</div><div class="v">无</div></div>
+        <div class="item"><div class="l">当前产品类型</div><div class="v">信用贷</div></div>
+        <div class="item"><div class="l">剩余期限</div><div class="v">8 期</div></div>
+        <div class="item"><div class="l">联系人（电销可联）</div><div class="v">本人 / 配偶 李女士</div></div>
+      </div>
+
+      <p class="detail-note">座席可在此屏点击「拨打」发起外呼，进入通话界面。</p>
+    </div>
+  </section>
+
+  <!-- 三、通话中 -->
+  <section class="page-section" id="section-call">
+    <div class="section-label"><i class="ri-phone-line"></i> 三、通话中 · 实时转写与话术 / 发券推荐</div>
+    <p class="call-intro">根据实时语音转写（ASR）识别客户意图，结合客户画像与知识库，动态推荐话术与可发券；新座席可跟读、老座席可参考，降低投诉率、提升转化。</p>
+    <div class="call-layout">
+      <div class="call-main">
+        <h3><i class="ri-mic-line"></i> 实时转写（音转字）</h3>
+        <div class="transcript" id="transcript">
+          <div class="sys">[系统] 正在连接… 已接通</div>
+          <div class="agent">[座席] 您好，请问是张先生吗？我是您的专属客服小陈。</div>
+          <div class="customer">[客户] 是的，什么事？</div>
+          <div class="agent">[座席] 看到您有一笔信用额度，目前还有 3.8 万未使用，想跟您确认一下近期是否有资金需求？</div>
+          <div class="customer">[客户] 暂时可能用不到，最近比较忙。</div>
+          <div class="agent">[座席] 若暂时不需要也没关系，额度会为您保留，有需要时在 APP 内即可操作。另外本月您还有一张 50 元息费券即将到期，用款即可抵扣。</div>
+          <div class="customer">[客户] 券怎么用？要满多少才能用？</div>
+          <div class="agent">[座席] 单笔用款满 1 万就可以自动抵扣 50 元息费，在 APP 里提款时会有提示，您按步骤操作即可。</div>
+          <div class="customer">[客户] 行，我看看，有需要再联系。</div>
+          <div class="agent">[座席] 好的，那您先忙，有任何问题随时在 APP 里联系在线客服或拨打服务热线。祝您生活愉快，再见。</div>
+          <div class="sys">[系统] 通话结束 · 时长 1:24</div>
+        </div>
+      </div>
+      <div class="call-side">
+        <div class="rec-card">
+          <h4><i class="ri-chat-quote-line"></i> 推荐话术</h4>
+          <div class="item"><strong>额度未用足</strong><span>看到您当前额度还有 3.8 万未使用，近期若有资金周转需求可以随时支用，随借随还。</span></div>
+          <div class="item"><strong>优惠提醒</strong><span>本月您有一张 50 元息费券即将到期，用款即可抵扣，需要我帮您确认使用方式吗？</span></div>
+          <div class="item"><strong>挽留话术</strong><span>若暂时不需要也没关系，额度会为您保留，有需要时在 APP 内即可操作。</span></div>
+          <div class="item"><strong>用券规则说明</strong><span>单笔满 1 万即可自动抵扣 50 元息费，提款时在 APP 内按提示操作即可。</span></div>
+          <div class="item"><strong>结束语</strong><span>有任何问题随时在 APP 里联系在线客服或拨打热线。祝您生活愉快，再见。</span></div>
+        </div>
+        <div class="rec-card">
+          <h4><i class="ri-coupon-3-line"></i> 推荐发券</h4>
+          <div class="item"><strong>50元息费券</strong><span>满1万可用 · 2月28日到期</span><div class="coupon-tag">可推荐</div></div>
+          <div class="item"><strong>新客专享券</strong><span>首笔立减 · 3月15日到期</span><div class="coupon-tag">可推荐</div></div>
+          <div class="item"><strong>临额专享券</strong><span>临额用款减息 · 3月底前有效</span><div class="coupon-tag">可推荐</div></div>
+          <p class="rec-note">根据客户标签与当前对话内容实时匹配可发券，点击可一键下发。</p>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
-<div class="container">
-<article>
-<h1>电销策略推荐系统</h1>
-<h2>项目概述</h2>
-<p>平安普惠带领 4 人从零开发，算法为 BD/电销座席动态推荐策略及话术。</p>
-<h2>核心功能</h2>
-<h3>1. 实时策略推荐</h3>
-<ul>
-<li>客户画像实时分析</li>
-<li>最优产品推荐</li>
-<li>话术模板生成</li>
-</ul>
-<h3>2. 动态话术优化</h3>
-<ul>
-<li>基于历史成功案例</li>
-<li>A/B 测试优化</li>
-<li>个性化话术调整</li>
-</ul>
-<h3>3. 座席辅助</h3>
-<ul>
-<li>实时风险提示</li>
-<li>异议处理建议</li>
-<li>成交概率预测</li>
-</ul>
-<h2>业务成果</h2>
-<ul>
-<li>月均转化率 **+9.8%**</li>
-<li>月新增放款 **1.1 亿**</li>
-<li>系统覆盖率 **100%**</li>
-<li>座席满意度 **4.5/5**</li>
-</ul>
-<h2>技术架构</h2>
-<ul>
-<li>Python（推荐算法）</li>
-<li>NLP（话术生成）</li>
-<li>WebSocket（实时推送）</li>
-<li>React（前端界面）</li>
-</ul>
-<h2>示例推荐（脱敏）</h2>
-<h3>客户：张先生，35 岁，企业主</h3>
-<p>**推荐产品**：小微企业贷 50 万</p>
-<p>**推荐话术**："张先生您好，根据您的企业经营情况，我们可以为您提供最高 50 万的经营贷款，年化利率 8.5%，随借随还..."</p>
-<p>**成交概率**：68.5%</p>
-</article></div>
-<footer>© 2026 Portfolio Demos</footer>
-</body></html>
+
+<script>
+(function(){
+  var riskOrder = { R1: 1, R2: 2, R3: 3, R4: 4, R5: 5, R6: 6 };
+  var intentOrder = { '高': 1, '中': 2, '低': 3 };
+  var listData = [
+    { name: '张*', phone: '138****8821', age: 35, gender: '男', channel: 'BD', risk: 'R1', intent: '高', calls: 2, lastContact: '昨日', complaintProb: '0.8%', suggestTime: '09:00-11:00', rec: true, reason: '额度未用足' },
+    { name: '李*', phone: '159****3345', age: 28, gender: '女', channel: '直销', risk: 'R1', intent: '高', calls: 1, lastContact: '2天前', complaintProb: '1.0%', suggestTime: '14:00-16:00', rec: true, reason: '临额到期前' },
+    { name: '王*', phone: '186****6677', age: 42, gender: '男', channel: '寿险', risk: 'R2', intent: '高', calls: 4, lastContact: '3天前', complaintProb: '1.2%', suggestTime: '10:00-12:00', rec: false, reason: '近期已触达' },
+    { name: '赵*', phone: '137****2290', age: 31, gender: '女', channel: 'BD', risk: 'R2', intent: '高', calls: 0, lastContact: '—', complaintProb: '0.9%', suggestTime: '09:30-11:30', rec: true, reason: '新名单' },
+    { name: '刘*', phone: '188****5543', age: 38, gender: '男', channel: '直销', risk: 'R2', intent: '中', calls: 3, lastContact: '昨日', complaintProb: '1.5%', suggestTime: '15:00-17:00', rec: true, reason: '可推续贷' },
+    { name: '陈*', phone: '136****9988', age: 26, gender: '女', channel: '寿险', risk: 'R3', intent: '高', calls: 1, lastContact: '4天前', complaintProb: '1.8%', suggestTime: '11:00-12:00', rec: true, reason: '额度未用足' },
+    { name: '周*', phone: '158****2233', age: 45, gender: '男', channel: 'BD', risk: 'R3', intent: '中', calls: 5, lastContact: '5天前', complaintProb: '2.1%', suggestTime: '16:00-17:00', rec: false, reason: '触达频次已满' },
+    { name: '吴*', phone: '177****4455', age: 29, gender: '女', channel: '直销', risk: 'R3', intent: '中', calls: 0, lastContact: '—', complaintProb: '1.6%', suggestTime: '14:00-15:30', rec: true, reason: '新名单' },
+    { name: '郑*', phone: '139****7788', age: 51, gender: '男', channel: '寿险', risk: 'R4', intent: '低', calls: 6, lastContact: '1周前', complaintProb: '3.2%', suggestTime: '10:00-11:00', rec: false, reason: '低意向暂缓' },
+    { name: '孙*', phone: '186****1122', age: 33, gender: '女', channel: 'BD', risk: 'R4', intent: '中', calls: 2, lastContact: '昨日', complaintProb: '2.5%', suggestTime: '09:00-10:30', rec: true, reason: '临额即将到期' },
+    { name: '马*', phone: '135****6633', age: 40, gender: '男', channel: '直销', risk: 'R4', intent: '中', calls: 3, lastContact: '2天前', complaintProb: '2.0%', suggestTime: '15:30-17:00', rec: true, reason: '可推加额' },
+    { name: '朱*', phone: '152****8899', age: 27, gender: '女', channel: '寿险', risk: 'R5', intent: '高', calls: 1, lastContact: '3天前', complaintProb: '2.8%', suggestTime: '11:00-12:00', rec: true, reason: '新名单' },
+    { name: '胡*', phone: '138****5544', age: 36, gender: '男', channel: 'BD', risk: 'R5', intent: '中', calls: 4, lastContact: '4天前', complaintProb: '3.0%', suggestTime: '16:00-17:00', rec: true, reason: '还款后可复借' },
+    { name: '林*', phone: '159****3366', age: 30, gender: '女', channel: '直销', risk: 'R6', intent: '中', calls: 0, lastContact: '—', complaintProb: '4.1%', suggestTime: '14:00-15:00', rec: false, reason: '投诉概率偏高' },
+    { name: '何*', phone: '137****2211', age: 44, gender: '男', channel: '寿险', risk: 'R6', intent: '低', calls: 7, lastContact: '2周前', complaintProb: '5.2%', suggestTime: '避开晚间', rec: false, reason: '低意向+高投诉概率' }
+  ];
+
+  listData.sort(function(a, b) {
+    var r = riskOrder[a.risk] - riskOrder[b.risk];
+    return r !== 0 ? r : (intentOrder[a.intent] - intentOrder[b.intent]);
+  });
+
+  var intentClass = { '高': 'intent-high', '中': 'intent-mid', '低': 'intent-low' };
+  var tbody = document.getElementById('list-body');
+  tbody.innerHTML = listData.map(function(r){
+    var recClass = r.rec ? 'yes' : 'no';
+    var recText = r.rec ? '推荐' : '暂不推荐';
+    return '<tr>' +
+      '<td>' + r.name + '</td>' +
+      '<td>' + r.phone + '</td>' +
+      '<td>' + r.age + '</td>' +
+      '<td>' + r.gender + '</td>' +
+      '<td>' + r.channel + '</td>' +
+      '<td><span class="risk ' + r.risk.toLowerCase() + '">' + r.risk + '</span></td>' +
+      '<td><span class="' + intentClass[r.intent] + '">' + r.intent + '</span></td>' +
+      '<td>' + r.calls + '</td>' +
+      '<td>' + r.lastContact + '</td>' +
+      '<td>' + r.complaintProb + '</td>' +
+      '<td>' + r.suggestTime + '</td>' +
+      '<td><span class="rec ' + recClass + '">' + recText + '</span></td>' +
+      '<td>' + r.reason + '</td>' +
+    '</tr>';
+  }).join('');
+})();
+</script>
+</body>
+</html>

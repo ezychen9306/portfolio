@@ -3,165 +3,757 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>额度策略 V5 - 管理看板</title>
+<title>额度体系V5 —— 基于弹性曲线&提额安全边界的固额提升方法论 · Portfolio</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css">
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Microsoft YaHei',sans-serif;background:#f7f4ef;padding:2rem}
-.container{max-width:1400px;margin:0 auto;background:#fff;padding:2rem;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
-h1{color:#2d2d2d;margin-bottom:.5rem;font-size:1.8rem}
-.subtitle{color:#6b8e9f;font-size:.9rem;margin-bottom:2rem}
-.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;margin-bottom:2rem}
-.card{background:linear-gradient(135deg,#6b8e9f 0%,#5a7a8a 100%);padding:1.5rem;border-radius:8px;color:#fff}
-.card-title{font-size:.85rem;opacity:.9;margin-bottom:.5rem}
-.card-value{font-size:2.2rem;font-weight:700}
-.card-change{font-size:.8rem;opacity:.85;margin-top:.3rem}
-.section{margin-top:2rem}
-.section-title{font-size:1.2rem;color:#2d2d2d;margin-bottom:1rem;border-left:4px solid #c9a227;padding-left:1rem}
-table{width:100%;border-collapse:collapse}
-th,td{padding:.75rem;text-align:left;border-bottom:1px solid #e0e0e0}
-th{background:#f5f5f5;color:#2d2d2d;font-weight:600;font-size:.85rem}
-td{font-size:.85rem;color:#2d2d2d}
-.progress-bar{background:#e0e0e0;height:8px;border-radius:4px;overflow:hidden;margin-top:.3rem}
-.progress-fill{background:#6b8e9f;height:100%;transition:width .3s}
-.badge{display:inline-block;padding:.2rem .6rem;border-radius:12px;font-size:.75rem;font-weight:600}
-.badge.success{background:#d4edda;color:#155724}
-.badge.warning{background:#fff3cd;color:#856404}
-.badge.info{background:#d1ecf1;color:#0c5460}
+:root{--bg:#f7f7f5;--card:#fff;--primary:#6b8e9f;--accent:#c9a227;--danger:#e53e3e;--warn:#dd6b20;--success:#38a169;--text:#37352f;--muted:#9b9a97;--border:#e9e9e7;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:system-ui,-apple-system,'Helvetica Neue',sans-serif;background:var(--bg);color:var(--text);}
+.main{max-width:1100px;margin:0 auto;padding:1.5rem;}
+
+/* Hero */
+.hero{background:#fff;border:1px solid var(--border);border-radius:10px;padding:2rem 2.2rem;margin-bottom:1.5rem;border-left:4px solid var(--accent);}
+.proj-num{font-size:.65rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:.7rem;}
+.hero h1{font-size:1.65rem;font-weight:800;color:var(--text);margin-bottom:.45rem;display:flex;align-items:center;gap:.5rem;}
+.hero h1 i{color:var(--accent);font-size:1.5rem;}
+.hero-desc{font-size:.87rem;color:var(--muted);line-height:1.7;margin-bottom:1.2rem;}
+.kpi-chips{display:flex;gap:.5rem;flex-wrap:wrap;}
+.kpi-chip{display:inline-flex;align-items:center;gap:.35rem;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:.28rem .7rem;font-size:.77rem;color:var(--text);}
+.kpi-chip strong{font-weight:700;font-size:.9rem;color:var(--accent);}
+.kpi-chip.blue strong{color:var(--primary);}
+.kpi-chip.green strong{color:#276749;}
+
+/* Section */
+.sec{margin-bottom:2rem;}
+.sec-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:1px solid var(--border);}
+.sec-num{font-size:.72rem;font-weight:700;color:var(--muted);letter-spacing:.08em;background:#f0f0ee;border-radius:4px;padding:.2rem .5rem;flex-shrink:0;}
+.sec-num.a{background:#fef6e4;color:#9a7200;}
+.sec-title{font-size:1rem;font-weight:700;color:var(--text);}
+.sec-subtitle{font-size:.75rem;color:var(--muted);margin-top:.1rem;}
+
+/* Card */
+.card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.2rem;}
+.card-title{font-size:.83rem;font-weight:700;color:var(--text);margin-bottom:.8rem;display:flex;align-items:center;gap:.35rem;}
+.card-title i{color:var(--accent);}
+
+/* Grids */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:.9rem;}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;}
+
+/* Stats */
+.stat-item{background:#fafaf9;border:1px solid var(--border);border-radius:6px;padding:.75rem;text-align:center;}
+.stat-val{font-size:1.3rem;font-weight:800;color:var(--accent);}
+.stat-val.b{color:var(--primary);}
+.stat-val.g{color:#276749;}
+.stat-lbl{font-size:.67rem;color:var(--muted);margin-top:.2rem;line-height:1.3;}
+
+/* Goal cards */
+.goal-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.2rem;}
+.goal-card.risk{border-top:3px solid rgba(229,62,62,.45);}
+.goal-card.grow{border-top:3px solid rgba(56,161,105,.45);}
+.gicon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;margin-bottom:.65rem;}
+.gicon.r{background:#fff1f0;}
+.gicon.g{background:#f0fdf4;}
+.goal-title{font-size:.9rem;font-weight:700;margin-bottom:.4rem;}
+.tlist{list-style:none;padding:0;}
+.tlist li{font-size:.77rem;padding:.27rem 0;border-bottom:1px solid #f0efee;display:flex;align-items:flex-start;gap:.4rem;line-height:1.5;color:var(--text);}
+.tlist li:last-child{border:none;}
+.tlist li i{font-size:.83rem;flex-shrink:0;margin-top:.1rem;}
+
+/* Elasticity cards */
+.elas-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:1.1rem;}
+.elas-icon{width:34px;height:34px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:1rem;margin-bottom:.6rem;}
+.elas-icon.v{background:#fef6e4;color:#9a7200;}
+.elas-icon.a{background:#eef3f6;color:var(--primary);}
+.elas-icon.u{background:#f0fdf4;color:#276749;}
+.elas-title{font-size:.85rem;font-weight:700;color:var(--text);margin-bottom:.3rem;}
+.elas-formula{font-size:.7rem;color:var(--muted);font-family:'Courier New',monospace;background:#fafaf9;border:1px solid var(--border);border-radius:4px;padding:.3rem .5rem;margin-bottom:.55rem;line-height:1.5;}
+.plist{list-style:none;padding:0;}
+.plist li{font-size:.73rem;color:var(--muted);padding:.18rem 0;display:flex;gap:.35rem;align-items:baseline;}
+.plist li::before{content:'·';color:var(--accent);font-weight:700;flex-shrink:0;}
+
+/* AI section */
+.ai-label{display:inline-flex;align-items:center;gap:.35rem;font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--accent);background:#fef6e4;border:1px solid rgba(201,162,39,.2);border-radius:4px;padding:.18rem .5rem;margin-bottom:.55rem;}
+.ai-desc{font-size:.79rem;color:var(--muted);line-height:1.7;margin-bottom:.9rem;}
+
+/* Table */
+.cmp-table{width:100%;border-collapse:collapse;font-size:.78rem;}
+.cmp-table th{background:#fafaf9;padding:.5rem .7rem;text-align:left;font-weight:600;color:var(--muted);border-bottom:1px solid var(--border);font-size:.7rem;letter-spacing:.04em;text-transform:uppercase;}
+.cmp-table th.r,.cmp-table td.r{text-align:right;}
+.cmp-table td{padding:.46rem .7rem;border-bottom:1px solid #f4f4f3;color:var(--text);}
+.cmp-table tr:last-child td{border:none;}
+.cmp-table tr:hover td{background:#fafaf9;}
+.data-table{width:100%;border-collapse:collapse;font-size:.7rem;}
+.data-table th,.data-table td{border:1px solid var(--border);padding:.4rem .5rem;text-align:center;vertical-align:middle;}
+.data-table th{font-weight:600;color:var(--text);}
+.data-table tbody tr:hover td{background:#fafaf9;}
+.table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+details.ai-details[open] summary i.ri-arrow-down-s-line{transform:rotate(180deg);}
+.rating-card{border:1px solid var(--border);border-radius:8px;padding:1rem 1.2rem;margin-bottom:1.25rem;background:var(--card);}
+.rating-badge{display:inline-block;width:28px;height:28px;border-radius:50%;color:#fff;font-weight:700;font-size:13px;text-align:center;line-height:28px;}
+.metric-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:.6rem 0;font-size:.7rem;}
+.metric-item{padding:.4rem .5rem;background:var(--bg);border-radius:6px;}
+.metric-item .label{color:var(--muted);font-size:.65rem;}
+.metric-item .value{font-weight:600;font-size:.85rem;color:var(--text);}
+.tag{display:inline-flex;align-items:center;border-radius:4px;padding:.07rem .42rem;font-size:.7rem;font-weight:600;}
+.tag.up{background:#e6f9f0;color:#166534;}
+.tag.no{background:#f4f4f3;color:var(--muted);}
+.tag.warn{background:#fef6e4;color:#9a7200;}
+
+/* Rating pill */
+.rating{display:inline-block;font-weight:700;font-size:.75rem;width:20px;text-align:center;border-radius:3px;padding:.03rem 0;}
+.ra{background:#e6f9f0;color:#166534;}
+.rb{background:#eef3f6;color:var(--primary);}
+.rc{background:#fef6e4;color:#9a7200;}
+.rd{background:#fff7ec;color:#c05621;}
+.re,.rf{background:#fde8e8;color:#991b1b;}
+
+@media(max-width:768px){
+  .grid2,.grid3{grid-template-columns:1fr;}
+  .hero h1{font-size:1.3rem;}
+}
 </style>
-<meta name="description" content="规模 2× · 风险持平">
-<meta property="og:title" content="额度策略 V5 - 管理看板 · 演示" />
-<meta property="og:description" content="规模 2× · 风险持平" />
-<meta property="og:type" content="website" />
-<meta property="og:image" content="../../screenshot.png" />
-<meta property="og:url" content="https://ezychen9306.github.io/portfolio/" />
+<script>if(window.parent!==window)document.documentElement.classList.add("in-iframe");</script>
+<style>.in-iframe nav{display:none!important;}</style>
 <link rel="apple-touch-icon" sizes="180x180" href="../../assets/icons/apple-touch-icon.png">
 <link rel="icon" type="image/png" sizes="32x32" href="../../assets/icons/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="../../assets/icons/favicon-16x16.png">
-<link rel="manifest" href="../../assets/icons/site.webmanifest">
 </head>
 <body>
-<div class="container">
-  <h1>额度策略 V5 管理看板</h1>
-  <p class="subtitle">固额 · 临额 · 限额 | 多版本组合 · 动态调整 · A/B 测试</p>
 
-  <div class="grid">
-    <div class="card">
-      <div class="card-title">总授信规模</div>
-      <div class="card-value">125 亿</div>
-      <div class="card-change">YoY +102.3%</div>
-    </div>
-    <div class="card">
-      <div class="card-title">在贷余额</div>
-      <div class="card-value">68 亿</div>
-      <div class="card-change">额度利用率 54.4%</div>
-    </div>
-    <div class="card">
-      <div class="card-title">平均额度</div>
-      <div class="card-value">32,500</div>
-      <div class="card-change">vs V4 +8.2%</div>
-    </div>
-    <div class="card">
-      <div class="card-title">年化逾期率</div>
-      <div class="card-value">6.8%</div>
-      <div class="card-change">持平 V4</div>
+<nav style="background:#fff;border-bottom:1px solid #e9e9e7;padding:.7rem 1.5rem;display:flex;align-items:center;gap:1rem;position:sticky;top:0;z-index:100">
+  <a href="../../index.html#portfolio" onclick="if(window.parent!==window){window.parent.closeModal();return false;}" style="display:inline-flex;align-items:center;gap:.35rem;color:#9b9a97;text-decoration:none;font-size:.85rem;padding:.25rem .5rem;border-radius:4px;transition:color .15s" onmouseover="this.style.color='#37352f'" onmouseout="this.style.color='#9b9a97'">
+    <i class="ri-arrow-left-s-line"></i> 返回
+  </a>
+  <span style="color:#e9e9e7;font-size:1rem">·</span>
+  <span style="color:#9b9a97;font-size:.85rem">额度体系V5 —— 基于弹性曲线&提额安全边界的固额提升方法论</span>
+</nav>
+
+<div class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="proj-num">PROJECT 02 &nbsp;·&nbsp; 贷中额度策略</div>
+    <h1><i class="ri-funds-line"></i>额度体系V5 —— 基于弹性曲线&提额安全边界的固额提升方法论</h1>
+    <p class="hero-desc">基于四轮 AB 实验积累的弹性参数，建立评级差异化的弹性预测模型，在保证新增资产收入 TR > 2% 安全边界的前提下，动态寻找各客群的最优固额提升方案。</p>
+    <div class="kpi-chips">
+      <div class="kpi-chip"><strong>2%</strong>&nbsp;TR 安全边界</div>
+      <div class="kpi-chip blue"><strong>+30%</strong>&nbsp;A 评级最高提幅</div>
+      <div class="kpi-chip green"><strong>39.31M</strong>&nbsp;USD 月成交额</div>
     </div>
   </div>
 
-  <div class="section">
-    <h2 class="section-title">客群额度分布</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>客群</th>
-          <th>客户数</th>
-          <th>固定额度</th>
-          <th>临时额度</th>
-          <th>额度利用率</th>
-          <th>逾期率</th>
-          <th>状态</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>优质客户</strong></td>
-          <td>125,600</td>
-          <td>50,000</td>
-          <td>+20,000</td>
-          <td>68.5%<div class="progress-bar"><div class="progress-fill" style="width:68.5%"></div></div></td>
-          <td>2.3%</td>
-          <td><span class="badge success">正常</span></td>
-        </tr>
-        <tr>
-          <td><strong>标准客户</strong></td>
-          <td>285,300</td>
-          <td>30,000</td>
-          <td>+10,000</td>
-          <td>72.1%<div class="progress-bar"><div class="progress-fill" style="width:72.1%"></div></div></td>
-          <td>5.8%</td>
-          <td><span class="badge success">正常</span></td>
-        </tr>
-        <tr>
-          <td><strong>成长客户</strong></td>
-          <td>198,700</td>
-          <td>20,000</td>
-          <td>+5,000</td>
-          <td>65.3%<div class="progress-bar"><div class="progress-fill" style="width:65.3%"></div></div></td>
-          <td>8.9%</td>
-          <td><span class="badge info">观察</span></td>
-        </tr>
-        <tr>
-          <td><strong>风险客户</strong></td>
-          <td>42,100</td>
-          <td>15,000</td>
-          <td>0</td>
-          <td>45.2%<div class="progress-bar"><div class="progress-fill" style="width:45.2%"></div></div></td>
-          <td>12.5%</td>
-          <td><span class="badge warning">限额</span></td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- ========== 01 背景 & 方法论 ========== -->
+  <div class="sec">
+    <div class="sec-header">
+      <div class="sec-num">01</div>
+      <div><div class="sec-title">背景 &amp; 方法论</div><div class="sec-subtitle">TR &gt; 2% 为提额安全边界 · 5步 Vintage 边界提额法</div></div>
+    </div>
+    <!-- ── 提额安全边界（源自 V5 报告）── -->
+    <div class="card" style="margin-top:1rem;overflow:hidden;">
+      <div style="border-bottom:2px solid #1a1a1a;padding-bottom:8px;margin-bottom:18px;">
+        <div style="font-size:.83rem;font-weight:700;color:#1a1a1a;">提额安全边界</div>
+        <div style="font-size:.72rem;color:#666;margin-top:2px;">以大盘整体为例，只要新增资产的增量收入 TR &gt; 2%，提额即可执行</div>
+      </div>
+      <div style="display:flex;gap:0;align-items:stretch;">
+        <!-- 现有资产 -->
+        <div style="flex:5;padding:0 16px 0 0;">
+          <div style="font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">现有资产</div>
+          <div style="background:#1a3a5c;height:110px;display:flex;align-items:center;justify-content:center;flex-direction:column;">
+            <div style="font-size:26px;font-weight:800;color:#fff;letter-spacing:-1px;">39.31<span style="font-size:13px;font-weight:400;"> M</span></div>
+            <div style="font-size:10px;color:rgba(255,255,255,.65);margin-top:4px;">月成交金额 (USD)</div>
+          </div>
+          <div style="display:flex;gap:0;">
+            <div style="flex:1;padding:7px 0;border-bottom:1px solid #e5e5e5;">
+              <div style="font-size:9px;color:#888;">收入Vintage</div>
+              <div style="font-size:14px;font-weight:700;color:#1a1a1a;">10.19%</div>
+            </div>
+            <div style="flex:1;padding:7px 0 7px 12px;border-bottom:1px solid #e5e5e5;">
+              <div style="font-size:9px;color:#888;">收入TR</div>
+              <div style="font-size:14px;font-weight:700;color:#1a1a1a;">13.16%</div>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 10px;flex-shrink:0;">
+          <div style="width:26px;height:26px;border:2px solid #ccc;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#999;">+</div>
+        </div>
+        <!-- 提额新增 -->
+        <div style="flex:2;padding:0 16px;">
+          <div style="font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">提额新增 <span style="font-size:9px;font-weight:400;color:#aaa;">(灰度10%)</span></div>
+          <div style="background:#0052A3;height:110px;display:flex;align-items:center;justify-content:center;flex-direction:column;">
+            <div style="font-size:20px;font-weight:800;color:#fff;letter-spacing:-.5px;">+0.20<span style="font-size:11px;font-weight:400;"> M</span></div>
+            <div style="font-size:10px;color:rgba(255,255,255,.65);margin-top:4px;">增量成交 (USD)</div>
+          </div>
+          <div style="display:flex;gap:0;">
+            <div style="flex:1;padding:7px 0;border-bottom:1px solid #e5e5e5;">
+              <div style="font-size:9px;color:#888;">增量Vintage</div>
+              <div style="font-size:14px;font-weight:700;color:#1a1a1a;">14.1%</div>
+            </div>
+            <div style="flex:1;padding:7px 0 7px 12px;border-bottom:1px solid #e5e5e5;">
+              <div style="font-size:9px;color:#888;">增量TR</div>
+              <div style="font-size:14px;font-weight:700;color:#0052A3;">8.0%</div>
+            </div>
+          </div>
+          <div style="margin-top:8px;padding:5px 8px;border-left:3px solid #0052A3;background:#f0f6ff;">
+            <div style="font-size:.72rem;color:#1a1a1a;"><b>8.0% &gt; 2%</b> — 增量安全可盈利</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;padding:0 10px;flex-shrink:0;">
+          <div style="width:26px;height:26px;border:2px solid #ccc;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;color:#999;">=</div>
+        </div>
+        <!-- 混合后大盘 -->
+        <div style="flex:5;padding:0 0 0 16px;">
+          <div style="font-size:10px;font-weight:600;color:#888;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">混合后大盘</div>
+          <div style="height:110px;display:flex;overflow:hidden;">
+            <div style="flex:39.31;background:#1a3a5c;display:flex;align-items:center;justify-content:center;flex-direction:column;">
+              <div style="font-size:26px;font-weight:800;color:#fff;letter-spacing:-1px;">39.51<span style="font-size:13px;font-weight:400;"> M</span></div>
+              <div style="font-size:10px;color:rgba(255,255,255,.65);margin-top:4px;">月成交金额 (USD)</div>
+            </div>
+            <div style="flex:0.20;background:#0052A3;min-width:4px;"></div>
+          </div>
+          <div style="display:flex;gap:0;">
+            <div style="flex:1;padding:7px 0;border-bottom:1px solid #e5e5e5;">
+              <div style="font-size:9px;color:#888;">混合Vintage</div>
+              <div style="font-size:14px;font-weight:700;color:#1a1a1a;">10.61%<span style="font-size:10px;font-weight:400;color:#cc0000;"> +0.42pp</span></div>
+            </div>
+            <div style="flex:1;padding:7px 0 7px 12px;border-bottom:1px solid #e5e5e5;">
+              <div style="font-size:9px;color:#888;">混合TR</div>
+              <div style="font-size:14px;font-weight:700;color:#1a1a1a;">12.66%<span style="font-size:10px;font-weight:400;color:#888;"> −0.50pp</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- 核心约束底栏 -->
+      <div style="margin-top:16px;padding:9px 14px;background:#1a1a1a;display:flex;align-items:center;justify-content:space-between;margin-left:-1.2rem;margin-right:-1.2rem;margin-bottom:-1.2rem;">
+        <div style="font-size:.72rem;color:#fff;"><span style="opacity:.7;">核心约束</span><span style="margin:0 8px;opacity:.3;">|</span>每个「评级×MOB」格子的<b style="color:#66b3ff;"> 新增资产增量收入 TR &gt; 2% </b>→ 可执行提额</div>
+        <div style="font-size:.65rem;color:rgba(255,255,255,.5);flex-shrink:0;">灰度10% 示例</div>
+      </div>
+    </div>
+
+    <!-- ── 5步 Vintage 边界提额法 ── -->
+    <div style="margin-top:.9rem;padding:1rem 1.2rem;background:#fafaf9;border:1px solid var(--border);border-radius:8px;">
+      <div style="font-size:.72rem;font-weight:700;color:#001F3D;margin-bottom:14px;letter-spacing:.03em;text-transform:uppercase;">核心方法论 — 5步 Vintage 边界提额法</div>
+      <div style="display:flex;gap:6px;align-items:flex-start;overflow-x:auto;">
+        <div style="flex:1;min-width:100px;text-align:center;">
+          <div style="background:#001F3D;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;display:inline-block;margin-bottom:6px;letter-spacing:.05em;">STEP 1</div>
+          <div style="background:#fff;border:1.5px solid #001F3D;padding:9px 5px;min-height:52px;display:flex;flex-direction:column;justify-content:center;">
+            <div style="font-size:.73rem;font-weight:600;color:#001F3D;">计算Vintage边界</div>
+            <div style="font-size:.63rem;color:#6B7280;margin-top:2px;">TR=2%时最大容忍Vintage</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;padding-top:22px;"><svg width="16" height="10" viewBox="0 0 18 10"><path d="M0 5h12M9 1l4 4-4 4" fill="none" stroke="#9CA3AF" stroke-width="1.5"/></svg></div>
+        <div style="flex:1;min-width:100px;text-align:center;">
+          <div style="background:#001F3D;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;display:inline-block;margin-bottom:6px;letter-spacing:.05em;">STEP 2</div>
+          <div style="background:#fff;border:1.5px solid #001F3D;padding:9px 5px;min-height:52px;display:flex;flex-direction:column;justify-content:center;">
+            <div style="font-size:.73rem;font-weight:600;color:#001F3D;">构建弹性曲线</div>
+            <div style="font-size:.63rem;color:#6B7280;margin-top:2px;">V4.1 AB测试数据拟合</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;padding-top:22px;"><svg width="16" height="10" viewBox="0 0 18 10"><path d="M0 5h12M9 1l4 4-4 4" fill="none" stroke="#9CA3AF" stroke-width="1.5"/></svg></div>
+        <div style="flex:1;min-width:100px;text-align:center;">
+          <div style="background:#001F3D;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;display:inline-block;margin-bottom:6px;letter-spacing:.05em;">STEP 3</div>
+          <div style="background:#fff;border:1.5px solid #001F3D;padding:9px 5px;min-height:52px;display:flex;flex-direction:column;justify-content:center;">
+            <div style="font-size:.73rem;font-weight:600;color:#001F3D;">求解最大安全提幅</div>
+            <div style="font-size:.63rem;color:#6B7280;margin-top:2px;">弹性曲线 ∩ Vintage边界</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;padding-top:22px;"><svg width="16" height="10" viewBox="0 0 18 10"><path d="M0 5h12M9 1l4 4-4 4" fill="none" stroke="#9CA3AF" stroke-width="1.5"/></svg></div>
+        <div style="flex:1;min-width:100px;text-align:center;">
+          <div style="background:#001F3D;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;display:inline-block;margin-bottom:6px;letter-spacing:.05em;">STEP 4</div>
+          <div style="background:#fff;border:1.5px solid #001F3D;padding:9px 5px;min-height:52px;display:flex;flex-direction:column;justify-content:center;">
+            <div style="font-size:.73rem;font-weight:600;color:#001F3D;">新增资产计算</div>
+            <div style="font-size:.63rem;color:#6B7280;margin-top:2px;">弹性曲线推算指标变化</div>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;padding-top:22px;"><svg width="16" height="10" viewBox="0 0 18 10"><path d="M0 5h12M9 1l4 4-4 4" fill="none" stroke="#9CA3AF" stroke-width="1.5"/></svg></div>
+        <div style="flex:1;min-width:100px;text-align:center;">
+          <div style="background:#001F3D;color:#fff;font-size:9px;font-weight:700;padding:2px 8px;display:inline-block;margin-bottom:6px;letter-spacing:.05em;">STEP 5</div>
+          <div style="background:#fff;border:1.5px solid #001F3D;padding:9px 5px;min-height:52px;display:flex;flex-direction:column;justify-content:center;">
+            <div style="font-size:.73rem;font-weight:600;color:#001F3D;">灰度验证</div>
+            <div style="font-size:.63rem;color:#6B7280;margin-top:2px;">10% 小流量AB测试</div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="section">
-    <h2 class="section-title">A/B 测试进行中</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>测试版本</th>
-          <th>测试客群</th>
-          <th>样本量</th>
-          <th>放款规模</th>
-          <th>逾期率</th>
-          <th>收益率</th>
-          <th>决策</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><strong>V5.1 激进版</strong></td>
-          <td>标准客户</td>
-          <td>15,000</td>
-          <td>4.8 亿</td>
-          <td>6.2%</td>
-          <td>18.5%</td>
-          <td><span class="badge success">待上线</span></td>
-        </tr>
-        <tr>
-          <td><strong>V5.2 保守版</strong></td>
-          <td>成长客户</td>
-          <td>12,000</td>
-          <td>2.1 亿</td>
-          <td>7.8%</td>
-          <td>16.2%</td>
-          <td><span class="badge warning">观察中</span></td>
-        </tr>
-      </tbody>
-    </table>
+  <!-- ========== 02 额度弹性曲线构建 ========== -->
+  <div class="sec">
+    <div class="sec-header">
+      <div class="sec-num">02</div>
+      <div><div class="sec-title">额度弹性曲线构建</div><div class="sec-subtitle">估计三类弹性曲线 · 推导各评级安全提幅</div></div>
+    </div>
+
+    <div class="grid3" style="margin-bottom:1rem;">
+      <div class="elas-card">
+        <div class="elas-icon v"><i class="ri-heart-pulse-line"></i></div>
+        <div class="elas-title">Vintage 弹性（k_v）</div>
+        <div class="elas-formula">V(Δ%) = V₀ × exp(k_v × L₀ × Δ%/100)</div>
+        <ul class="plist">
+          <li>A/B：k_v = 0.0033</li>
+          <li>C/D：k_v = 0.0038</li>
+          <li>E/F：k_v = 0.005</li>
+          <li>用于推导最大安全提幅上限</li>
+        </ul>
+      </div>
+      <div class="elas-card">
+        <div class="elas-icon a"><i class="ri-send-plane-line"></i></div>
+        <div class="elas-title">发标率弹性（k_a）</div>
+        <div class="elas-formula">Apply = 70% − (70%−A₀) × exp(−k_a × ΔL)</div>
+        <ul class="plist">
+          <li>A/B：k_a = 0.002</li>
+          <li>C/D：k_a = 0.0025</li>
+          <li>E/F：k_a = 0.003</li>
+          <li>饱和上限 70%（历史最高 74.7%）</li>
+        </ul>
+      </div>
+      <div class="elas-card">
+        <div class="elas-icon u"><i class="ri-pie-chart-2-line"></i></div>
+        <div class="elas-title">额度占用率弹性（k_u）</div>
+        <div class="elas-formula">Util = 30% + (U₀−30%) × exp(−k_u × Δ%²)</div>
+        <ul class="plist">
+          <li>A: 0.00012 · B: 0.0001</li>
+          <li>C: 0.00008 · D: 0.00006</li>
+          <li>E: 0.00004 · F: 0.00003</li>
+          <li>理论下限 30%</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title"><i class="ri-bar-chart-2-line"></i> 各评级当前 Vintage 水平（收入 Vintage &amp; 本金 DPD30_6，数据：2025-07–2026-01）</div>
+      <div id="chart-vintage"></div>
+    </div>
   </div>
 
-  <p style="margin-top:2rem;color:#999;font-size:.8rem;text-align:center">
-    * 所有数据已脱敏处理，仅用于展示
-  </p>
-</div>
+  <!-- ========== 03 AI 赋能 ========== -->
+  <div class="sec">
+    <div class="sec-header">
+      <div class="sec-num a">03</div>
+      <div><div class="sec-title">AI 赋能</div><div class="sec-subtitle">加快决策效率 · 精化弹性参数估计</div></div>
+    </div>
+
+    <!-- AI 赋能 · 01 灰度对大盘影响模拟 -->
+    <div class="card" style="margin-bottom:1.25rem;">
+      <div class="ai-label"><i class="ri-flashlight-line"></i> AI 赋能 · 01</div>
+      <div class="card-title" style="margin-bottom:.4rem;"><i class="ri-speed-line"></i> 测试灰度条 — 灰度对大盘影响模拟</div>
+      <p class="ai-desc">拖动滑块可实时查看不同灰度比例下，V5 方案对大盘成交、风险、收入指标的影响。基准 = 当前大盘 39.31M USD，成交增量由响应率驱动（人均成交不变），弹性曲线统一（Part3/Part4）。</p>
+      <div class="grayscale-control" style="display:flex;align-items:center;gap:1rem;margin-bottom:1rem;padding:.75rem 1rem;background:var(--bg);border:1px solid var(--border);border-radius:8px;">
+        <label style="font-weight:600;font-size:.8rem;color:var(--text);min-width:4.5rem;">灰度比例</label>
+        <input type="range" id="grayscaleSlider" min="0" max="100" value="10" step="1" style="flex:1;max-width:280px;accent-color:var(--primary);cursor:pointer;height:8px;">
+        <span id="grayscaleValue" style="font-weight:700;font-size:1.05rem;color:var(--primary);min-width:3rem;text-align:right;">10%</span>
+      </div>
+      <div class="table-wrap" style="overflow-x:auto;margin-bottom:.5rem;">
+        <table class="data-table" style="font-size:.7rem;table-layout:fixed;width:100%;border-collapse:collapse;">
+          <thead>
+            <tr>
+              <th rowspan="2" style="width:58px;">维度</th>
+              <th colspan="6" style="background:#e8f0fe;color:#1a3a5c;text-align:center;border-left:2px solid #1a3a5c;">成交指标</th>
+              <th colspan="6" style="background:#fde8e8;color:#e53e3e;text-align:center;border-left:2px solid #e53e3e;">风险指标</th>
+              <th colspan="4" style="background:#f0fdf4;color:#276749;text-align:center;border-left:2px solid #276749;">收入指标</th>
+            </tr>
+            <tr>
+              <th style="background:#e8f0fe;">成交额<br><span style="font-size:.6rem;">(M USD)</span></th>
+              <th style="background:#e8f0fe;">申请数</th><th style="background:#e8f0fe;">成交数</th>
+              <th style="background:#e8f0fe;">人均额</th><th style="background:#e8f0fe;">额度均</th>
+              <th style="background:#e8f0fe;">占用率</th>
+              <th style="background:#fde8e8;">dpd5</th><th style="background:#fde8e8;">dpd30</th>
+              <th style="background:#fde8e8;">d30_2</th><th style="background:#fde8e8;">d30_4</th>
+              <th style="background:#fde8e8;">d30_6</th><th style="background:#fde8e8;">收入V</th>
+              <th style="background:#f0fdf4;">本金TR</th><th style="background:#f0fdf4;">本金TA</th>
+              <th style="background:#f0fdf4;">收入TR</th><th style="background:#f0fdf4;">收入TA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="background:#fafaf9;font-weight:500;">当前大盘</td><td id="c-ab">—</td><td id="c-apb">—</td><td id="c-tb">—</td><td id="c-aab">—</td><td id="c-lb">—</td><td id="c-eb">—</td><td id="c-d5b">—</td><td id="c-d30b">—</td><td id="c-d32b">—</td><td id="c-d34b">—</td><td id="c-d36b">—</td><td id="c-rvb">—</td><td id="c-ptb">—</td><td id="c-pab">—</td><td id="c-rtb">—</td><td id="c-rab">—</td></tr>
+            <tr><td style="background:#e8f0fe;font-weight:500;color:#1a3a5c;">V5增量(新)</td><td id="c-adn" style="background:#e8f0fe;">—</td><td id="c-apdn" style="background:#e8f0fe;">—</td><td id="c-tdn" style="background:#e8f0fe;">—</td><td id="c-aadn" style="background:#e8f0fe;">—</td><td id="c-ldn" style="background:#e8f0fe;">—</td><td id="c-edn" style="background:#e8f0fe;">—</td><td id="c-d5dn" style="background:#e8f0fe;">—</td><td id="c-d30dn" style="background:#e8f0fe;">—</td><td id="c-d32dn" style="background:#e8f0fe;">—</td><td id="c-d34dn" style="background:#e8f0fe;">—</td><td id="c-d36dn" style="background:#e8f0fe;">—</td><td id="c-rvdn" style="background:#e8f0fe;">—</td><td id="c-ptdn" style="background:#f0fdf4;">—</td><td id="c-padn" style="background:#f0fdf4;">—</td><td id="c-rtdn" style="background:#f0fdf4;">—</td><td id="c-radn" style="background:#f0fdf4;">—</td></tr>
+            <tr style="font-weight:600;background:#fafaf9;border-top:2px solid #1a3a5c;"><td>V5后大盘</td><td id="c-aa">—</td><td id="c-apa">—</td><td id="c-ta">—</td><td id="c-aaa">—</td><td id="c-la">—</td><td id="c-ea">—</td><td id="c-d5a">—</td><td id="c-d30a">—</td><td id="c-d32a">—</td><td id="c-d34a">—</td><td id="c-d36a">—</td><td id="c-rva">—</td><td id="c-pta">—</td><td id="c-paa">—</td><td id="c-rta">—</td><td id="c-raa">—</td></tr>
+            <tr style="color:var(--muted);font-size:.65rem;"><td style="font-weight:500;">变化</td><td id="c-apc">—</td><td id="c-appc">—</td><td id="c-tpc">—</td><td id="c-aapc">—</td><td id="c-lpc">—</td><td id="c-epc">—</td><td id="c-d5c">—</td><td id="c-d30c">—</td><td id="c-d32c">—</td><td id="c-d34c">—</td><td id="c-d36c">—</td><td id="c-rvc">—</td><td id="c-ptc">—</td><td id="c-pac">—</td><td id="c-rtc">—</td><td id="c-rac">—</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <details class="ai-details" style="border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-top:.75rem;">
+        <summary style="padding:.6rem 1rem;background:var(--bg);cursor:pointer;font-size:.73rem;font-weight:600;color:var(--text);user-select:none;display:flex;align-items:center;gap:.35rem;">
+          <i class="ri-arrow-down-s-line" style="font-size:.9rem;transition:transform .2s;"></i> 各评级弹性曲线推演详情（随灰度滑条联动）
+        </summary>
+        <div style="padding:1rem;border-top:1px solid var(--border);">
+          <div style="font-size:.72rem;color:var(--muted);line-height:1.6;margin-bottom:.75rem;">下表展示灰度下各评级指标如何由弹性曲线推导。提额比例 = 该评级本次CAP幅度，指标变化由三条弹性曲线计算。</div>
+          <div style="overflow-x:auto;">
+            <table class="data-table" style="font-size:.68rem;">
+              <thead><tr style="background:#fafaf9;"><th style="width:36px;">评级</th><th>占比</th><th>CAP</th><th>收入V₀→new</th><th>本金V₀→new</th><th>发标率₀→new</th><th>占用率₀→new</th><th>收入TR₀→new</th><th>本金TR₀→new</th><th>成交增量(M)</th></tr></thead>
+              <tbody id="tbl-elast-body"></tbody>
+              <tfoot id="tbl-elast-foot"></tfoot>
+            </table>
+          </div>
+          <div style="margin-top:.6rem;padding:.55rem .7rem;background:#fafaf9;border-radius:4px;font-size:.68rem;line-height:1.8;color:#555;">
+            <div style="font-weight:600;color:#1a3a5c;margin-bottom:3px;">推演公式（与方案部分弹性曲线一致）</div>
+            <div>① V_new(r) = V₀(r) × exp(k_v(r) × avgLimit(r) × CAP%/100)</div>
+            <div>② Apply_new(r) = 70% − (70%−Apply₀) × exp(−k_a(r) × avgLimit(r) × CAP%/100)</div>
+            <div>③ Util_new(r) = 30% + (Util₀−30%) × exp(−k_u(r) × CAP%²)</div>
+            <div>④ TR(r) = fee(r) × (1−V_new) − V_new − OC</div>
+          </div>
+        </div>
+      </details>
+      <script>
+      (function(){
+        var CT = 39.31;
+        var OC = 0.039, APPLY_MAX = 0.70, UTIL_FLOOR = 0.30;
+        var RATINGS = ['A','B','C','D','E','F'];
+        var BASE = {
+          A:{w:.21, avgLimit:574, fee:.268, revV:.0647, prinV:.0507, applyRate:.582, expRate:.603, capPct:30},
+          B:{w:.46, avgLimit:463, fee:.307, revV:.0907, prinV:.0823, applyRate:.582, expRate:.857, capPct:25},
+          C:{w:.16, avgLimit:372, fee:.320, revV:.1258, prinV:.1195, applyRate:.482, expRate:.946, capPct:20},
+          D:{w:.09, avgLimit:359, fee:.322, revV:.1365, prinV:.138, applyRate:.482, expRate:.964, capPct:20},
+          E:{w:.05, avgLimit:323, fee:.328, revV:.1642, prinV:.1705, applyRate:.421, expRate:.973, capPct:0},
+          F:{w:.03, avgLimit:254, fee:.330, revV:.1973, prinV:.2079, applyRate:.421, expRate:.967, capPct:0}
+        };
+        var K_V = {A:.0033,B:.0033,C:.0038,D:.0038,E:.005,F:.005};
+        var K_A = {A:.002,B:.002,C:.0025,D:.0025,E:.003,F:.003};
+        var K_U = {A:.00012,B:.0001,C:.00008,D:.00006,E:.00004,F:.00003};
+        var DPD_K = {d5:0.535, d30:0.612, d32:0.750, d34:0.918, d36:1.0};
+        function calcV5(r) {
+          var b = BASE[r], pct = b.capPct;
+          if (pct === 0) return {revV:b.revV,prinV:b.prinV,apply:b.applyRate,exp:b.expRate,newLimit:b.avgLimit,newDeal:b.avgLimit*b.expRate,mult:1};
+          var inc = b.avgLimit * pct / 100;
+          var nrv = b.revV * Math.exp(K_V[r] * inc);
+          var pr = b.revV > 0 ? b.prinV / b.revV : 1;
+          var npv = nrv * pr;
+          var na = APPLY_MAX - (APPLY_MAX - b.applyRate) * Math.exp(-K_A[r] * inc);
+          var ne = Math.max(UTIL_FLOOR, UTIL_FLOOR + (b.expRate - UTIL_FLOOR) * Math.exp(-K_U[r] * pct * pct));
+          var nl = b.avgLimit * (1 + pct / 100);
+          var nd = b.avgLimit * b.expRate;
+          var m = na / b.applyRate;
+          return {revV:nrv,prinV:npv,apply:na,exp:ne,newLimit:nl,newDeal:nd,mult:m};
+        }
+        var bRevV=0,bPrinV=0,bFee=0,bDeals=0,bLimitNum=0;
+        RATINGS.forEach(function(r){ var b=BASE[r]; bRevV+=b.w*b.revV; bPrinV+=b.w*b.prinV; bFee+=b.w*b.fee; var dc=CT*b.w*1e6/(b.avgLimit*b.expRate); bDeals+=dc; bLimitNum+=dc*b.avgLimit; });
+        var bDeal = CT*1e6/bDeals, bLimit = bLimitNum/bDeals, bExp = bDeal/bLimit;
+        var bRevTR = bFee*(1-bRevV)-bRevV-OC, bPrinTR = bFee*(1-bPrinV)-bPrinV-OC;
+        function elCalc(r) {
+          var b = BASE[r], pct = b.capPct, inc = b.avgLimit * pct / 100;
+          var newRevV = b.revV * Math.exp(K_V[r] * inc);
+          var prinRatio = b.revV > 0 ? b.prinV / b.revV : 1;
+          var newPrinV = newRevV * prinRatio;
+          var newApply = APPLY_MAX - (APPLY_MAX - b.applyRate) * Math.exp(-K_A[r] * inc);
+          var newExp = Math.max(UTIL_FLOOR, UTIL_FLOOR + (b.expRate - UTIL_FLOOR) * Math.exp(-K_U[r] * pct * pct));
+          var revTR = b.fee * (1 - newRevV) - newRevV - OC;
+          var prinTR = b.fee * (1 - newPrinV) - newPrinV - OC;
+          var basRevTR = b.fee * (1 - b.revV) - b.revV - OC, basPrinTR = b.fee * (1 - b.prinV) - b.prinV - OC;
+          return {revV:newRevV, prinV:newPrinV, apply:newApply, exp:newExp, revTR:revTR, prinTR:prinTR, basRevTR:basRevTR, basPrinTR:basPrinTR};
+        }
+        function updElast(gray) {
+          var tb = document.getElementById('tbl-elast-body');
+          var tf = document.getElementById('tbl-elast-foot');
+          if (!tb) return;
+          var html = '', sumRevV=0, sumPrinV=0, sumRevTR=0, sumPrinTR=0, sumApply=0, sumExp=0;
+          var sumRevV0=0, sumPrinV0=0, sumRevTR0=0, sumPrinTR0=0, sumApply0=0, sumExp0=0, sumImpact=0;
+          RATINGS.forEach(function(r) {
+            var b = BASE[r], m = elCalc(r);
+            var blendRevV = (1-gray)*b.revV + gray*m.revV, blendPrinV = (1-gray)*b.prinV + gray*m.prinV;
+            var blendApply = (1-gray)*b.applyRate + gray*m.apply, blendExp = (1-gray)*b.expRate + gray*m.exp;
+            var blendRevTR = (1-gray)*m.basRevTR + gray*m.revTR, blendPrinTR = (1-gray)*m.basPrinTR + gray*m.prinTR;
+            var impact = b.w * CT * gray * (m.apply / b.applyRate - 1);
+            sumRevV += b.w*blendRevV; sumPrinV += b.w*blendPrinV; sumApply += b.w*blendApply; sumExp += b.w*blendExp;
+            sumRevTR += b.w*blendRevTR; sumPrinTR += b.w*blendPrinTR;
+            sumRevV0 += b.w*b.revV; sumPrinV0 += b.w*b.prinV; sumApply0 += b.w*b.applyRate; sumExp0 += b.w*b.expRate;
+            sumRevTR0 += b.w*m.basRevTR; sumPrinTR0 += b.w*m.basPrinTR; sumImpact += Math.abs(impact);
+            var trClr = m.revTR >= .02 ? '#276749' : '#e53e3e';
+            var ptrClr = m.prinTR >= .02 ? '#276749' : '#e53e3e';
+            var noCap = b.capPct === 0;
+            var capTxt = noCap ? '<span style="color:#999;">不提额</span>' : '<span style="color:#1a3a5c;font-weight:600;">+' + b.capPct + '%</span>';
+            html += '<tr' + (noCap ? ' style="color:#aaa;"' : '') + '><td style="font-weight:600;">' + r + '</td><td>' + (b.w*100).toFixed(0) + '%</td><td>' + capTxt + '</td>';
+            html += '<td>' + (b.revV*100).toFixed(2) + '→<b>' + (m.revV*100).toFixed(2) + '</b>%' + (noCap?'':' <span style="color:#e53e3e;font-size:9px;">(+' + ((m.revV-b.revV)*100).toFixed(2) + 'pp)</span>') + '</td>';
+            html += '<td>' + (b.prinV*100).toFixed(2) + '→<b>' + (m.prinV*100).toFixed(2) + '</b>%' + (noCap?'':' <span style="font-size:9px;">(+' + ((m.prinV-b.prinV)*100).toFixed(2) + 'pp)</span>') + '</td>';
+            html += '<td>' + (b.applyRate*100).toFixed(1) + '→<b>' + (m.apply*100).toFixed(1) + '</b>%' + (noCap?'':' <span style="color:#7C3AED;font-size:9px;">(+' + ((m.apply-b.applyRate)*100).toFixed(1) + 'pp)</span>') + '</td>';
+            html += '<td>' + (b.expRate*100).toFixed(1) + '→<b>' + (m.exp*100).toFixed(1) + '</b>%' + (noCap?'':' <span style="color:#DB2777;font-size:9px;">(' + ((m.exp-b.expRate)*100).toFixed(1) + 'pp)</span>') + '</td>';
+            html += '<td style="color:' + trClr + ';">' + (m.basRevTR*100).toFixed(2) + '→<b>' + (m.revTR*100).toFixed(2) + '%</b></td><td style="color:' + ptrClr + ';">' + (m.basPrinTR*100).toFixed(2) + '→<b>' + (m.prinTR*100).toFixed(2) + '%</b></td>';
+            html += '<td>' + (noCap ? '—' : (impact*1000).toFixed(1)+'K') + '</td></tr>';
+          });
+          tb.innerHTML = html;
+          var g2 = (gray*100).toFixed(0);
+          var rtrClr = sumRevTR >= .02 ? '#276749' : '#e53e3e';
+          tf.innerHTML = '<tr style="font-weight:600;background:#fafaf9;border-top:2px solid #1a3a5c;"><td>汇总</td><td>100%</td><td>灰度' + g2 + '%</td><td>' + (sumRevV0*100).toFixed(2) + '→<b>' + (sumRevV*100).toFixed(2) + '</b>%</td><td>' + (sumPrinV0*100).toFixed(2) + '→<b>' + (sumPrinV*100).toFixed(2) + '</b>%</td><td>' + (sumApply0*100).toFixed(1) + '→<b>' + (sumApply*100).toFixed(1) + '</b>%</td><td>' + (sumExp0*100).toFixed(1) + '→<b>' + (sumExp*100).toFixed(1) + '</b>%</td><td style="color:' + rtrClr + ';">' + (sumRevTR0*100).toFixed(2) + '→<b>' + (sumRevTR*100).toFixed(2) + '%</b></td><td>' + (sumPrinTR0*100).toFixed(2) + '→<b>' + (sumPrinTR*100).toFixed(2) + '%</b></td><td>' + sumImpact.toFixed(2) + 'M</td></tr>';
+        }
+        var sl = document.getElementById('grayscaleSlider'), lb = document.getElementById('grayscaleValue');
+        function f(n,d){ return typeof n==='number' ? n.toLocaleString('en-US',{maximumFractionDigits:d||0}) : n; }
+        function p(v){ return (v*100).toFixed(2)+'%'; }
+        function pp(v){ return (v>0?'+':'')+(v*100).toFixed(2)+'pp'; }
+        function s(id,h){ var c = document.getElementById(id); if(c) c.innerHTML = h; }
+        function dpd(pv,k){ return pv*DPD_K[k]; }
+        function upd(){
+          try {
+            var g = sl.value/100;
+            if(lb) lb.textContent = sl.value+'%';
+            var v5 = {}; RATINGS.forEach(function(r){ v5[r]=calcV5(r); });
+            var totAfter=0, incNew=0, incExist=0, newDcDelta=0, aRevVN=0, aPrinVN=0, aFeeN=0, aLimitN=0, aDeals=0;
+            var v5Amt=0, v5RevVN=0, v5PrinVN=0, v5FeeN=0, v5LimitN=0, v5Dc=0;
+            RATINGS.forEach(function(r){
+              var b=BASE[r], v=v5[r], amt=CT*b.w, dealBase=b.avgLimit*b.expRate;
+              var dc=CT*b.w*1e6/dealBase, dcNG=dc*(1-g), dcGB=dc*g, dcGV=dcGB*(v.apply/b.applyRate), extraDc=dcGV-dcGB;
+              incNew += extraDc*v.newDeal/1e6; incExist += dcGB*(v.newDeal-dealBase)/1e6; newDcDelta += extraDc;
+              var amtNG=amt*(1-g), amtGV=dcGV*v.newDeal/1e6, amtA=amtNG+amtGV; totAfter+=amtA;
+              var dcA=dcNG+dcGV; aDeals+=dcA;
+              aRevVN += amtNG*b.revV + amtGV*v.revV; aPrinVN += amtNG*b.prinV + amtGV*v.prinV;
+              aFeeN += amtA*b.fee; aLimitN += dcNG*b.avgLimit + dcGV*v.newLimit;
+              v5Amt+=amtGV; v5RevVN+=amtGV*v.revV; v5PrinVN+=amtGV*v.prinV; v5FeeN+=amtGV*b.fee; v5LimitN+=dcGV*v.newLimit; v5Dc+=dcGV;
+            });
+            var delta=totAfter-CT, aRevV=aRevVN/totAfter, aPrinV=aPrinVN/totAfter, aFee=aFeeN/totAfter;
+            var aLimit=aLimitN/aDeals, aDeal=totAfter*1e6/aDeals, aExp=aDeal/aLimit;
+            var aRevTR=aFee*(1-aRevV)-aRevV-OC, aPrinTR=aFee*(1-aPrinV)-aPrinV-OC;
+            var v5RevV=v5Amt>0?v5RevVN/v5Amt:0, v5PrinV=v5Amt>0?v5PrinVN/v5Amt:0, v5Fee=v5Amt>0?v5FeeN/v5Amt:0;
+            var v5Limit=v5Dc>0?v5LimitN/v5Dc:0, v5Deal=v5Dc>0?v5Amt*1e6/v5Dc:0, v5Exp=v5Limit>0?v5Deal/v5Limit:0;
+            var v5RevTR=v5Fee*(1-v5RevV)-v5RevV-OC, v5PrinTR=v5Fee*(1-v5PrinV)-v5PrinV-OC;
+            s('c-ab','<b>'+f(CT,2)+'</b>'); s('c-apb',f(Math.round(bDeals),0)); s('c-tb',f(Math.round(bDeals),0));
+            s('c-aab',f(bDeal,0)); s('c-lb',f(bLimit,0)); s('c-eb',(bExp*100).toFixed(1)+'%');
+            s('c-d5b',p(dpd(bPrinV,'d5'))); s('c-d30b',p(dpd(bPrinV,'d30'))); s('c-d32b',p(dpd(bPrinV,'d32'))); s('c-d34b',p(dpd(bPrinV,'d34'))); s('c-d36b',p(bPrinV)); s('c-rvb',p(bRevV));
+            s('c-ptb',p(bPrinTR)); s('c-pab',f(CT*bPrinTR*1000,1)); s('c-rtb',p(bRevTR)); s('c-rab',f(CT*bRevTR*1000,1));
+            s('c-adn','<span style="color:#1a3a5c;font-weight:600;">+'+f(incNew,3)+'</span>'); s('c-apdn','—');
+            s('c-tdn','+'+f(Math.round(newDcDelta),0)); s('c-aadn',f(v5Deal,0)); s('c-ldn',f(v5Limit,0)); s('c-edn',(v5Exp*100).toFixed(1)+'%');
+            s('c-d5dn',p(dpd(v5PrinV,'d5'))); s('c-d30dn',p(dpd(v5PrinV,'d30'))); s('c-d32dn',p(dpd(v5PrinV,'d32'))); s('c-d34dn',p(dpd(v5PrinV,'d34'))); s('c-d36dn',p(v5PrinV)); s('c-rvdn',p(v5RevV));
+            s('c-ptdn',p(v5PrinTR)); s('c-padn',f(incNew*v5PrinTR*1000,1)); s('c-rtdn',p(v5RevTR)); s('c-radn',f(incNew*v5RevTR*1000,1));
+            s('c-ade','<span style="color:#999;font-size:9px;">人均成交不变</span>'); s('c-aade','—'); s('c-lde','—'); s('c-ede','—'); s('c-ptde','—'); s('c-pade','—'); s('c-rtde','—'); s('c-rade','—');
+            s('c-aa','<b>'+f(totAfter,2)+'</b>'); s('c-apa',f(Math.round(bDeals),0)); s('c-ta',f(Math.round(aDeals),0));
+            s('c-aaa',f(aDeal,0)); s('c-la',f(aLimit,0)); s('c-ea',(aExp*100).toFixed(1)+'%');
+            s('c-d5a',p(dpd(aPrinV,'d5'))); s('c-d30a',p(dpd(aPrinV,'d30'))); s('c-d32a',p(dpd(aPrinV,'d32'))); s('c-d34a',p(dpd(aPrinV,'d34'))); s('c-d36a',p(aPrinV)); s('c-rva',p(aRevV));
+            s('c-pta',p(aPrinTR)); s('c-paa',f(totAfter*aPrinTR*1000,1)); s('c-rta',p(aRevTR)); s('c-raa',f(totAfter*aRevTR*1000,1));
+            s('c-apc','<b style="color:#1a3a5c;">+'+p(delta/CT)+'</b>'); s('c-appc','—'); s('c-tpc','+'+p((aDeals-bDeals)/bDeals));
+            s('c-aapc','+'+p((aDeal-bDeal)/bDeal)); s('c-lpc','+'+p((aLimit-bLimit)/bLimit)); s('c-epc',pp(aExp-bExp));
+            s('c-d5c',pp(dpd(aPrinV,'d5')-dpd(bPrinV,'d5'))); s('c-d30c',pp(dpd(aPrinV,'d30')-dpd(bPrinV,'d30'))); s('c-d32c',pp(dpd(aPrinV,'d32')-dpd(bPrinV,'d32'))); s('c-d34c',pp(dpd(aPrinV,'d34')-dpd(bPrinV,'d34'))); s('c-d36c',pp(aPrinV-bPrinV)); s('c-rvc',pp(aRevV-bRevV));
+            s('c-ptc',pp(aPrinTR-bPrinTR)); s('c-pac',f((totAfter*aPrinTR-CT*bPrinTR)*1000,1)); s('c-rtc',pp(aRevTR-bRevTR)); s('c-rac',f((totAfter*aRevTR-CT*bRevTR)*1000,1));
+            updElast(g);
+          } catch(e) { console.error(e); }
+        }
+        if(sl){ sl.addEventListener('input',upd); if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',upd); else setTimeout(upd,100); }
+      })();
+      </script>
+    </div>
+
+    <!-- AI·02 弹性曲线测试条 -->
+    <div class="card">
+      <div class="ai-label"><i class="ri-function-line"></i> AI 赋能 · 02</div>
+      <div class="card-title" style="margin-bottom:.5rem;"><i class="ri-git-branch-line"></i> 弹性曲线测试条 — 提幅对各评级指标影响</div>
+      <p class="ai-desc">对比历史 AB 实验结果与弹性模型预测，实时修正 k 参数估计误差，精化各评级安全提幅边界。滑块可拖动模拟不同提幅，四条竖线标注本次CAP、模拟提幅、置信分界（V4.1 实测范围）、安全上限（增量 TR=2% 边界）。</p>
+      <!-- 系数说明面板 -->
+      <div style="margin-bottom:.9rem;border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+        <div style="padding:.8rem 1rem;background:#eff6ff;border-bottom:1px solid var(--border);">
+          <div style="font-weight:600;font-size:.8rem;color:#1e40af;margin-bottom:5px;">曲线① Vintage弹性（指数模型）&nbsp; V(Δ%) = V₀ × exp(k_v × avgLimit × Δ%/100)</div>
+          <table class="data-table" style="font-size:.68rem;margin-top:5px;">
+            <thead><tr style="background:#dbeafe;"><th>评级</th><th>k_v</th><th>V₀(收入)</th><th>均额</th><th>历史实测</th><th>本次CAP</th><th>CAP时V</th><th>+50%时V</th></tr></thead>
+            <tbody id="tbl-kv"></tbody>
+          </table>
+        </div>
+        <div style="padding:.8rem 1rem;background:#f5f3ff;border-bottom:1px solid var(--border);">
+          <div style="font-weight:600;font-size:.8rem;color:#7c3aed;margin-bottom:5px;">曲线② 发标率弹性（饱和指数）&nbsp; Apply(Δ%) = 70% − (70%−Apply₀) × exp(−k_a × inc)</div>
+          <table class="data-table" style="font-size:.68rem;margin-top:5px;">
+            <thead><tr style="background:#ede9fe;"><th>评级</th><th>k_a</th><th>Apply₀</th><th>饱和半程</th><th>CAP时</th><th>+50%时</th></tr></thead>
+            <tbody id="tbl-ka"></tbody>
+          </table>
+        </div>
+        <div style="padding:.8rem 1rem;background:#fdf2f8;">
+          <div style="font-weight:600;font-size:.8rem;color:#db2777;margin-bottom:5px;">曲线③ 额度占用率弹性（加速衰减）&nbsp; Util(Δ%) = 30% + (Util₀−30%) × exp(−k_u × Δ%²)</div>
+          <table class="data-table" style="font-size:.68rem;margin-top:5px;">
+            <thead><tr style="background:#fce7f3;"><th>评级</th><th>k_u</th><th>Util₀</th><th>加速半程</th><th>CAP时</th><th>+50%时</th></tr></thead>
+            <tbody id="tbl-ku"></tbody>
+          </table>
+        </div>
+      </div>
+      <!-- 图例 -->
+      <div style="display:flex;flex-wrap:wrap;gap:10px;padding:.5rem .8rem;background:#fafaf9;border:1px solid var(--border);border-radius:5px;margin-bottom:.8rem;font-size:.68rem;align-items:center;">
+        <span style="display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-block;width:20px;height:0;border-top:2.5px solid #1565C0;"></span><b>本次CAP</b></span>
+        <span style="display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-block;width:20px;height:0;border-top:2px solid #FF6F00;"></span><b>模拟提幅</b></span>
+        <span style="display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-block;width:20px;height:0;border-top:2px dashed #757575;"></span><b>置信分界</b></span>
+        <span style="display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-block;width:20px;height:0;border-top:2px solid #D32F2F;"></span><b>安全上限</b></span>
+        <span style="display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-block;width:20px;height:10px;background:rgba(76,175,80,.1);border:1px solid #C8E6C9;border-radius:2px;"></span>置信内</span>
+        <span style="display:inline-flex;align-items:center;gap:4px;"><span style="display:inline-block;width:20px;height:10px;background:rgba(255,152,0,.08);border:1px solid #FFE0B2;border-radius:2px;"></span>置信外</span>
+      </div>
+      <div id="elasticity-container"></div>
+      <script>
+      (function(){
+        var OC=.039, TT=.02, APPLY_MAX=.70, UTIL_FLOOR=.30;
+        var RATINGS=['A','B','C','D','E','F'], MAX_PCT=50, CHARTS={};
+        var BASE={
+          A:{label:'A (优质)',avgLimit:574,fee:.268,revVintage:.0647,principalVintage:.0507,expRate:.603,applyRate:.582,color:'#1E40AF',testPct:20,capPct:30},
+          B:{label:'B (优质)',avgLimit:463,fee:.307,revVintage:.0907,principalVintage:.0823,expRate:.857,applyRate:.582,color:'#3B82F6',testPct:20,capPct:25},
+          C:{label:'C (中等)',avgLimit:372,fee:.320,revVintage:.1258,principalVintage:.1195,expRate:.946,applyRate:.482,color:'#F59E0B',testPct:15,capPct:20},
+          D:{label:'D (中等)',avgLimit:359,fee:.322,revVintage:.1365,principalVintage:.138,expRate:.964,applyRate:.482,color:'#F97316',testPct:12,capPct:20},
+          E:{label:'E (次级)',avgLimit:323,fee:.328,revVintage:.1642,principalVintage:.1705,expRate:.973,applyRate:.421,color:'#EF4444',testPct:8,capPct:0},
+          F:{label:'F (次级)',avgLimit:254,fee:.330,revVintage:.1973,principalVintage:.2079,expRate:.967,applyRate:.421,color:'#DC2626',testPct:5,capPct:0}
+        };
+        var K_V={A:.0033,B:.0033,C:.0038,D:.0038,E:.005,F:.005};
+        var K_A={A:.002,B:.002,C:.0025,D:.0025,E:.003,F:.003};
+        var K_U={A:.00012,B:.0001,C:.00008,D:.00006,E:.00004,F:.00003};
+        function calcMaxSafePct(r){
+          var b=BASE[r], vBound=(b.fee-OC-TT)/(1+b.fee);
+          if(vBound<=0||vBound<=b.revVintage) return null;
+          return Math.min(Math.log(vBound/b.revVintage)/K_V[r]/b.avgLimit*100, 999);
+        }
+        function calcMetrics(r,pct){
+          var b=BASE[r], inc=b.avgLimit*pct/100;
+          var newRevV=b.revVintage*Math.exp(K_V[r]*inc);
+          var prinRatio=b.revVintage>0?b.principalVintage/b.revVintage:1;
+          var newPrinV=newRevV*prinRatio;
+          var newApply=Math.min(APPLY_MAX, APPLY_MAX-(APPLY_MAX-b.applyRate)*Math.exp(-K_A[r]*inc));
+          var newExp=Math.max(UTIL_FLOOR, UTIL_FLOOR+(b.expRate-UTIL_FLOOR)*Math.exp(-K_U[r]*pct*pct));
+          var revTR=b.fee*(1-newRevV)-newRevV-OC, prinTR=b.fee*(1-newPrinV)-newPrinV-OC;
+          return {revVintage:newRevV,principalVintage:newPrinV,expRate:newExp,applyRate:newApply,revTR:revTR,prinTR:prinTR};
+        }
+        function genCurve(r,fn){
+          var pts=[]; for(var p=0;p<=MAX_PCT;p+=1) pts.push({x:p,y:fn(calcMetrics(r,p))}); return pts;
+        }
+        function renderCoeffTables(){
+          var tbKv=document.getElementById('tbl-kv'),tbKa=document.getElementById('tbl-ka'),tbKu=document.getElementById('tbl-ku');
+          if(!tbKv) return;
+          RATINGS.forEach(function(r){
+            var b=BASE[r], mCap=calcMetrics(r,b.capPct), m50=calcMetrics(r,50), pf=function(v){return(v*100).toFixed(2)+'%';};
+            tbKv.innerHTML+='<tr><td style="padding:3px 8px;border:1px solid #BFDBFE;font-weight:600;">'+r+'</td><td style="padding:3px 8px;border:1px solid #BFDBFE;text-align:center;font-weight:600;color:#1E40AF;">'+K_V[r]+'</td><td style="padding:3px 8px;border:1px solid #BFDBFE;text-align:center;">'+pf(b.revVintage)+'</td><td style="padding:3px 8px;border:1px solid #BFDBFE;text-align:center;">'+b.avgLimit+'</td><td style="padding:3px 8px;border:1px solid #BFDBFE;text-align:center;">+'+b.testPct+'%</td><td style="padding:3px 8px;border:1px solid #BFDBFE;text-align:center;font-weight:600;color:#1565C0;">+'+b.capPct+'%</td><td style="padding:3px 8px;border:1px solid #BFDBFE;text-align:center;">'+pf(mCap.revVintage)+'</td><td style="padding:3px 8px;border:1px solid #BFDBFE;text-align:center;">'+pf(m50.revVintage)+'</td></tr>';
+            var halfUSD=Math.round(Math.log(2)/K_A[r]), halfPct=Math.round(halfUSD/b.avgLimit*100);
+            tbKa.innerHTML+='<tr><td style="padding:3px 8px;border:1px solid #DDD6FE;font-weight:600;">'+r+'</td><td style="padding:3px 8px;border:1px solid #DDD6FE;text-align:center;font-weight:600;color:#7C3AED;">'+K_A[r]+'</td><td style="padding:3px 8px;border:1px solid #DDD6FE;text-align:center;">'+(b.applyRate*100).toFixed(1)+'%</td><td style="padding:3px 8px;border:1px solid #DDD6FE;font-size:9px;">+'+halfPct+'%</td><td style="padding:3px 8px;border:1px solid #DDD6FE;text-align:center;">'+(mCap.applyRate*100).toFixed(1)+'%</td><td style="padding:3px 8px;border:1px solid #DDD6FE;text-align:center;">'+(m50.applyRate*100).toFixed(1)+'%</td></tr>';
+            var halfPct2=Math.round(Math.sqrt(Math.log(2)/K_U[r]));
+            tbKu.innerHTML+='<tr><td style="padding:3px 8px;border:1px solid #FBCFE8;font-weight:600;">'+r+'</td><td style="padding:3px 8px;border:1px solid #FBCFE8;text-align:center;font-weight:600;color:#DB2777;">'+K_U[r]+'</td><td style="padding:3px 8px;border:1px solid #FBCFE8;text-align:center;">'+(b.expRate*100).toFixed(1)+'%</td><td style="padding:3px 8px;border:1px solid #FBCFE8;font-size:9px;">+'+halfPct2+'%</td><td style="padding:3px 8px;border:1px solid #FBCFE8;text-align:center;">'+(mCap.expRate*100).toFixed(1)+'%</td><td style="padding:3px 8px;border:1px solid #FBCFE8;text-align:center;">'+(m50.expRate*100).toFixed(1)+'%</td></tr>';
+          });
+        }
+        function buildAnnotations(r,sliderPct){
+          var b=BASE[r], maxSafe=calcMaxSafePct(r), ann=[];
+          ann.push({x:0,x2:b.testPct,fillColor:'#4CAF50',opacity:0.08,label:{text:''}});
+          ann.push({x:b.testPct,x2:MAX_PCT,fillColor:'#FF9800',opacity:0.05,label:{text:''}});
+          if(b.capPct>0) ann.push({x:b.capPct,strokeDashArray:0,borderColor:'#1565C0',borderWidth:2.5,label:{text:'本次CAP +'+b.capPct+'%',orientation:'horizontal',position:'top',offsetY:-4,style:{color:'#fff',fontSize:'10px',fontWeight:700,background:'#1565C0',padding:{left:6,right:6,top:2,bottom:2}}}});
+          if(sliderPct>0&&sliderPct!==b.capPct) ann.push({x:sliderPct,strokeDashArray:0,borderColor:'#FF6F00',borderWidth:2,label:{text:'模拟 +'+sliderPct+'%',orientation:'horizontal',position:'top',offsetY:10,style:{color:'#fff',fontSize:'9px',fontWeight:600,background:'#FF6F00',padding:{left:5,right:5,top:2,bottom:2}}}});
+          ann.push({x:b.testPct,strokeDashArray:5,borderColor:'#757575',borderWidth:1.5,label:{text:'置信 +'+b.testPct+'%',orientation:'horizontal',position:'bottom',offsetY:4,style:{color:'#555',fontSize:'9px',background:'#F5F5F5',padding:{left:4,right:4,top:1,bottom:1}}}});
+          if(maxSafe!=null&&maxSafe<=MAX_PCT) ann.push({x:Math.round(maxSafe),strokeDashArray:6,borderColor:'#D32F2F',borderWidth:2,label:{text:'上限 +'+Math.round(maxSafe)+'%',orientation:'horizontal',position:'top',offsetY:22,style:{color:'#fff',fontSize:'9px',fontWeight:600,background:'#D32F2F',padding:{left:4,right:4,top:1,bottom:1}}}});
+          return ann;
+        }
+        function buildCard(r){
+          var b=BASE[r], maxSafe=calcMaxSafePct(r), maxStr=maxSafe!=null?(maxSafe>MAX_PCT?'>'+MAX_PCT+'%':'+'+Math.round(maxSafe)+'%'):'BAN';
+          var card=document.createElement('div');
+          card.className='rating-card';
+          card.innerHTML='<h4 style="display:flex;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:.5rem;">'+
+            '<span class="rating-badge" style="background:'+b.color+';">'+r+'</span><span>'+b.label+'</span>'+
+            '<span style="font-size:10px;color:#9b9a97;font-weight:400;margin-left:auto;">均额 '+b.avgLimit+'USD | '+(b.capPct>0?'<span style="color:#1565C0;font-weight:600;">CAP +'+b.capPct+'%</span>':'<span style="color:#999;">本次不提额</span>')+' | 置信 +'+b.testPct+'% | 上限 '+maxStr+'</span></h4>'+
+            '<div style="display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:12px;margin:8px 0;">'+
+            '<label style="font-size:11px;font-weight:500;">提额比例</label>'+
+            '<input type="range" class="rating-slider" data-rating="'+r+'" min="0" max="'+MAX_PCT+'" value="'+b.capPct+'" step="1" style="width:100%;accent-color:'+b.color+';cursor:pointer;">'+
+            '<span class="slider-val" data-rating="'+r+'" style="font-weight:600;font-size:13px;color:'+b.color+';min-width:140px;text-align:right;">+'+(b.capPct>0?b.capPct+'% (+'+Math.round(b.avgLimit*b.capPct/100)+' USD)':'0% (不提额)')+'</span></div>'+
+            '<div class="metric-grid" id="metrics-'+r+'">'+
+            '<div class="metric-item"><div class="label">收入Vintage</div><div class="value" id="mrv-'+r+'">—</div></div>'+
+            '<div class="metric-item"><div class="label">本金Vintage</div><div class="value" id="mpv-'+r+'">—</div></div>'+
+            '<div class="metric-item"><div class="label">收入TR</div><div class="value" id="mrt-'+r+'">—</div></div>'+
+            '<div class="metric-item"><div class="label">本金TR</div><div class="value" id="mpt-'+r+'">—</div></div>'+
+            '<div class="metric-item"><div class="label">发标率</div><div class="value" id="mar-'+r+'">—</div></div>'+
+            '<div class="metric-item"><div class="label">额度占用率</div><div class="value" id="mex-'+r+'">—</div></div></div>'+
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;">'+
+            '<div id="chart-vintage-'+r+'" style="min-height:240px;"></div><div id="chart-tr-'+r+'" style="min-height:240px;"></div></div>'+
+            '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:6px;">'+
+            '<div id="chart-apply-'+r+'" style="min-height:240px;"></div><div id="chart-exp-'+r+'" style="min-height:240px;"></div></div>';
+          return card;
+        }
+        function renderChart(r,chartKey,elId,title,seriesData,sliderPct,extraOpts){
+          var ann=buildAnnotations(r,sliderPct);
+          var opts={chart:{type:'line',height:230,toolbar:{show:false},zoom:{enabled:false},animations:{enabled:false},fontFamily:'system-ui,sans-serif'},series:seriesData,xaxis:{title:{text:'提额比例 (%)',style:{fontSize:'10px',color:'#999'}},type:'numeric',min:0,max:MAX_PCT,labels:{style:{fontSize:'9px'},formatter:function(v){return Math.round(v)+'%';}},tickAmount:10},yaxis:{labels:{formatter:function(v){return(v*100).toFixed(1)+'%';},style:{fontSize:'9px'}}},stroke:{width:2.5,curve:'smooth'},markers:{size:0,hover:{size:4}},tooltip:{x:{formatter:function(v){return '提额 +'+Math.round(v)+'%';}},y:{formatter:function(v){return(v*100).toFixed(2)+'%';}}},annotations:{xaxis:ann},title:{text:title,style:{fontSize:'12px',fontWeight:600,color:'#333'}},legend:{position:'bottom',fontSize:'10px',offsetY:4},grid:{show:true,borderColor:'#F0F0F0',strokeDashArray:3,xaxis:{lines:{show:false}},yaxis:{lines:{show:true}}}};
+          if(extraOpts&&extraOpts.colors) opts.colors=extraOpts.colors;
+          var el=document.getElementById(elId); if(!el) return;
+          var ch=new ApexCharts(el,opts); ch.render(); CHARTS[chartKey]=ch;
+        }
+        function updateAllAnnotations(r,sliderPct){
+          var ann=buildAnnotations(r,sliderPct);
+          ['vintage-'+r,'tr-'+r,'apply-'+r,'exp-'+r].forEach(function(k){ if(CHARTS[k]) CHARTS[k].updateOptions({annotations:{xaxis:ann}},false,false); });
+        }
+        function init(){
+          renderCoeffTables();
+          var container=document.getElementById('elasticity-container');
+          if(!container) return;
+          RATINGS.forEach(function(r){
+            var card=buildCard(r); container.appendChild(card);
+            var b=BASE[r], defaultPct=b.capPct;
+            renderChart(r,'vintage-'+r,'chart-vintage-'+r,'Vintage 曲线 (k_v='+K_V[r]+')',[{name:'收入Vintage',data:genCurve(r,function(m){return m.revVintage;}),color:'#3B82F6'},{name:'本金Vintage (dpd30_6)',data:genCurve(r,function(m){return m.principalVintage;}),color:'#EF4444'}],defaultPct);
+            renderChart(r,'tr-'+r,'chart-tr-'+r,'TR 曲线',[{name:'收入TR',data:genCurve(r,function(m){return m.revTR;}),color:'#10B981'},{name:'本金TR',data:genCurve(r,function(m){return m.prinTR;}),color:'#F59E0B'}],defaultPct);
+            renderChart(r,'apply-'+r,'chart-apply-'+r,'发标率 (k_a='+K_A[r]+')',[{name:'发标率',data:genCurve(r,function(m){return m.applyRate;})}],defaultPct,{colors:['#8B5CF6']});
+            renderChart(r,'exp-'+r,'chart-exp-'+r,'额度占用率 (k_u='+K_U[r]+')',[{name:'额度占用率',data:genCurve(r,function(m){return m.expRate;})}],defaultPct,{colors:['#EC4899']});
+            function updateMetrics(pct){
+              var m=calcMetrics(r,pct);
+              var el=function(id){return document.getElementById(id);};
+              if(el('mrv-'+r)){el('mrv-'+r).textContent=(m.revVintage*100).toFixed(2)+'%';}
+              if(el('mpv-'+r)) el('mpv-'+r).textContent=(m.principalVintage*100).toFixed(2)+'%';
+              if(el('mrt-'+r)){el('mrt-'+r).textContent=(m.revTR*100).toFixed(2)+'%';el('mrt-'+r).style.color=m.revTR>=0.02?'#276749':'#e53e3e';}
+              if(el('mpt-'+r)){el('mpt-'+r).textContent=(m.prinTR*100).toFixed(2)+'%';el('mpt-'+r).style.color=m.prinTR>=0.02?'#276749':'#e53e3e';}
+              if(el('mar-'+r)) el('mar-'+r).textContent=(m.applyRate*100).toFixed(1)+'%';
+              if(el('mex-'+r)) el('mex-'+r).textContent=(m.expRate*100).toFixed(1)+'%';
+            }
+            updateMetrics(defaultPct);
+            var slider=card.querySelector('.rating-slider'), valSpan=card.querySelector('.slider-val');
+            slider.addEventListener('input',function(){var pct=parseInt(this.value,10); var inc=Math.round(b.avgLimit*pct/100); valSpan.textContent=pct>0?'+'+pct+'% (+'+inc+' USD)':'0% (不提额)'; updateMetrics(pct); updateAllAnnotations(r,pct);});
+          });
+        }
+        if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',init); else setTimeout(init,300);
+      })();
+      </script>
+    </div>
+
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// ── Chart 1: Vintage 对比柱状图（真实数据）────────────────────
+new ApexCharts(document.getElementById('chart-vintage'), {
+  series: [
+    {name:'收入 Vintage', data:[6.47, 9.07, 12.58, 13.65, 16.42, 19.73]},
+    {name:'本金 DPD30_6', data:[5.07, 8.23, 11.95, 13.80, 17.05, 20.79]}
+  ],
+  chart:{type:'bar', height:200, toolbar:{show:false}, fontFamily:'system-ui,sans-serif'},
+  colors:['#c9a227','#6b8e9f'],
+  plotOptions:{bar:{columnWidth:'52%', borderRadius:3}},
+  dataLabels:{enabled:false},
+  xaxis:{
+    categories:['A','B','C','D','E','F'],
+    labels:{style:{fontSize:'13px', fontWeight:700, colors:['#166534','#6b8e9f','#9a7200','#c05621','#991b1b','#991b1b']}}
+  },
+  yaxis:{labels:{formatter:v=>v.toFixed(1)+'%', style:{fontSize:'10px', colors:'#9b9a97'}}},
+  annotations:{
+    yaxis:[{
+      y:15, borderColor:'#e53e3e', borderWidth:1.5, strokeDashArray:4,
+      label:{text:'风险警戒区', style:{background:'#fde8e8', color:'#991b1b', fontSize:'10px', fontWeight:600}, position:'left', offsetX:8}
+    }]
+  },
+  tooltip:{shared:true, intersect:false, y:{formatter:v=>v.toFixed(2)+'%'}},
+  legend:{position:'top', fontSize:'11px'},
+  grid:{borderColor:'#f0efee', strokeDashArray:3, yaxis:{lines:{show:true}}, xaxis:{lines:{show:false}}}
+}).render();
+
+// Chart 2 / Chart 3 仅在存在对应容器时渲染（本页未使用可忽略）
+var chartCapEl = document.getElementById('chart-cap');
+if (chartCapEl) {
+  new ApexCharts(chartCapEl, {
+    series:[{name:'提幅', data:[30, 25, 20, 20, 0, 0]}],
+    chart:{type:'bar', height:190, toolbar:{show:false}, fontFamily:'system-ui,sans-serif'},
+    plotOptions:{bar:{horizontal:true, borderRadius:3, dataLabels:{position:'right'}}},
+    dataLabels:{enabled:true, formatter:function(v){return v===0?'不提额':'+'+v+'%';}, style:{fontSize:'11px', fontWeight:700, colors:['#37352f']}},
+    fill:{colors:['#c9a227','#c9a227','#6b8e9f','#6b8e9f','#e9e9e7','#e9e9e7']},
+    xaxis:{categories:['A 评级','B 评级','C 评级','D 评级','E 评级','F 评级'], max:40, labels:{formatter:function(v){return v+'%';}, style:{fontSize:'10px', colors:'#9b9a97'}}},
+    yaxis:{labels:{style:{fontSize:'12px', fontWeight:600}}},
+    tooltip:{y:{formatter:function(v){return v===0?'本轮不提额':'+'+v+'%';}}},
+    legend:{show:false},
+    grid:{borderColor:'#f0efee', strokeDashArray:3, xaxis:{lines:{show:true}}, yaxis:{lines:{show:false}}}
+  }).render();
+}
+var chartElasEl = document.getElementById('chart-elas');
+if (chartElasEl) {
+  var pcts = [0,10,20,30,40,50];
+  var applyA = pcts.map(function(p){ var dl=p/100*574; return +(70-(70-58.2)*Math.exp(-0.002*dl)).toFixed(2); });
+  var applyB = pcts.map(function(p){ var dl=p/100*463; return +(70-(70-58.2)*Math.exp(-0.002*dl)).toFixed(2); });
+  new ApexCharts(chartElasEl, {
+    series:[{name:'A 评级发标率', data:applyA},{name:'B 评级发标率', data:applyB}],
+    chart:{type:'line', height:190, toolbar:{show:false}, fontFamily:'system-ui,sans-serif', animations:{enabled:true, easing:'easeinout', speed:600}},
+    colors:['#c9a227','#6b8e9f'],
+    stroke:{curve:'smooth', width:[2.5,2], dashArray:[0,4]},
+    markers:{size:4, strokeWidth:2, hover:{size:6}},
+    xaxis:{categories:pcts.map(function(p){return '+'+p+'%';}), title:{text:'额度提升幅度', style:{fontSize:'10px', color:'#9b9a97'}}, labels:{style:{fontSize:'11px', colors:'#9b9a97'}}, axisBorder:{show:false}},
+    yaxis:{min:57, max:71, labels:{formatter:function(v){return v.toFixed(1)+'%';}, style:{fontSize:'10px', colors:'#9b9a97'}}, title:{text:'发标响应率', style:{fontSize:'10px', color:'#9b9a97'}}},
+    annotations:{yaxis:[{y:70, borderColor:'#e53e3e', borderWidth:1.5, strokeDashArray:4, label:{text:'饱和上限 70%', style:{background:'#fde8e8', color:'#991b1b', fontSize:'9px', fontWeight:600}, position:'left', offsetX:4}}]},
+    tooltip:{shared:true, intersect:false, y:{formatter:function(v){return v.toFixed(2)+'%';}}},
+    legend:{position:'top', fontSize:'11px'},
+    grid:{borderColor:'#f0efee', strokeDashArray:3, yaxis:{lines:{show:true}}, xaxis:{lines:{show:false}}}
+  }).render();
+}
+</script>
 </body>
 </html>

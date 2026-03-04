@@ -1,8 +1,8 @@
-﻿# coding: utf-8
+# coding: utf-8
 from pathlib import Path
 import json, re
 
-ROOT = Path(r"d:\AI_agents\21_Report_Agent\05_portfolio")
+ROOT = Path(r"d:\AI_agents\21_Report_Projects\05_portfolio")
 DEMOS = ROOT/'demos'
 DATA = ROOT/'assets/data/projects.json'
 

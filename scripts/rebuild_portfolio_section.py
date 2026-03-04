@@ -1,34 +1,43 @@
-﻿# coding: utf-8
+# coding: utf-8
 import re, json
 from pathlib import Path
 
-ROOT = Path(r"d:\AI_agents\21_Report_Agent\05_portfolio")
+ROOT = Path(r"d:\AI_agents\21_Report_Projects\05_portfolio")
 INDEX = ROOT/'index.html'
 DATA = ROOT/'assets/data/projects.json'
 
 def card_html(p):
-    url=p['href']; cover=p['cover']; title=p['name']; desc=p['desc']
-    return f"""<a class=\"image\" href=\"{url}\">\n  <div class=\"portfolio-card__media\">\n    <img src=\"{cover}\" alt=\"{title}\" loading=\"lazy\" width=\"480\" height=\"300\" onerror=\"this.style.display='none';this.nextElementSibling.classList.add('is-fallback');\">\n    <div class=\"portfolio-card__placeholder\"><span class=\"portfolio-card__placeholder-title\">{title}</span></div>\n  </div>\n  <div class=\"portfolio-card__caption\">\n    <h4>{title}</h4>\n    <p>{desc}</p>\n  </div>\n</a>"""
+    url = p['href']; cover = p['cover']; title = p['name']; desc = p['desc']
+    return f"""<a class="image" href="{url}">
+  <div class="portfolio-card__media">
+    <img src="{cover}" alt="{title}" loading="lazy" width="480" height="300" onerror="this.style.display='none';this.nextElementSibling.classList.add('is-fallback');">
+    <div class="portfolio-card__placeholder"><span class="portfolio-card__placeholder-title">{title}</span></div>
+  </div>
+  <div class="portfolio-card__caption">
+    <h4>{title}</h4>
+    <p>{desc}</p>
+  </div>
+</a>"""
 
 projects = json.loads(DATA.read_text(encoding='utf-8-sig'))
-all_html='\n'.join(card_html(p) for p in projects)
-map_cat={'risk':'webdevelop','data':'webdesign','ai':'appdevelop'}
-cat={'webdevelop':[], 'webdesign':[], 'appdevelop':[]}
+all_html = '\n'.join(card_html(p) for p in projects)
+map_cat = {'risk':'webdevelop','data':'webdesign','ai':'appdevelop'}
+cat = {'webdevelop':[], 'webdesign':[], 'appdevelop':[]}
 for p in projects:
-    cat[ map_cat.get(p['category'],'webdevelop') ].append(card_html(p))
+    cat[map_cat.get(p['category'],'webdevelop')].append(card_html(p))
 for k in list(cat):
-    cat[k]='\n'.join(cat[k])
+    cat[k] = '\n'.join(cat[k])
 
 buttons = '''<div class="portfolio-buttons" >
-  <button class="btn portfolio-tab active" onclick="tabOpen('all')">全部</button>
-  <button class="btn portfolio-tab " onclick="tabOpen('webdevelop')">风控/经营</button>
+  <button class="btn portfolio-tab" onclick="tabOpen('all')">全部</button>
+  <button class="btn portfolio-tab active" onclick="tabOpen('webdevelop')">风控/经营</button>
   <button class="btn portfolio-tab " onclick="tabOpen('webdesign')">数据/报表</button>
   <button class="btn portfolio-tab " onclick="tabOpen('appdevelop')">AI Agent</button>
 </div>'''
 
 container_html = '<div class="container portfolio-container">\n' + buttons + '\n' + \
-  f"<div class=\"tab-content active-content\" id=\"all\">\n{all_html}\n</div>\n" + \
-  f"<div class=\"tab-content\" id=\"webdevelop\">\n{cat['webdevelop']}\n</div>\n" + \
+  f"<div class=\"tab-content\" id=\"all\">\n{all_html}\n</div>\n" + \
+  f"<div class=\"tab-content active-content\" id=\"webdevelop\">\n{cat['webdevelop']}\n</div>\n" + \
   f"<div class=\"tab-content\" id=\"webdesign\">\n{cat['webdesign']}\n</div>\n" + \
   f"<div class=\"tab-content\" id=\"appdevelop\">\n{cat['appdevelop']}\n</div>\n" + '</div>'
 
@@ -54,4 +63,3 @@ new_section = head + container_html + '</section>'
 new_html = html[:sec_start] + new_section + html[sec_end:]
 INDEX.write_text(new_html, encoding='utf-8')
 print('portfolio section rebuilt (container + purge trailing leftovers)')
-

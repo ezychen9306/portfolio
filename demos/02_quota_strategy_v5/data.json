@@ -1,0 +1,10 @@
+{
+  "summary": {"credit_total": 12500000000, "balance": 6800000000, "avg_quota": 32500, "delinquency": 0.068},
+  "segments": [
+    {"name":"优质客户","customers":125600,"fixed":50000,"temp":20000,"util":0.685,"dpd":0.023},
+    {"name":"标准客户","customers":285300,"fixed":30000,"temp":10000,"util":0.721,"dpd":0.058},
+    {"name":"成长客户","customers":198700,"fixed":20000,"temp":5000,"util":0.653,"dpd":0.089},
+    {"name":"风险客户","customers":42100,"fixed":15000,"temp":0,"util":0.452,"dpd":0.125}
+  ],
+  "trend": [12.1,12.4,12.0,11.5,11.2,10.9,10.8,10.5,10.2,9.9,9.2,8.8]
+}

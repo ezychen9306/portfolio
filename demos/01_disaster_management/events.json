@@ -1,0 +1,29 @@
+﻿{
+  "karding": {
+    "name": "台风 Karding",
+    "date": "2025-02-10",
+    "points": [
+      {"province": "Cagayan", "lat": 18.2, "lng": 121.7, "affected": 6200},
+      {"province": "Ilocos Norte", "lat": 18.16, "lng": 120.59, "affected": 4100},
+      {"province": "Isabela", "lat": 16.97, "lng": 121.78, "affected": 5300}
+    ]
+  },
+  "phoenix": {
+    "name": "台风 凤凰",
+    "date": "2025-01-28",
+    "points": [
+      {"province":"Albay","lat":13.15,"lng":123.73,"affected":4800},
+      {"province":"Sorsogon","lat":12.97,"lng":124.00,"affected":3500},
+      {"province":"Catanduanes","lat":13.87,"lng":124.24,"affected":2600}
+    ]
+  },
+  "davao_quake": {
+    "name": "达沃地震 6.2级",
+    "date": "2025-01-15",
+    "points": [
+      {"province":"Davao de Oro","lat":7.55,"lng":126.09,"affected":2500},
+      {"province":"Davao del Sur","lat":6.76,"lng":125.35,"affected":1800},
+      {"province":"Davao City","lat":7.19,"lng":125.46,"affected":2000}
+    ]
+  }
+}
